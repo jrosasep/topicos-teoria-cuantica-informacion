@@ -1,0 +1,1114 @@
+\documentclass[12pt,a4paper]{article}
+
+% =========================
+%         PAQUETES
+% =========================
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[spanish,es-nodecimaldot]{babel}
+\usepackage{geometry}
+\geometry{left=2.0cm,right=2.0cm,top=2.7cm,bottom=2.8cm}
+\usepackage{amsmath,amssymb,amsfonts,amsthm,mathtools}
+\usepackage{mathrsfs}
+\usepackage{bm}
+\usepackage{physics}
+\usepackage{braket}
+\usepackage{graphicx}
+\usepackage{xcolor}
+\usepackage{microtype}
+\usepackage{tikz}
+\usepackage{enumitem}
+\usepackage{array}
+\usepackage{booktabs}
+\usepackage{hyperref}
+\usepackage{fancyhdr}
+\usepackage{titlesec}
+\usepackage{setspace}
+\usepackage{csquotes}
+\usepackage{tensor}
+\usepackage{float}
+\usetikzlibrary{arrows.meta,positioning,shapes.geometric,calc}
+% =========================
+%       PALETA VISUAL
+% =========================
+\definecolor{UdeCAzul}{HTML}{223C6A}
+\definecolor{UdeCDorado}{HTML}{E69B0A}
+\definecolor{UdeCGris}{HTML}{A0A0A0}
+\graphicspath{{./}}
+
+
+% =========================
+%     CONFIGURACIÓN GENERAL
+% =========================
+\setstretch{1.08}
+\setlength{\headheight}{15pt}
+\setlength{\parskip}{0.35em}
+\setlength{\parindent}{0pt}
+
+\hypersetup{
+    colorlinks=true,
+    linkcolor=UdeCAzul,
+    citecolor=UdeCAzul,
+    urlcolor=UdeCAzul,
+    pdftitle={Apunte de Tópicos de Teoría Cuántica de la Información},
+    pdfauthor={José Rosas Sepúlveda}
+}
+
+% Numeración con punto en títulos
+\renewcommand\thesection{\arabic{section}.}
+\renewcommand\thesubsection{\arabic{section}.\arabic{subsection}.}
+\renewcommand\thesubsubsection{\arabic{section}.\arabic{subsection}.\arabic{subsubsection}.}
+
+\titleformat{\section}{\Large\bfseries\color{UdeCAzul}}{\thesection}{0.6em}{}
+\titleformat{\subsection}{\large\bfseries\color{UdeCAzul}}{\thesubsection}{0.6em}{}
+\titleformat{\subsubsection}{\normalsize\bfseries\color{UdeCAzul}}{\thesubsubsection}{0.6em}{}
+
+% =========================
+%        ENCABEZADO
+% =========================
+\pagestyle{fancy}
+\fancyhf{}
+\lhead{Tópicos de Teoría Cuántica de la Información}
+\rhead{Apunte}
+\cfoot{\thepage}
+
+% para que también aparezca en la primera página
+\fancypagestyle{plain}{
+    \fancyhf{}
+    \lhead{Tópicos de Teoría Cuántica de la Información}
+    \rhead{Apunte}
+    \cfoot{\thepage}
+}
+
+% =========================
+%      ENTORNOS TEÓRICOS
+% =========================
+\theoremstyle{definition}
+\newtheorem{definicion}{Definición}[section]
+\newtheorem{ejemplo}[definicion]{Ejemplo}
+\newtheorem{observacion}[definicion]{Observación}
+\newtheorem{notacion}[definicion]{Notación}
+
+\theoremstyle{plain}
+\newtheorem{proposicion}[definicion]{Proposición}
+\newtheorem{teorema}[definicion]{Teorema}
+\newtheorem{lema}[definicion]{Lema}
+\newtheorem{corolario}[definicion]{Corolario}
+
+\theoremstyle{remark}
+\newtheorem*{comentario}{Comentario}
+
+% =========================
+%        COMANDOS ÚTILES
+% =========================
+\newcommand{\C}{\mathbb{C}}
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\N}{\mathbb{N}}
+\newcommand{\Hil}{\mathcal{H}}
+\newcommand{\I}{\mathbb{I}}
+\newcommand{\ii}{\mathrm{i}}
+\newcommand{\ee}{\mathrm{e}}
+
+\newcommand{\TrA}{\operatorname{Tr}}
+\providecommand{\rank}{\operatorname{rank}}
+\newcommand{\diag}{\operatorname{diag}}
+\newcommand{\Span}{\operatorname{span}}
+\newcommand{\supp}{\operatorname{supp}}
+
+\newcommand{\kb}[2]{\ket{#1}\!\bra{#2}}
+\newcommand{\proj}[1]{\ket{#1}\!\bra{#1}}
+\providecommand{\op}[1]{\hat{#1}}
+
+\newcommand{\trA}{\operatorname{Tr}_A}
+\newcommand{\trB}{\operatorname{Tr}_B}
+\newcommand{\trC}{\operatorname{Tr}_C}
+
+\newcommand{\cnot}{\mathrm{CNOT}}
+\newcommand{\SWAP}{\mathrm{SWAP}}
+\newcommand{\CZ}{\mathrm{CZ}}
+
+% =========================
+%     DATOS DEL DOCUMENTO
+% =========================
+\newcommand{\TituloApunte}{quAntum bullshIt}
+\newcommand{\AutorApunte}{José Rosas Sepúlveda}
+\newcommand{\Institucion}{Universidad de Concepción}
+\newcommand{\Carrera}{Licenciatura en Ciencias Físicas}
+\newcommand{\SemestreCurso}{Primer semestre de 2026}
+\newcommand{\FechaApunte}{2 de abril de 2026}
+
+\begin{document}
+
+% =========================
+%          PORTADA
+% =========================
+
+\begin{titlepage}
+    \thispagestyle{empty}
+    \centering
+    \vspace*{0.8cm}
+
+    \IfFileExists{logo_udec_vertical.png}{\includegraphics[width=0.8\textwidth]{logo_udec_vertical.png}\par}{\vspace*{1.2cm}{\Huge\bfseries\color{UdeCAzul}\Institucion\par}\vspace{0.35cm}{\Large\Carrera\par}}
+    \vspace{0.9cm}
+
+
+    \vspace{1.2cm}
+    {\color{UdeCAzul}\rule{0.72\textwidth}{1.2pt}\par}
+    \vspace{0.55cm}
+    {\Huge\bfseries \TituloApunte \par}
+    \vspace{0.45cm}
+    {\color{UdeCAzul}\rule{0.72\textwidth}{1.2pt}\par}
+
+    \vspace{1.4cm}
+
+
+
+\end{titlepage}
+
+
+\tableofcontents
+\thispagestyle{plain}
+\newpage
+
+% =========================
+%        RESUMEN INICIAL
+% =========================
+
+\section*{Introducción}
+
+Estas notas reúnen y reorganizan los contenidos básicos del curso \emph{Tópicos de Teoría Cuántica de la Información}, con el propósito de disponer de un apunte de estudio que conserve la intuición física del curso, pero expresada con una redacción más sistemática y con una presentación matemática más cuidada. El objetivo no es únicamente registrar definiciones y fórmulas, sino articular una narrativa coherente entre los postulados de la mecánica cuántica, la estructura algebraica del espacio de Hilbert y las aplicaciones conceptuales que dan origen a la teoría cuántica de la información.
+
+En lo esencial, la mecánica cuántica es una teoría predictiva. Su contenido físico se formula mediante postulados que especifican cómo se representan los estados, cómo evolucionan en el tiempo, qué significa medir un observable y cómo se construyen sistemas compuestos. Estos postulados no se deducen, en general, a partir de primeros principios clásicos, sino que condensan regularidades empíricas cuya validez ha sido confirmada con gran precisión experimental.
+
+\begin{observacion}
+En este apunte se adopta la formulación ortodoxa de la mecánica cuántica. En particular, se trabaja con la descripción estándar en términos de espacios de Hilbert, operadores lineales, evolución unitaria y mediciones proyectivas ideales. Desde luego, existen formulaciones más generales ---por ejemplo, en términos de POVM, operadores densidad o canales cuánticos---, pero para los fines introductorios del presente texto conviene establecer primero con claridad el núcleo formal de la teoría.
+\end{observacion}
+
+Desde el punto de vista matemático, la teoría cuántica combina álgebra lineal compleja, teoría espectral y producto tensorial. Desde el punto de vista físico, esos ingredientes permiten describir superposición, interferencia, cuantización de observables y entrelazamiento. La teoría cuántica de la información se apoya precisamente en esta estructura: qubits, compuertas cuánticas, mediciones y recursos no clásicos no son añadidos externos al formalismo, sino consecuencias naturales de él.
+
+En lo que sigue, la exposición se organiza en torno a cuatro postulados. Cada uno será presentado procurando distinguir con claridad su contenido matemático, su interpretación física y su papel dentro de la teoría.
+
+\newpage
+
+\section{Postulados de la mecánica cuántica}
+
+
+\subsection{Postulado I: noción de estado}
+
+En la formulación estándar de la mecánica cuántica, a todo sistema físico se le asocia un espacio de Hilbert complejo $\Hil$. El principio de superposición se traduce entonces en el hecho de que los estados admisibles se representan mediante vectores de dicho espacio.
+
+Trabajaremos, salvo indicación en contrario, con espacios de Hilbert de dimensión finita. En ese contexto, un estado puro se representa por un vector normalizado $\ket{\psi}\in\Hil$, esto es,
+\begin{equation*}
+    \braket{\psi|\psi}=1.
+\end{equation*}
+
+Si $\{\ket{i}\}_{i=1}^{d}$ es una base ortonormal de $\Hil$, entonces todo estado puede expandirse como
+\begin{equation*}
+    \ket{\psi}=\sum_{i=1}^{d}c_i\ket{i},
+    \qquad c_i\in\C,
+\end{equation*}
+y, por conjugación hermítica,
+\begin{equation*}
+    \bra{\psi}=\sum_{i=1}^{d}c_i^*\bra{i}.
+\end{equation*}
+De aquí se obtiene inmediatamente
+\begin{align*}
+    \braket{\psi|\psi}
+    &=
+    \left(\sum_i c_i^*\bra{i}\right)\left(\sum_j c_j\ket{j}\right)\\
+    &=
+    \sum_{i,j}c_i^*c_j\braket{i|j}\\
+    &=
+    \sum_i |c_i|^2\\
+    &=
+    1.
+\end{align*}
+Por tanto, la condición de normalización equivale a
+\begin{equation*}
+    \sum_{i=1}^{d}|c_i|^2=1.
+\end{equation*}
+
+Físicamente, los estados no se identifican con vectores individuales, sino con \textbf{rayos} del espacio de Hilbert. En consecuencia, si dos vectores difieren sólo en una fase global, representan el mismo estado físico:
+\begin{equation*}
+    \ket{\psi}\sim \ee^{\ii\alpha}\ket{\psi},
+    \qquad \alpha\in[0,2\pi].
+\end{equation*}
+
+\begin{proof}
+Sea $\op{A}$ un observable y sea $\ket{\psi}$ un estado normalizado. Entonces
+\begin{align*}
+    \bra{\psi}\ee^{-\ii\alpha}\op{A}\ee^{\ii\alpha}\ket{\psi}
+    &=
+    \ee^{-\ii\alpha}\ee^{\ii\alpha}\bra{\psi}\op{A}\ket{\psi}\\
+    &=
+    \bra{\psi}\op{A}\ket{\psi}.
+\end{align*}
+De manera análoga, si $\{\ket{a_n}\}$ es una base ortonormal de autoestados de un observable, la probabilidad de obtener el resultado asociado a $\ket{a_n}$ satisface
+\begin{equation*}
+    \left|\braket{a_n|\ee^{\ii\alpha}\psi}\right|^2
+    =
+    \left|\ee^{\ii\alpha}\braket{a_n|\psi}\right|^2
+    =
+    \left|\braket{a_n|\psi}\right|^2.
+\end{equation*}
+Luego, todas las predicciones físicas son invariantes bajo una fase global.
+\end{proof}
+
+Por otra parte, si $\ket{\psi}$ y $\ket{\phi}$ son estados normalizados, su suma no es en general un estado normalizado, pues
+\begin{equation*}
+    \braket{\psi+\phi|\psi+\phi}
+    =
+    2+\braket{\psi|\phi}+\braket{\phi|\psi}
+    =
+    2+2\,\mathrm{Re}\,\braket{\psi|\phi}.
+\end{equation*}
+Sin embargo, siempre que $\ket{\psi}+\ket{\phi}\neq 0$, puede normalizarse y define un nuevo estado. Ésta es la base matemática del principio de superposición.
+
+\begin{observacion}
+La formulación anterior describe \emph{estados puros}. En teoría cuántica de la información también se introducen estados mixtos mediante operadores densidad, pero esa extensión puede incorporarse más adelante sin alterar los postulados básicos presentados aquí.
+\end{observacion}
+
+
+\subsection{Postulado II: evolución temporal}
+
+La evolución temporal de un sistema cuántico cerrado está descrita por una familia de operadores unitarios $U(t,t_0)$ tal que
+\begin{equation*}
+    \ket{\psi(t)} = U(t,t_0)\ket{\psi(t_0)},
+\end{equation*}
+con
+\begin{equation*}
+    U(t,t_0)^\dagger U(t,t_0)=U(t,t_0)U(t,t_0)^\dagger=\I.
+\end{equation*}
+La unitariedad garantiza que la evolución preserve el producto interno y, en particular, la normalización del estado.
+
+Si el Hamiltoniano $H$ no depende explícitamente del tiempo, la evolución adopta la forma exponencial
+\begin{equation*}
+    U(t,t_0)=\ee^{-\frac{\ii}{\hbar}H(t-t_0)},
+\end{equation*}
+donde $H=H^\dagger$ es el operador hamiltoniano del sistema. La hermiticidad de $H$ asegura que sus valores propios sean reales, de modo que puedan interpretarse físicamente como energías posibles del sistema.
+
+Cuando el espectro es discreto, el Hamiltoniano admite descomposición espectral:
+\begin{equation*}
+    H=\sum_{\lambda}\lambda P_\lambda,
+\end{equation*}
+donde $P_\lambda$ es el proyector ortogonal sobre el subespacio propio asociado a $\lambda$. En el caso no degenerado,
+\begin{equation*}
+    P_\lambda=\ket{\lambda}\bra{\lambda},
+    \qquad
+    H=\sum_{\lambda}\lambda\ket{\lambda}\bra{\lambda}.
+\end{equation*}
+Si el estado inicial se expande en la base de autoestados de $H$ como
+\begin{equation*}
+    \ket{\psi(t_0)}=\sum_{\lambda}c_\lambda\ket{\lambda},
+    \qquad
+    \sum_{\lambda}|c_\lambda|^2=1,
+\end{equation*}
+entonces
+\begin{align*}
+    \ket{\psi(t)}
+    &=
+    U(t,t_0)\ket{\psi(t_0)}\\
+    &=
+    \sum_{\lambda}c_\lambda U(t,t_0)\ket{\lambda}\\
+    &=
+    \sum_{\lambda}c_\lambda \ee^{-\frac{\ii}{\hbar}\lambda(t-t_0)}\ket{\lambda}.
+\end{align*}
+Por tanto, en la base energética la evolución consiste en que cada componente propia adquiere una fase dinámica determinada por la energía correspondiente.
+
+\paragraph{Comentario matemático.}
+Si $A$ es un operador normal, entonces admite descomposición espectral
+\begin{equation*}
+    A=\sum_{\lambda}\lambda P_\lambda,
+\end{equation*}
+con proyectores ortogonales tales que
+\begin{equation*}
+    P_\lambda P_{\lambda'}=\delta_{\lambda\lambda'}P_\lambda,
+    \qquad
+    \sum_{\lambda}P_\lambda=\I.
+\end{equation*}
+Como todo operador unitario es normal, también posee una descomposición espectral. En dimensión finita, si $H$ se representa por una matriz densa de tamaño $d\times d$, los algoritmos estándar de diagonalización tienen costo computacional del orden de $\mathcal{O}(d^3)$. Esto explica por qué el tratamiento exacto de sistemas cuánticos grandes se vuelve rápidamente difícil y por qué suelen emplearse métodos aproximados o numéricos.
+
+\begin{observacion}
+En muchos sistemas de interés físico, el Hamiltoniano efectivo no se obtiene mediante una diagonalización exacta, sino a través de teoría de perturbaciones, métodos variacionales, técnicas numéricas o aproximaciones de muchos cuerpos. El formalismo, sin embargo, sigue siendo el mismo: la evolución de un sistema cerrado continúa siendo unitaria.
+\end{observacion}
+
+\begin{observacion}
+Conviene distinguir aquí dos ideas distintas. Por una parte, para una partícula de espín $s$, el subespacio asociado al grado de libertad de espín tiene dimensión $2s+1$. Por otra parte, la clasificación de partículas en bosones y fermiones depende de si $s$ es entero o semientero. Así, bosones y fermiones no difieren en la forma abstracta del postulado de evolución, sino en la naturaleza de sus grados de libertad y en las reglas de simetría que deben satisfacer al construir sistemas de muchas partículas.
+\end{observacion}
+
+\begin{observacion}
+Existen además grados de libertad internos, como el espín, que no deben entenderse simplemente como la cuantización canónica de una coordenada clásica ordinaria. En teorías de partículas más avanzadas aparecen también otros números cuánticos internos ---por ejemplo, cargas asociadas a simetrías gauge--- cuya interpretación pertenece a un nivel de estructura física más profundo que el que será desarrollado en estas notas.
+\end{observacion}
+
+\subsection{Postulado III: mediciones}
+
+
+En la formulación estándar, a cada magnitud física medible se le asocia un operador hermítico $\op{O}$:
+\begin{equation*}
+    \op{O}=\op{O}^\dagger.
+\end{equation*}
+La hermiticidad garantiza que los posibles resultados de una medición sean números reales. Además, si el espectro es discreto,
+\begin{equation*}
+    \op{O}=\sum_{\lambda}\lambda P_\lambda,
+    \qquad \lambda\in\R,
+\end{equation*}
+donde $P_\lambda$ es el proyector ortogonal sobre el subespacio propio asociado al valor propio $\lambda$. El conjunto de valores propios $\sigma(\op{O})$ recibe el nombre de \textbf{espectro} del observable.
+
+Sea ahora $\ket{\psi}\in\Hil$ un estado normalizado. La \textbf{regla de Born} afirma que la probabilidad de obtener el resultado $\lambda$ al medir $\op{O}$ es
+\begin{equation}\label{eq:born-main}
+    P(\lambda|\psi)=\bra{\psi}P_\lambda\ket{\psi}.
+\end{equation}
+En el caso no degenerado, donde $P_\lambda=\ket{\lambda}\bra{\lambda}$, esta expresión se reduce a
+\begin{equation*}
+    P(\lambda|\psi)=|\braket{\lambda|\psi}|^2.
+\end{equation*}
+La normalización de las probabilidades se sigue inmediatamente de la identidad de resolución:
+\begin{equation*}
+    \sum_{\lambda}P(\lambda|\psi)
+    =
+    \bra{\psi}\left(\sum_{\lambda}P_\lambda\right)\ket{\psi}
+    =
+    \braket{\psi|\psi}
+    =
+    1.
+\end{equation*}
+
+En una medición proyectiva ideal, si el resultado observado es $\lambda$, el estado posterior queda dado por
+\begin{equation*}
+    \ket{\psi}\longmapsto \frac{P_\lambda\ket{\psi}}{\sqrt{\bra{\psi}P_\lambda\ket{\psi}}},
+\end{equation*}
+siempre que $P(\lambda|\psi)\neq 0$. En el caso no degenerado, el estado posterior coincide, salvo una fase global irrelevante, con el autoestado $\ket{\lambda}$.
+
+Si elegimos una base ortonormal cualquiera $\{\ket{i}\}_{i=1}^{d}$ y escribimos
+\begin{equation*}
+    \ket{\psi}=\sum_{i=1}^{d}c_i\ket{i},
+    \qquad
+    c_i=\braket{i|\psi},
+\end{equation*}
+entonces
+\begin{equation*}
+    \sum_{i=1}^{d}|c_i|^2=1,
+\end{equation*}
+y los módulos cuadrados $|c_i|^2$ pueden interpretarse como probabilidades cuando la medición se realiza en dicha base. La reconstrucción experimental de un estado desconocido a partir de estadísticas de medición en distintas bases recibe el nombre de \textbf{tomografía cuántica}.
+
+\begin{observacion}
+La descripción anterior corresponde a mediciones proyectivas ideales. En situaciones experimentales reales pueden intervenir decoherencia, ruido, pérdidas y esquemas de medición más generales. Un ejemplo concreto de conexión entre espectro de un observable y señal medida se presenta en el Apéndice C.
+\end{observacion}
+
+
+\subsection{Postulado IV: sistemas compuestos}
+
+Supongamos un espacio de Hilbert $\Hil$ de dimensión finita $d$, con base ortonormal
+\begin{equation*}
+    \left\{\ket{i}\right\}_{i=1}^{d}.
+\end{equation*}
+En este caso,
+\begin{equation*}
+    \dim(\Hil)=d.
+\end{equation*}
+
+Consideremos ahora el conjunto de endomorfismos de $\Hil$, es decir, el conjunto de operadores lineales que actúan sobre $\Hil$. Este conjunto se denota por $End(\Hil)$:
+\begin{equation*}
+    End(\Hil)=\left\{A:\Hil\to\Hil \mid A \text{ lineal}\right\}.
+\end{equation*}
+El conjunto $End(\Hil)$ constituye, a su vez, un espacio vectorial complejo. Si $\left\{\ket{i}\right\}_{i=1}^{d}$ es una base ortonormal de $\Hil$, entonces una base natural de $End(\Hil)$ está dada por
+\begin{equation*}
+    \left\{\ket{i}\bra{j}\right\}_{i,j=1}^{d}.
+\end{equation*}
+Por lo tanto,
+\begin{equation*}
+    \dim\bigl(End(\Hil)\bigr)=d^2.
+\end{equation*}
+
+En consecuencia, todo operador $A\in End(\Hil)$ puede escribirse como combinación lineal de estos operadores básicos:
+\begin{equation*}
+    A=\sum_{i,j=1}^{d} a_{ij}\ket{i}\bra{j},
+    \qquad a_{ij}\in\C.
+\end{equation*}
+Además, los coeficientes $a_{ij}$ corresponden precisamente a los elementos de matriz del operador en la base elegida:
+\begin{equation*}
+    a_{ij}=\bra{i}A\ket{j}.
+\end{equation*}
+
+En otras palabras, $End(\Hil)$ es el espacio de todos los operadores lineales que actúan directamente sobre $\Hil$, y por ello sus elementos se representan mediante matrices cuadradas $d\times d$.
+
+Un ejemplo simple en dimensión $2$ es el siguiente:
+\begin{equation*}
+    \begin{pmatrix}
+        a & b\\
+        c & d
+    \end{pmatrix}
+    =
+    a
+    \begin{pmatrix}
+        1 & 0\\
+        0 & 0
+    \end{pmatrix}
+    +
+    b
+    \begin{pmatrix}
+        0 & 1\\
+        0 & 0
+    \end{pmatrix}
+    +
+    c
+    \begin{pmatrix}
+        0 & 0\\
+        1 & 0
+    \end{pmatrix}
+    +
+    d
+    \begin{pmatrix}
+        0 & 0\\
+        0 & 1
+    \end{pmatrix}.
+\end{equation*}
+
+De manera equivalente, puede pensarse que los operadores de $End(\Hil)$ poseen estructura tensorial. En efecto, existe un isomorfismo natural
+\begin{equation*}
+    End(\Hil)\cong \Hil\otimes \Hil^{*},
+\end{equation*}
+bajo el cual
+\begin{equation*}
+    \ket{i}\bra{j}\longleftrightarrow \ket{i}\otimes \bra{j}.
+\end{equation*}
+Esta identificación muestra que un operador lineal puede interpretarse como un objeto tensorial construido a partir de un ket y un bra.
+
+Si ahora $\ket{\psi}\in\Hil$ es un estado arbitrario, que en la base $\left\{\ket{k}\right\}_{k=1}^{d}$ se escribe como
+\begin{equation*}
+    \ket{\psi}=\sum_{k=1}^{d} c_k \ket{k},
+    \qquad c_k\in\C,
+\end{equation*}
+entonces la acción del operador $A$ sobre $\ket{\psi}$ queda dada por
+\begin{align*}
+    A\ket{\psi}
+    &=
+    \left(
+        \sum_{i,j=1}^{d} a_{ij}\ket{i}\bra{j}
+    \right)
+    \left(
+        \sum_{k=1}^{d} c_k\ket{k}
+    \right)\\
+    &=
+    \sum_{i,j,k=1}^{d} a_{ij}c_k \ket{i}\braket{j|k}\\
+    &=
+    \sum_{i,j=1}^{d} a_{ij}c_j \ket{i}\\
+    &=
+    \sum_{i=1}^{d}
+    \left(
+        \sum_{j=1}^{d} a_{ij}c_j
+    \right)\ket{i}.
+\end{align*}
+Así, el operador $A$ transforma al estado $\ket{\psi}$ en otro vector del mismo espacio de Hilbert $\Hil$, cuya expansión en la base viene dada por la acción matricial usual sobre el vector de coeficientes.
+
+Además,
+\begin{equation*}
+    \bra{j}A\ket{k}
+    =
+    \sum_{i,\ell=1}^{d}
+    a_{i\ell}\braket{j|i}\braket{\ell|k}
+    =
+    a_{jk},
+\end{equation*}
+de modo que los coeficientes $a_{jk}$ son exactamente las componentes matriciales del operador $A$ en la base ortonormal escogida.
+
+Pasemos ahora al caso de sistemas compuestos. Si un sistema está formado por dos partes, cuyos espacios de Hilbert son $\Hil_1$ y $\Hil_2$, entonces el espacio de Hilbert total $\Hil_T$ se construye mediante el producto tensorial
+\begin{equation*}
+    \Hil_T=\Hil_1\otimes\Hil_2.
+\end{equation*}
+Si las dimensiones de $\Hil_1$ y $\Hil_2$ son finitas, entonces
+\begin{equation*}
+    \dim(\Hil_T)=\dim(\Hil_1)\dim(\Hil_2).
+\end{equation*}
+
+Si $\left\{\ket{i}_1\right\}$ es una base de $\Hil_1$ y $\left\{\ket{j}_2\right\}$ es una base de $\Hil_2$, entonces una base natural de $\Hil_T$ está dada por
+\begin{equation*}
+    \left\{\ket{i}_1\otimes\ket{j}_2\right\}.
+\end{equation*}
+
+Para vectores columna, el producto tensorial se ve de manera explícita como
+\begin{equation*}
+    \begin{pmatrix}
+        a\\
+        b
+    \end{pmatrix}_1
+    \otimes
+    \begin{pmatrix}
+        c\\
+        d
+    \end{pmatrix}_2
+    =
+    \begin{pmatrix}
+        ac\\
+        ad\\
+        bc\\
+        bd
+    \end{pmatrix}_T.
+\end{equation*}
+Es decir, si $\ket{i}_1\in\Hil_1$ y $\ket{j}_2\in\Hil_2$, entonces
+\begin{equation*}
+    \ket{i}_1\otimes\ket{j}_2\in\Hil_T.
+\end{equation*}
+
+Consideremos ahora el caso de dos electrones, cada uno con espín $1/2$. Para cada electrón, el espacio de Hilbert asociado al grado de libertad de espín es bidimensional. Una base ortonormal natural está dada por los autoestados de $S_z$:
+\begin{align*}
+    \Hil_1 &\Rightarrow \left\{\ket{\uparrow}_1,\ket{\downarrow}_1\right\},\\
+    \Hil_2 &\Rightarrow \left\{\ket{\uparrow}_2,\ket{\downarrow}_2\right\}.
+\end{align*}
+Entonces,
+\begin{equation*}
+    \Hil_T=\Hil_1\otimes\Hil_2,
+\end{equation*}
+y una base natural del espacio total es
+\begin{equation*}
+    \left\{
+        \ket{\uparrow}_1\otimes\ket{\uparrow}_2,\,
+        \ket{\uparrow}_1\otimes\ket{\downarrow}_2,\,
+        \ket{\downarrow}_1\otimes\ket{\uparrow}_2,\,
+        \ket{\downarrow}_1\otimes\ket{\downarrow}_2
+    \right\}.
+\end{equation*}
+
+Por lo tanto, el espacio de Hilbert total del sistema compuesto tiene dimensión
+\begin{equation*}
+    \dim(\Hil_T)=2\cdot 2=4.
+\end{equation*}
+Este procedimiento se generaliza a cualquier sistema compuesto: el espacio total se construye tensorialmente a partir de los espacios de Hilbert de cada subsistema, y los estados del sistema completo se describen en términos de combinaciones lineales de productos tensoriales de estados de cada parte.
+\newpage
+
+%NUEVOOOO
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% 
+
+\section{Medición, ensambles y operador densidad}
+
+Consideremos un observable $O$. Como los observables en mecánica cuántica se representan mediante operadores hermíticos, sus autovalores son reales y, bajo hipótesis habituales, el operador admite una descomposición espectral en una base ortonormal de autoestados. Para fijar ideas, supongamos por simplicidad un espectro discreto y no degenerado. Entonces puede escribirse
+\begin{equation*}
+    O=\sum_i \lambda_i \ket{\lambda_i}\bra{\lambda_i},
+    \qquad
+    O\ket{\lambda_i}=\lambda_i\ket{\lambda_i},
+\end{equation*}
+donde los autoestados satisfacen la relación de ortonormalidad
+\begin{equation*}
+    \braket{\lambda_i|\lambda_j}=\delta_{ij}.
+\end{equation*}
+
+Si el sistema se encuentra inicialmente en un estado $\ket{\psi}$ y se mide el observable $O$, el resultado posible de la medición es alguno de sus autovalores $\lambda_i$. De acuerdo con la regla de Born, la probabilidad de obtener el valor $\lambda_i$ es
+\begin{equation*}
+    P(\lambda_i \mid \ket{\psi}) = |\braket{\lambda_i|\psi}|^2.
+\end{equation*}
+Además, una vez realizada la medición y obtenido el resultado $\lambda_i$, el estado del sistema colapsa al autoestado correspondiente $\ket{\lambda_i}$. Es decir,
+\begin{equation*}
+    \ket{\psi}
+    \xrightarrow{\;\text{medición de }O\;}
+    \lambda_i,\;\ket{\lambda_i}.
+\end{equation*}
+
+En particular, si en una realización del experimento se obtiene el valor $\lambda_1$, entonces el sistema queda descrito por el estado $\ket{\lambda_1}$ y la probabilidad asociada a dicho resultado es
+\begin{equation*}
+    P(\lambda_1 \mid \ket{\psi}) = |\braket{\lambda_1|\psi}|^2.
+\end{equation*}
+Si el experimento se repite muchas veces, siempre preparando nuevamente el sistema en el mismo estado inicial $\ket{\psi}$, pueden obtenerse distintos resultados $\lambda_1,\lambda_2,\dots,\lambda_n$, cada uno con su respectiva frecuencia de aparición.
+
+Experimentalmente, si el resultado $\lambda_i$ aparece $n_i$ veces en un total de $N$ mediciones, se define la frecuencia relativa
+\begin{equation*}
+    P_{\mathrm{exp}}(\lambda_i \mid \ket{\psi}) = \frac{n_i}{N},
+\end{equation*}
+donde
+\begin{equation*}
+    \sum_i n_i = N.
+\end{equation*}
+En el límite de un gran número de mediciones,
+\begin{equation*}
+    \frac{n_i}{N} \longrightarrow |\braket{\lambda_i|\psi}|^2,
+    \qquad N\to\infty,
+\end{equation*}
+de modo que la frecuencia relativa medida experimentalmente se aproxima a la probabilidad predicha por la teoría.
+
+La idea puede representarse esquemáticamente de la siguiente manera:
+
+\begin{figure}
+    \shorthandoff{<>}
+    \begin{tikzpicture}[
+        >=Latex,
+        font=\small,
+        nodo/.style={
+            draw,
+            shape=ellipse,
+            thick,
+            minimum height=3.2cm,
+            align=center,
+            fill=blue!6
+        },
+        subnodo/.style={
+            draw,
+            shape=ellipse,
+            thick,
+            minimum width=1.0cm,
+            minimum height=0.58cm,
+            fill=orange!15
+        },
+        flecha/.style={->, thick, blue!60!black}
+    ]
+
+        %-------------------- NODOS PRINCIPALES --------------------%
+        \node[nodo, minimum width=3.2cm] (A) at (0,0) {$\ket{\psi}$};
+
+        \node[nodo, minimum width=6.2cm] (B) at (7.2,0) {};
+
+        \node[nodo, minimum width=4.5cm] (C) at (14.5,0) {};
+
+        %-------------------- CONTENIDO DEL NODO CENTRAL --------------------%
+        \node at (6.15,0.88) {$\ket{\lambda_1}$};
+        \node at (7.15,0.88) {$\ket{\lambda_2}$};
+        \node at (8.55,0.18) {$\ket{\lambda_i}$};
+
+        \node[subnodo] at (6.15,0.30) {$n_1$};
+        \node[subnodo] at (7.15,0.30) {$n_2$};
+        \node[subnodo] at (8.55,-0.40) {$n_i$};
+
+        \node at (7.25,-0.75) {$\cdots$};
+
+        %-------------------- CONTENIDO DEL NODO DERECHO --------------------%
+        \node at (13.7,0.52) {$\ket{\lambda_1}$};
+        \node at (14.55,0.05) {$\ket{\lambda_2}$};
+        \node at (15.45,-0.48) {$\ket{\lambda_i}$};
+
+        %-------------------- FLECHAS Y ETIQUETAS --------------------%
+        \draw[flecha] (A.east) -- node[above, align=center, yshift=18pt]
+        {medición de $O$\\ sobre $N$ sistemas} (B.west);
+
+        \draw[flecha] (B.east) -- node[above, align=center, yshift=18pt]
+        {descripción estadística\\ del resultado} (C.west);
+
+        %-------------------- TEXTOS INFERIORES --------------------%
+        \node[align=center, text width=3.8cm, anchor=north] at ([yshift=-0.45cm]A.south)
+        {Todos los sistemas\\ se preparan inicialmente\\ en el mismo estado $\ket{\psi}$.};
+
+        \node[align=center, text width=5.8cm, anchor=north] at ([yshift=-0.45cm]B.south)
+        {Al medir el observable $O$\\ sobre $N$ copias idénticas, los\\ resultados se agrupan según\\ sus frecuencias de aparición.\\[0.2cm]
+        Frecuencias relativas:\\[0.1cm]
+        $p_i \approx \dfrac{n_i}{N}$};
+
+        \node[align=center, text width=4.2cm, anchor=north] at ([yshift=-0.45cm]C.south)
+        {{\bfseries Ensamble}\\[0.15cm]
+        $\{p_i,\ket{\lambda_i}\}_{i=1}^{n}$};
+    \end{tikzpicture}
+    \caption{Esquema del paso desde un estado inicial puro hacia un ensamble estadístico de autoestados luego de medir el observable $O$.}
+\end{figure}
+
+Después de la medición, el conjunto total de sistemas ya no se describe, en general, mediante un único vector de estado, sino mediante un \emph{ensamble} de estados. En este caso, el ensamble queda caracterizado por los pares
+\begin{equation*}
+    \{\,p_i,\ket{\lambda_i}\,\}_{i=1}^n,
+\end{equation*}
+donde $p_i$ representa la probabilidad de que el sistema se encuentre en el estado $\ket{\lambda_i}$ luego de la medición. En el caso ideal considerado aquí,
+\begin{equation*}
+    p_i = P(\lambda_i \mid \ket{\psi}) = |\braket{\lambda_i|\psi}|^2.
+\end{equation*}
+
+Para describir cuánticamente este ensamble introducimos el operador densidad
+\begin{equation*}
+    \rho = \sum_i p_i \ket{\lambda_i}\bra{\lambda_i}.
+\end{equation*}
+Más generalmente, para un ensamble arbitrario de la forma
+\begin{equation*}
+    \{\,p_i,\ket{\psi_i}\,\}_{i\in I},
+\end{equation*}
+el operador densidad se escribe como
+\begin{equation*}
+    \rho = \sum_i p_i \ket{\psi_i}\bra{\psi_i}.
+\end{equation*}
+
+Aquí, $\rho$ es el operador densidad asociado al estado mixto del sistema; los coeficientes $p_i$ satisfacen
+\begin{equation*}
+    p_i \ge 0,
+    \qquad
+    \sum_i p_i = 1,
+\end{equation*}
+y cada operador
+\begin{equation*}
+    \ket{\psi_i}\bra{\psi_i}
+\end{equation*}
+es un proyector de rango uno sobre el estado $\ket{\psi_i}$. En dimensión finita, si el espacio de Hilbert del sistema tiene dimensión $d$, entonces $\rho$ puede representarse mediante una matriz cuadrada de orden $d\times d$.
+
+En particular, si el sistema está con certeza en un único estado $\ket{\psi}$, entonces el ensamble corresponde a un estado puro y el operador densidad se reduce a
+\begin{equation*}
+    \rho = \ket{\psi}\bra{\psi}.
+\end{equation*}
+En cambio, cuando intervienen varios estados con distintas probabilidades, el sistema queda descrito por un estado mixto. 
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\subsection{Propiedades básicas del operador densidad}
+
+Sea un ensamble cuántico de la forma
+\begin{equation*}
+    \{\,p_i,\ket{\psi_i}\,\}_{i\in I},
+\end{equation*}
+donde $p_i\geq 0$ para todo $i$ y
+\begin{equation*}
+    \sum_i p_i = 1.
+\end{equation*}
+El operador densidad asociado a este ensamble se define por
+\begin{equation*}
+    \rho = \sum_i p_i \ket{\psi_i}\bra{\psi_i}.
+\end{equation*}
+
+Conviene estudiar ciertas propiedades de $\rho$, pues ellas caracterizan de manera general a los estados cuánticos en esta formulación.
+
+\subsubsection*{Traza de $\rho$}
+
+Calculemos primero la traza de $\rho$:
+\begin{align*}
+    \operatorname{Tr}(\rho)
+    &= \operatorname{Tr}\left(\sum_i p_i \ket{\psi_i}\bra{\psi_i}\right) \\
+    &= \sum_i p_i \operatorname{Tr}\left(\ket{\psi_i}\bra{\psi_i}\right) \\
+    &= \sum_i p_i \braket{\psi_i|\psi_i} \\
+    &= \sum_i p_i \\
+    &= 1.
+\end{align*}
+Aquí hemos usado que cada estado $\ket{\psi_i}$ está normalizado, es decir,
+\begin{equation*}
+    \braket{\psi_i|\psi_i}=1.
+\end{equation*}
+
+Por lo tanto,
+\begin{equation*}
+    \operatorname{Tr}(\rho)=1.
+\end{equation*}
+
+Esta condición expresa que la suma total de probabilidades del ensamble es igual a uno. En este sentido, la condición de traza uno no es un mero artificio algebraico, sino la traducción operatorial de la normalización probabilística del sistema cuántico.
+
+\subsubsection*{Positividad de $\rho$}
+
+Sea ahora $\ket{\varphi}$ un estado arbitrario del espacio de Hilbert. Entonces
+\begin{align*}
+    \braket{\varphi|\rho|\varphi}
+    &= \braket{\varphi\left|\sum_i p_i \ket{\psi_i}\bra{\psi_i}\right|\varphi} \\
+    &= \sum_i p_i \braket{\varphi|\psi_i}\braket{\psi_i|\varphi} \\
+    &= \sum_i p_i \left|\braket{\varphi|\psi_i}\right|^2 \\
+    &\geq 0.
+\end{align*}
+Como esto vale para todo $\ket{\varphi}$, se concluye que
+\begin{equation*}
+    \rho \geq 0.
+\end{equation*}
+Es decir, $\rho$ es un operador semidefinido positivo.
+
+Esta propiedad garantiza que las probabilidades calculadas a partir de $\rho$ sean siempre no negativas. Equivalentemente, todos los valores propios de $\rho$ son reales y satisfacen
+\begin{equation*}
+    \lambda_k \geq 0.
+\end{equation*}
+
+En resumen, un operador densidad debe satisfacer las dos condiciones fundamentales
+\begin{equation*}
+    \operatorname{Tr}(\rho)=1,
+    \qquad
+    \rho\geq 0.
+\end{equation*}
+
+\subsubsection*{Comentario espectral}
+
+En dimensión finita, el operador $\rho$ puede diagonalizarse, pues es hermítico. Por tanto, existe una base ortonormal de autoestados $\{\ket{k}\}$ tal que
+\begin{equation*}
+    \rho = \sum_k \lambda_k \ket{k}\bra{k},
+\end{equation*}
+con $\lambda_k\geq 0$ y
+\begin{equation*}
+    \sum_k \lambda_k = 1.
+\end{equation*}
+
+Formalmente, los valores propios se obtienen resolviendo el polinomio característico de $\rho$. Sin embargo, en dimensiones altas no siempre existe una expresión cerrada en términos de radicales para dichas raíces. Por ello, en mecánica cuántica suele ser más importante el teorema espectral y las propiedades estructurales de $\rho$ que la obtención explícita de sus autovalores en forma analítica.
+
+\subsubsection*{Estados puros y estados mixtos}
+
+Una distinción central en esta formulación es la que existe entre estados puros y estados mixtos.
+
+Diremos que $\rho$ representa un \textbf{estado puro} si
+\begin{equation*}
+    \operatorname{Tr}(\rho^2)=1.
+\end{equation*}
+En ese caso, necesariamente
+\begin{equation*}
+    \rho = \ket{\psi}\bra{\psi}
+\end{equation*}
+para algún estado normalizado $\ket{\psi}$. Es decir, $\rho$ es un proyector de rango uno sobre un único estado cuántico.
+
+En cambio, si
+\begin{equation*}
+    \operatorname{Tr}(\rho^2)<1,
+\end{equation*}
+entonces $\rho$ representa un \textbf{estado mixto}, esto es, una mezcla estadística de distintos estados.
+
+En efecto, si
+\begin{equation*}
+    \rho=\sum_k \lambda_k \ket{k}\bra{k},
+\end{equation*}
+entonces
+\begin{equation*}
+    \operatorname{Tr}(\rho^2)=\sum_k \lambda_k^2.
+\end{equation*}
+Como $\lambda_k\geq 0$ y $\sum_k\lambda_k=1$, se tiene
+\begin{equation*}
+    \sum_k \lambda_k^2 \leq 1,
+\end{equation*}
+y la igualdad sólo ocurre cuando uno de los $\lambda_k$ es igual a $1$ y todos los demás son nulos. Ese caso corresponde precisamente a un estado puro.
+
+\subsubsection*{Convexidad del conjunto de estados}
+
+El conjunto de operadores densidad es convexo. En efecto, si $\rho_1$ y $\rho_2$ son operadores densidad y $\alpha\in[0,1]$, entonces
+\begin{equation*}
+    \rho = \alpha \rho_1 + (1-\alpha)\rho_2
+\end{equation*}
+también es un operador densidad.
+
+En primer lugar,
+\begin{align*}
+    \operatorname{Tr}(\rho)
+    &= \operatorname{Tr}\bigl(\alpha \rho_1 + (1-\alpha)\rho_2\bigr) \\
+    &= \alpha \operatorname{Tr}(\rho_1) + (1-\alpha)\operatorname{Tr}(\rho_2) \\
+    &= \alpha + (1-\alpha) \\
+    &= 1.
+\end{align*}
+Además, para todo $\ket{\varphi}$,
+\begin{align*}
+    \braket{\varphi|\rho|\varphi}
+    &= \alpha \braket{\varphi|\rho_1|\varphi}
+    + (1-\alpha)\braket{\varphi|\rho_2|\varphi} \\
+    &\geq 0,
+\end{align*}
+pues $\rho_1\geq 0$ y $\rho_2\geq 0$.
+
+Por tanto, $\rho$ también satisface las condiciones requeridas.
+
+Geométricamente, esto significa que los estados cuánticos forman un conjunto convexo: los estados puros se ubican en el borde de dicho conjunto, mientras que los estados mixtos aparecen en su interior como combinaciones convexas de estados.
+
+\subsection{Formulación moderna de los postulados}
+
+La formulación en términos de operador densidad permite expresar los postulados de la mecánica cuántica de una manera más general y unificada, pues incluye tanto estados puros como estados mixtos.
+
+\subsubsection*{1. Estados}
+
+Todo sistema cuántico está descrito por un operador densidad $\rho$ que actúa sobre un espacio de Hilbert $\mathcal{H}$ y satisface
+\begin{equation*}
+    \rho \geq 0,
+    \qquad
+    \operatorname{Tr}(\rho)=1.
+\end{equation*}
+
+Además:
+\begin{itemize}
+    \item $\rho$ representa un estado puro si y sólo si
+    \begin{equation*}
+        \operatorname{Tr}(\rho^2)=1.
+    \end{equation*}
+
+    \item $\rho$ representa un estado mixto si y sólo si
+    \begin{equation*}
+        \operatorname{Tr}(\rho^2)<1.
+    \end{equation*}
+\end{itemize}
+
+\subsubsection*{2. Evolución temporal}
+
+Si el sistema cuántico está aislado, su evolución es unitaria. En términos del operador densidad,
+\begin{equation*}
+    \rho(t)=U(t,t_0)\,\rho(t_0)\,U^\dagger(t,t_0),
+\end{equation*}
+donde $U(t,t_0)$ es un operador unitario.
+
+Si el Hamiltoniano $H$ es independiente del tiempo, entonces
+\begin{equation*}
+    U(t,t_0)=e^{-\frac{i}{\hbar}H(t-t_0)}.
+\end{equation*}
+
+Equivalentemente, $\rho$ satisface la ecuación de von Neumann
+\begin{equation*}
+    i\hbar \frac{d\rho}{dt} = [H,\rho].
+\end{equation*}
+
+\subsubsection*{3. Mediciones}
+
+Sea $O$ un observable. Su descomposición espectral puede escribirse como
+\begin{equation*}
+    O=\sum_i \lambda_i \Pi_i,
+\end{equation*}
+donde $\lambda_i\in\mathbb{R}$ son los valores propios de $O$ y $\Pi_i$ son los proyectores ortogonales asociados.
+
+La probabilidad de obtener el resultado $\lambda_i$ cuando el sistema está descrito por $\rho$ viene dada por la regla de Born
+\begin{equation*}
+    P(\lambda_i\mid \rho)=\operatorname{Tr}(\Pi_i \rho).
+\end{equation*}
+
+En el caso no degenerado,
+\begin{equation*}
+    \Pi_i=\ket{\lambda_i}\bra{\lambda_i},
+\end{equation*}
+y entonces
+\begin{equation*}
+    P(\lambda_i\mid \rho)
+    =\operatorname{Tr}\bigl(\ket{\lambda_i}\bra{\lambda_i}\rho\bigr)
+    =\braket{\lambda_i|\rho|\lambda_i}.
+\end{equation*}
+
+Si el resultado de la medición es $\lambda_i$, el estado posterior a la medición queda dado por
+\begin{equation*}
+    \rho \longmapsto \rho_i'=
+    \frac{\Pi_i \rho \Pi_i}{\operatorname{Tr}(\Pi_i\rho)}.
+\end{equation*}
+
+En el caso ideal no degenerado, si $\Pi_i=\ket{\lambda_i}\bra{\lambda_i}$, entonces el estado posterior es
+\begin{equation*}
+    \rho_i'=\ket{\lambda_i}\bra{\lambda_i}.
+\end{equation*}
+
+\paragraph{Observación.}
+Si se realizan mediciones proyectivas suficientemente frecuentes sobre un sistema, su evolución puede verse fuertemente inhibida. Este fenómeno se conoce como \textbf{efecto Zeno cuántico}.
+
+\subsubsection*{4. Sistemas compuestos}
+
+Si un sistema total está formado por dos subsistemas con espacios de Hilbert $\mathcal{H}_1$ y $\mathcal{H}_2$, entonces el espacio de Hilbert total es
+\begin{equation*}
+    \mathcal{H}_T = \mathcal{H}_1 \otimes \mathcal{H}_2.
+\end{equation*}
+
+El estado del sistema compuesto está descrito por un operador densidad
+\begin{equation*}
+    \rho \in \operatorname{End}(\mathcal{H}_T).
+\end{equation*}
+
+Un estado compuesto se dice \textbf{separable} si puede escribirse en la forma
+\begin{equation*}
+    \rho = \sum_i p_i\, \rho_1^{(i)}\otimes \rho_2^{(i)},
+\end{equation*}
+donde cada $\rho_1^{(i)}$ y $\rho_2^{(i)}$ es un operador densidad sobre $\mathcal{H}_1$ y $\mathcal{H}_2$, respectivamente.
+
+Si un estado no puede escribirse de esa manera, entonces se trata de un estado \textbf{entrelazado}.
+
+En definitiva, esta formulación resume de manera compacta la estructura moderna de la mecánica cuántica: los estados se describen por operadores densidad, su evolución por transformaciones unitarias, las mediciones por proyectores y probabilidades dadas por la regla de Born, y los sistemas compuestos mediante productos tensoriales de espacios de Hilbert.
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\newpage
+
+\appendix
+
+
+\section{Deducción de la ecuación de Schrödinger a partir de \texorpdfstring{$U(t)$}{U(t)}}
+
+Supongamos que el Hamiltoniano $H$ no depende explícitamente del tiempo. Entonces el operador de evolución temporal puede escribirse como
+\begin{equation*}
+    U(t)=\ee^{-\frac{\ii}{\hbar}Ht}.
+\end{equation*}
+Usando la expansión en serie de potencias del exponencial,
+\begin{equation*}
+    U(t)=\sum_{n=0}^{\infty}\frac{1}{n!}\left(-\frac{\ii t}{\hbar}H\right)^n.
+\end{equation*}
+Derivando término a término respecto del tiempo,
+\begin{align*}
+    \dv{U}{t}
+    &=
+    \sum_{n=1}^{\infty}\frac{1}{(n-1)!}\left(-\frac{\ii}{\hbar}H\right)\left(-\frac{\ii t}{\hbar}H\right)^{n-1}\\
+    &=
+    -\frac{\ii}{\hbar}H\sum_{n=1}^{\infty}\frac{1}{(n-1)!}\left(-\frac{\ii t}{\hbar}H\right)^{n-1}\\
+    &=
+    -\frac{\ii}{\hbar}H\,U(t).
+\end{align*}
+Si el estado inicial es $\ket{\psi(0)}$, entonces
+\begin{equation*}
+    \ket{\psi(t)}=U(t)\ket{\psi(0)}.
+\end{equation*}
+Por tanto,
+\begin{align*}
+    \dv{}{t}\ket{\psi(t)}
+    &=
+    \dv{U}{t}\ket{\psi(0)}\\
+    &=
+    -\frac{\ii}{\hbar}H\,U(t)\ket{\psi(0)}\\
+    &=
+    -\frac{\ii}{\hbar}H\ket{\psi(t)}.
+\end{align*}
+Multiplicando por $\ii\hbar$, se obtiene la ecuación de Schrödinger dependiente del tiempo:
+\begin{equation*}
+    \ii\hbar\dv{}{t}\ket{\psi(t)}=H\ket{\psi(t)}.
+\end{equation*}
+
+\section{Frecuencias experimentales y error estadístico}
+
+La regla de Born entrega la probabilidad ideal $p_\lambda=P(\lambda|\psi)$ de obtener el resultado $\lambda$. Sin embargo, en un laboratorio sólo es posible realizar un número finito $N$ de mediciones sobre copias idénticamente preparadas del sistema. Si $n_\lambda$ es el número de veces que aparece el resultado $\lambda$, la frecuencia relativa observada es
+\begin{equation*}
+    \hat p_\lambda=\frac{n_\lambda}{N}.
+\end{equation*}
+Bajo el supuesto de mediciones independientes, $n_\lambda$ sigue una distribución binomial con parámetros $N$ y $p_\lambda$. En consecuencia,
+\begin{equation*}
+    \mathbb{E}[\hat p_\lambda]=p_\lambda,
+    \qquad
+    \mathrm{Var}(\hat p_\lambda)=\frac{p_\lambda(1-p_\lambda)}{N}.
+\end{equation*}
+La desviación estándar asociada a la frecuencia estimada es entonces
+\begin{equation*}
+    \sigma_{\hat p_\lambda}=
+    \sqrt{\frac{p_\lambda(1-p_\lambda)}{N}}.
+\end{equation*}
+Este resultado muestra que la incertidumbre estadística decrece como $N^{-1/2}$. Por ello, al aumentar el número de repeticiones del experimento, las frecuencias observadas se aproximan cada vez mejor a las probabilidades predichas por la teoría.
+
+\section{Espectros atómicos y contraste entre teoría y observación}
+
+La formulación abstracta de la mecánica cuántica adquiere contenido físico cuando se la contrasta con resultados experimentales. Uno de los escenarios más importantes para ello es la espectroscopía. Si $E_i$ y $E_f$ son dos niveles de energía con $E_i>E_f$, la emisión de un fotón satisface idealmente
+\begin{equation*}
+    h\nu=E_i-E_f,
+    \qquad
+    \lambda=\frac{hc}{E_i-E_f}.
+\end{equation*}
+En términos del número de onda $\tilde\nu$, la relación puede escribirse como
+\begin{equation*}
+    \lambda=\frac{10^{7}}{\Delta\tilde\nu},
+    \qquad
+    \Delta\tilde\nu \text{ en } \mathrm{cm}^{-1},
+    \quad
+    \lambda \text{ en nm}.
+\end{equation*}
+Por consiguiente, el formalismo cuántico predice líneas discretas y no un continuo arbitrario de frecuencias.
+
+En átomos multielectrónicos, como el oxígeno, la predicción cuantitativa completa de todas las energías y de todas las intensidades relativas no se obtiene en general mediante una resolución elemental de la ecuación de Schrödinger. Se requieren métodos efectivos de muchos cuerpos, correcciones relativistas y contraste sistemático con datos espectroscópicos. Aun así, la idea central permanece: la estructura discreta de niveles conduce a espectros discretos medibles.
+
+Como ejemplo ilustrativo, consideremos algunas líneas prominentes del oxígeno atómico neutro. Este caso es particularmente útil porque permite relacionar una estructura discreta de niveles con señales efectivamente registradas en espectros atmosféricos y aurorales.
+
+\begin{figure}[htbp]
+    \centering
+    \includegraphics[width=0.92\textwidth]{oxygen_spectrum_clean_final.png}
+    \caption{Comparación entre posiciones teóricas y líneas empíricas representativas del oxígeno atómico neutro. Las marcas teóricas se obtienen a partir de diferencias entre niveles de energía tabulados, mientras que las líneas empíricas corresponden a emisiones observadas en espectros atmosféricos. Esta figura está organizada en función de la longitud de onda y, por tanto, muestra directamente el contraste entre predicción y observación.}
+    \label{fig:ap-oxigeno-comparacion}
+\end{figure}
+
+La Figura \ref{fig:ap-oxigeno-comparacion} debe leerse como una representación espectroscópica. Su eje horizontal corresponde a la longitud de onda, de modo que el objetivo principal es exhibir la proximidad entre las posiciones predichas por el modelo y las líneas observadas. En este sentido, la cuantización de la energía no constituye sólo una construcción formal, sino que posee una manifestación empírica directa en el espectro de emisión.
+
+\begin{figure}[htbp]
+    \centering
+    \includegraphics[width=0.82\textwidth]{oxygen_standard.png}
+    \caption{Esquema simplificado de niveles de energía del oxígeno neutro y de algunas transiciones radiativas asociadas. A diferencia de la figura anterior, esta representación está organizada en función de la energía, por lo que no muestra directamente un espectro observado, sino el origen microscópico de varias líneas espectrales.}
+    \label{fig:ap-oxigeno-niveles}
+\end{figure}
+
+Por su parte, la Figura \ref{fig:ap-oxigeno-niveles} cumple una función distinta. Aquí la variable relevante ya no es la longitud de onda, sino la energía de los estados atómicos. Por ello, esta segunda figura no debe interpretarse como un espectro, sino como un diagrama estructural que permite identificar qué transiciones son responsables de determinadas líneas. En particular, la línea verde en torno a $557.7\,\mathrm{nm}$ puede asociarse a una transición entre los estados metastables $^{1}S_{0}$ y $^{1}D_{2}$, mientras que las líneas rojas próximas a $630.0\,\mathrm{nm}$ y $636.4\,\mathrm{nm}$ se vinculan a transiciones desde $^{1}D_{2}$ hacia el multiplete base $^{3}P_J$.
+
+Ambas representaciones describen, por tanto, un mismo fenómeno desde perspectivas complementarias. El gráfico espectral organiza la información en función de la longitud de onda y destaca el acuerdo entre teoría y observación; el diagrama de niveles, en cambio, organiza la información en función de la energía y exhibe la estructura cuántica que subyace a dichas líneas. En conjunto, estas figuras muestran cómo la espectroscopía constituye un puente entre la descripción microscópica del átomo y la señal efectivamente registrada por el experimento.
+
+\begin{center}
+\renewcommand{\arraystretch}{1.2}
+\begin{tabular}{>{\raggedright\arraybackslash}p{0.23\textwidth} >{\raggedright\arraybackslash}p{0.34\textwidth} >{\raggedright\arraybackslash}p{0.33\textwidth}}
+\toprule
+\textbf{Magnitud} & \textbf{Descripción teórica} & \textbf{Contraparte observacional} \\
+\midrule
+Energía del sistema & Valores propios del Hamiltoniano $H$ & Posiciones de las líneas espectrales \\
+Transición cuántica & Diferencia $E_i-E_f$ entre niveles permitidos & Emisión o absorción en una longitud de onda determinada \\
+Probabilidad de transición & Amplitudes y reglas de selección & Intensidades relativas de las líneas, sujetas además a efectos instrumentales y poblacionales \\
+Medición real & Estado preparado y observable idealizados & Señal finita con ruido, ensanchamiento e incertidumbre experimental \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\begin{observacion}
+No toda diferencia de energía conduce necesariamente a una línea visible intensa en un espectro real. La visibilidad efectiva de una transición depende además de reglas de selección, probabilidades de transición y condiciones físicas del medio emisor. Por ello, las figuras anteriores deben entenderse como una comparación físicamente informativa entre estructura cuántica y observación espectral, más que como una deducción espectroscópica completa del átomo de oxígeno.
+\end{observacion}
+
+
+\end{document}
