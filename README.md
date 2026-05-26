@@ -24,7 +24,7 @@ El documento se construyó a partir de apuntes tomados en clases y transcritos a
 
 ## Estado del proyecto
 
-**Versión en revisión.** La versión actual incorpora material hasta la última clase del curso incluida en el documento y contiene, además de la base introductoria, secciones avanzadas sobre mediciones generalizadas, canales cuánticos, separabilidad y operaciones locales.
+**Versión en revisión.** La versión actual incorpora material hasta la última clase del curso (26-05-2026) incluida en el documento y contiene, además de la base introductoria, secciones avanzadas sobre mediciones generalizadas, canales cuánticos, separabilidad y operaciones locales.
 
 Antes de considerar el apunte como una versión cerrada, quedan pendientes revisiones de:
 
