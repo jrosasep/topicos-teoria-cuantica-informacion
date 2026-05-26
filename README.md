@@ -1,9 +1,8 @@
 # Quantum Information
 
-### Apuntes de apoyo — Tópicos de Teoría Cuántica de la Información
+Apunte en desarrollo del curso **Tópicos de Teoría Cuántica de la Información**  
+**Universidad de Concepción — semestre 1 de 2026**
 
-**Universidad de Concepción · Facultad de Ciencias Físicas y Matemáticas**  
-**Semestre 1 de 2026**  
 **Profesor:** Aldo Patricio Delgado  
 **Autor:** José Ignacio Rosas
 
@@ -11,7 +10,9 @@
 
 ## Descripción
 
-Apunte personal en desarrollo del curso **Tópicos de Teoría Cuántica de la Información**, elaborado como material de estudio a partir de los contenidos trabajados en clases y de la bibliografía asociada. No constituye material oficial de la asignatura.
+Este repositorio contiene un apunte personal en desarrollo, elaborado a partir de las clases del curso **Tópicos de Teoría Cuántica de la Información** dictado durante el **semestre 1 de 2026** en la **Universidad de Concepción**.
+
+La idea de este proyecto es reunir, reorganizar y redactar de manera progresiva los contenidos del curso en un formato más sistemático, claro y útil para estudio. El apunte está todavía **incompleto**, por lo que irá cambiando con el tiempo a medida que se agreguen nuevas secciones, correcciones, figuras y comentarios.
 
 ---
 
