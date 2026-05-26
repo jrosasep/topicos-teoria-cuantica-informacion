@@ -19,7 +19,7 @@
 % Gráficos, tablas y diagramas
 \usepackage{graphicx}
 \usepackage{xcolor}
-\usepackage{microtype}
+\usepackage[nopatch=footnote]{microtype}
 \usepackage{tikz}
 \usepackage{enumitem}
 \usepackage{array}
@@ -69,7 +69,7 @@
     linkcolor=UdeCAzul,
     citecolor=UdeCAzul,
     urlcolor=UdeCAzul,
-    pdftitle={quAntum bullshIt: Tópicos de Teoría Cuántica de la Información},
+    pdftitle={Tópicos de Teoría Cuántica de la Información: Apuntes de apoyo al curso},
     pdfauthor={José Rosas Sepúlveda}
 }
 
@@ -84,6 +84,11 @@
 \renewcommand\thesubsubsection{\arabic{section}.\arabic{subsection}.\arabic{subsubsection}.}
 \renewcommand{\contentsname}{Índice}
 \setcounter{tocdepth}{2}
+% Ancho de las etiquetas numéricas en el índice: evita desbordes en
+% subsecciones con numeración de dos dígitos, como 5.10. y 5.11.
+\makeatletter
+\renewcommand*\l@subsection{\@dottedtocline{2}{1.5em}{3.0em}}
+\makeatother
 
 \titleformat{\section}
     {\Large\bfseries\color{UdeCAzul}}
@@ -104,7 +109,7 @@
 \pagestyle{fancy}
 \fancyhf{}
 \lhead{\small \SubtituloApunte}
-\rhead{\small\color{UdeCGris}quAntum bullshIt}
+\rhead{\small\color{UdeCGris}Quantum Information}
 \cfoot{\small \thepage}
 \renewcommand{\headrulewidth}{0.35pt}
 \renewcommand{\footrulewidth}{0pt}
@@ -112,7 +117,7 @@
 \fancypagestyle{plain}{
     \fancyhf{}
     \lhead{\small \SubtituloApunte}
-    \rhead{\small\color{UdeCGris}quAntum bullshIt}
+    \rhead{\small\color{UdeCGris}Quantum Information}
     \cfoot{\small \thepage}
     \renewcommand{\headrulewidth}{0.35pt}
 }
@@ -205,10 +210,10 @@
 % =========================
 %     DATOS DEL DOCUMENTO
 % =========================
-\newcommand{\TituloApunte}{quAntum bullshIt}
+\newcommand{\TituloApunte}{Quantum Information}
 \newcommand{\SubtituloApunte}{Tópicos de Teoría Cuántica de la Información}
 \newcommand{\AutorApunte}{José Rosas Sepúlveda}
-\newcommand{\FechaApunte}{\today}
+\newcommand{\FechaApunte}{Mayo de 2026}
 \begin{document}
 \pagenumbering{gobble}
 \shorthandoff{<>}
@@ -222,25 +227,24 @@
 \begin{titlepage}
     \thispagestyle{empty}
     \centering
-    \vspace*{1.1cm}
+    \vspace*{1.5cm}
+
+\begin{figure}  \centering\includegraphics[width=0.8\linewidth]{logo_udec_vertical.png}
+    \end{figure}
+
+    {\color{UdeCAzul}\rule{0.82\textwidth}{0.4pt}\par}
+    \vspace{0.95cm}
+    {\Huge\bfseries\color{UdeCAzul} \TituloApunte\par}
+    \vspace{0.45cm}
+    {\Large \SubtituloApunte\par}
+    \vspace{0.95cm}
+    {\color{UdeCAzul}\rule{0.82\textwidth}{0.65pt}\par}
 
     \vfill
 
-    {\color{UdeCAzul}\rule{0.74\textwidth}{0.55pt}\par}
-    \vspace{0.75cm}
-    {\Huge\bfseries \TituloApunte\par}
-    \vspace{0.35cm}
-    {\Large\bfseries\color{UdeCAzul} \SubtituloApunte\par}
-    \vspace{0.75cm}
-    {\color{UdeCAzul}\rule{0.74\textwidth}{0.55pt}\par}
+    \renewcommand{\arraystretch}{1.35}
 
-    \vspace{1.2cm}
 
-    \vfill
-
-    {\large \AutorApunte\par}
-    \vspace{0.15cm}
-    {\small \FechaApunte\par}
 \end{titlepage}
 
 \clearpage
@@ -255,20 +259,18 @@
 % =========================
 
 \section*{Introducción}
+\addcontentsline{toc}{section}{Introducción}
 \markboth{Introducción}{Introducción}
 
-Estas notas reúnen y reorganizan los \textbf{contenidos básicos del curso} \emph{Tópicos de Teoría Cuántica de la Información}, con el propósito de disponer de un apunte de estudio que conserve la intuición física del curso, pero expresada con una redacción más sistemática y con una presentación matemática más cuidada. El objetivo no es únicamente registrar \textbf{definiciones y fórmulas}, sino articular una narrativa coherente entre los postulados de la mecánica cuántica, la estructura algebraica del espacio de Hilbert y las aplicaciones conceptuales que dan origen a la teoría cuántica de la información.
+El presente documento reúne y reorganiza contenidos del curso \emph{Tópicos de Teoría Cuántica de la Información}, impartido por el profesor Aldo Patricio Delgado. Su propósito es servir como \textbf{material personal de estudio y apoyo}: no constituye un apunte oficial del curso ni reemplaza las clases o la lectura de las fuentes originales.
 
-En lo esencial, la mecánica cuántica es una \textbf{teoría predictiva}. Su contenido físico se formula mediante postulados que especifican cómo se representan los \textbf{estados}, cómo \textbf{evolucionan en el tiempo}, qué significa \textbf{medir un observable} y cómo se construyen \textbf{sistemas compuestos}. Estos postulados no se deducen, en general, a partir de primeros principios clásicos, sino que condensan regularidades empíricas cuya validez ha sido confirmada con gran precisión experimental.
+El texto surge de los apuntes tomados por el autor durante las clases y posteriormente transcritos a \LaTeX. Esta base fue complementada con los artículos proporcionados por el profesor a través de Microsoft Teams: la propuesta FLASH de Herbert \cite{HerbertFLASH}, el teorema de no-cloning de Wootters y Zurek \cite{WoottersZurek1982}, el copiado aproximado universal de Bu\v{z}ek y Hillery \cite{BuzekHillery1996}, y el análisis de Gisin sobre clonado y no señalización \cite{Gisin1998}.
 
-\begin{observacion}
-En este apunte se adopta la formulación ortodoxa de la mecánica cuántica. En particular, se trabaja con la descripción estándar en términos de espacios de Hilbert, operadores lineales, evolución unitaria y mediciones proyectivas ideales. Desde luego, existen formulaciones más generales ---por ejemplo, en términos de POVM, operadores densidad o canales cuánticos---, pero para los fines introductorios del presente texto conviene establecer primero con claridad el núcleo formal de la teoría.
-\end{observacion}
+Para la edición y ampliación del documento se utilizó \emph{ChatGPT Plus, modelo GPT-5.5 Thinking con razonamiento ampliado}. Se le proporcionaron el archivo \texttt{.tex} construido a partir de las notas de clase y los artículos mencionados, solicitándole apoyo en la organización expositiva, la corrección de redacción, la explicación de conceptos y teoremas, la revisión de coherencia matemática local y la generación o ajuste de figuras en TikZ. La asistencia se empleó como herramienta de elaboración y edición; las fuentes académicas del contenido continúan siendo las clases y la bibliografía citada, y la responsabilidad por la selección del material y por eventuales errores remanentes recae en el autor.
 
-Desde el punto de vista matemático, la teoría cuántica combina álgebra lineal compleja, teoría espectral y producto tensorial. Desde el punto de vista físico, esos ingredientes permiten describir superposición, interferencia, cuantización de observables y entrelazamiento. La teoría cuántica de la información se apoya precisamente en esta estructura: qubits, compuertas cuánticas, mediciones y recursos no clásicos no son añadidos externos al formalismo, sino consecuencias naturales de él.
+Conceptualmente, el apunte parte de la formulación estándar de la mecánica cuántica en espacios de Hilbert y avanza desde los postulados, los operadores densidad y los sistemas compuestos hacia problemas propios de la información cuántica: el teorema de no-cloning, los estados de Bell, la teleportación, las mediciones generalizadas, los canales cuánticos y la separabilidad. La mecánica cuántica se entiende aquí como una teoría predictiva: sus postulados establecen cómo se representan los estados, cómo evolucionan y cómo se asignan probabilidades a los resultados de medición.
 
-En lo que sigue, la exposición se organiza en torno a cuatro postulados. Cada uno será presentado procurando distinguir con claridad su contenido matemático, su interpretación física y su papel dentro de la teoría.
-
+\newpage
 \newpage
 
 \section{Postulados de la mecánica cuántica}
@@ -657,17 +659,16 @@ Por lo tanto, el espacio de Hilbert total del sistema compuesto tiene dimensión
 Este procedimiento se generaliza a cualquier sistema compuesto: el espacio total se construye tensorialmente a partir de los espacios de Hilbert de cada subsistema, y los estados del sistema completo se describen en términos de combinaciones lineales de productos tensoriales de estados de cada parte.
 \newpage
 
-%NUEVOOOO
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \section{Medición, ensambles y \textbf{operador densidad}}
 
 
-El lenguaje de operadores densidad, ensambles y mediciones no aparece solamente por comodidad matemática: también es el lenguaje natural para formular con precisión qué información puede obtenerse de un sistema cuántico. Históricamente, esta cuestión quedó especialmente clara a partir de la discusión EPR--Bell. El teorema de Bell mostró que las correlaciones cuánticas entre sistemas que interactuaron en el pasado no pueden entenderse como simples correlaciones clásicas locales~(Bell, 1964). Sin embargo, esas correlaciones no permiten enviar mensajes superlumínicos, porque las estadísticas locales de una de las partes no dependen de qué medición elija realizar la otra.
+El lenguaje de operadores densidad, ensambles y mediciones no aparece solamente por comodidad matemática: también es el lenguaje natural para formular con precisión qué información puede obtenerse de un sistema cuántico. Históricamente, esta cuestión quedó especialmente clara a partir de la discusión EPR--Bell. El teorema de Bell mostró que las correlaciones cuánticas entre sistemas que interactuaron en el pasado no pueden entenderse como simples correlaciones clásicas locales~\cite{Bell1964}. Sin embargo, esas correlaciones no permiten enviar mensajes superlumínicos, porque las estadísticas locales de una de las partes no dependen de qué medición elija realizar la otra.
 
 Una forma moderna de decir esto es que un mismo \textbf{operador densidad} puede admitir distintas descomposiciones como ensamble. Por ejemplo, un qubit completamente no polarizado puede escribirse como mezcla equiprobable en la base $\{\ket{0},\ket{1}\}$ o en cualquier otra base ortonormal. La física observable local está contenida en $\rho$, no en la ``historia'' particular del ensamble usado para prepararlo.
 
-Este punto fue crucial en los primeros años de la información cuántica. Herbert propuso el esquema FLASH, una tentativa de usar correlaciones tipo EPR y amplificación láser para distinguir, en el receptor, entre luz no polarizada preparada como mezcla de polarizaciones lineales y luz no polarizada preparada como mezcla de polarizaciones circulares~(Herbert, 1982). La idea era convertir una diferencia de preparación remota en una señal detectable. Wootters y Zurek mostraron poco después que una pieza esencial de ese razonamiento falla: no existe una máquina cuántica que copie perfectamente un estado arbitrario desconocido~(Wootters y Zurek, 1982). Este resultado, hoy llamado \textbf{teorema de no-cloning}, es uno de los puntos de partida conceptuales de la teoría moderna de la información cuántica.
+Este punto fue crucial en los primeros años de la información cuántica. Herbert propuso el esquema FLASH, una tentativa de usar correlaciones tipo EPR y amplificación láser para distinguir, en el receptor, entre luz no polarizada preparada como mezcla de polarizaciones lineales y luz no polarizada preparada como mezcla de polarizaciones circulares~\cite{HerbertFLASH}. La idea era convertir una diferencia de preparación remota en una señal detectable. Wootters y Zurek mostraron poco después que una pieza esencial de ese razonamiento falla: no existe una máquina cuántica que copie perfectamente un estado arbitrario desconocido~\cite{WoottersZurek1982}. Este resultado, hoy llamado \textbf{teorema de no-cloning}, es uno de los puntos de partida conceptuales de la teoría moderna de la información cuántica.
 
 \begin{figure}[H]
     \centering
@@ -738,7 +739,6 @@ En el límite de un gran número de mediciones,
 de modo que la frecuencia relativa medida experimentalmente se aproxima a la probabilidad predicha por la teoría.
 
 La idea puede representarse esquemáticamente de la siguiente manera:
-
 
 \begin{figure}[H]
     \centering
@@ -1090,24 +1090,27 @@ En definitiva, esta formulación resume de manera compacta la estructura moderna
 
 Antes de estudiar el resultado formal, conviene separar dos ideas que en la mecánica clásica suelen confundirse. En teoría clásica, si se posee un sistema físico y se conoce su estado, no parece problemático imaginar una copia ideal de ese estado. En mecánica cuántica la situación cambia: un \textbf{estado puro desconocido} no es simplemente una lista de valores preexistentes que podamos leer y duplicar sin perturbar. El estado cuántico contiene amplitudes, fases relativas y relaciones de superposición que sólo se manifiestan estadísticamente al medir muchos sistemas preparados del mismo modo.
 
-Este fue precisamente uno de los puntos que hizo fértil la discusión de Herbert y, poco después, de Wootters y Zurek~(Herbert, 1982; Wootters y Zurek, 1982). Si un estado cuántico arbitrario pudiera copiarse perfectamente, entonces se podría amplificar la información contenida en un solo sistema y medir muchas copias para reconstruir propiedades incompatibles. En el contexto de correlaciones tipo EPR, esa posibilidad amenazaría el principio de no señalización. El \textbf{teorema de no-cloning} muestra que tal \textbf{máquina universal no existe}.
+Este fue precisamente uno de los puntos que hizo fértil la discusión de Herbert y, poco después, de Wootters y Zurek~\cite{HerbertFLASH,WoottersZurek1982}. Si un estado cuántico arbitrario pudiera copiarse perfectamente, entonces se podría amplificar la información contenida en un solo sistema y medir muchas copias para reconstruir propiedades incompatibles. En el contexto de correlaciones tipo EPR, esa posibilidad amenazaría el principio de no señalización. El \textbf{teorema de no-cloning} muestra que tal \textbf{máquina universal no existe}.
 
-\begin{figure}[H]
+\begin{figure}[htbp]
     \centering
     \begin{tikzpicture}[
         >=Latex,
-        caja/.style={draw, rounded corners=6pt, thick, align=center, fill=blue!5, minimum width=2.7cm, minimum height=1.0cm},
-        bloque/.style={draw, rounded corners=8pt, thick, align=center, fill=orange!12, minimum width=2.0cm, minimum height=1.3cm},
-        flecha/.style={->, thick, UdeCAzul}
+        caja/.style={draw, rounded corners=6pt, thick, align=center, fill=blue!5,
+            text width=3.0cm, minimum height=1.15cm, inner sep=6pt},
+        bloque/.style={draw, rounded corners=8pt, thick, align=center, fill=orange!12,
+            text width=2.3cm, minimum height=1.55cm},
+        flecha/.style={->, thick, UdeCAzul, shorten >=3pt, shorten <=3pt},
+        lab/.style={font=\footnotesize, fill=white, inner sep=2pt}
     ]
-        \node[caja] (psi) at (0,1) {estado\\desconocido\\$\ket{\psi}_\theta$};
-        \node[caja] (blank) at (0,-1) {registro\\en blanco\\$\ket{A}_c$};
-        \node[bloque] (U) at (4,0) {$U$\\¿copiador?};
-        \node[caja] (out1) at (8,0.75) {original\\$\ket{\psi}_\theta$};
-        \node[caja] (out2) at (8,-0.75) {copia\\$\ket{\psi}_c$};
-        \draw[flecha] (psi.east) -- (U.west);
+        \node[caja] (psi) at (-5.1,1.0) {estado desconocido\\$\ket{\psi}_{\theta}$};
+        \node[caja] (blank) at (-5.1,-1.0) {registro en blanco\\$\ket{A}_{c}$};
+        \node[bloque] (U) at (0,0) {$U$\\¿copiador\\universal?};
+        \node[caja] (out1) at (5.1,1.0) {registro original\\$\ket{\psi}_{\theta}$};
+        \node[caja] (out2) at (5.1,-1.0) {registro copia\\$\ket{\psi}_{c}$};
+        \draw[flecha] (psi.east) -- node[lab, above] {entrada} (U.west);
         \draw[flecha] (blank.east) -- (U.west);
-        \draw[flecha] (U.east) -- (out1.west);
+        \draw[flecha] (U.east) -- node[lab, above] {salida} (out1.west);
         \draw[flecha] (U.east) -- (out2.west);
     \end{tikzpicture}
     \caption{Esquema ideal de una máquina universal de clonado. La imposibilidad aparece al exigir que el mismo operador $U$ funcione para cualquier superposición desconocida.}
@@ -1233,25 +1236,29 @@ En esta base, los cuatro estados de Bell se definen por
 \end{align*}
 Estos cuatro vectores forman una base ortonormal de $\Hil_T$, llamada \textbf{base de Bell}. A diferencia de los vectores de la base computacional, los \textbf{estados de Bell} no describen dos qubits con propiedades independientes: son estados máximamente entrelazados.
 
-\begin{figure}[H]
+\begin{figure}[htbp]
     \centering
     \begin{tikzpicture}[
         >=Latex,
-        comp/.style={draw, rounded corners=5pt, thick, fill=blue!5, align=center, minimum width=2.2cm, minimum height=0.75cm},
-        bell/.style={draw, rounded corners=5pt, thick, fill=orange!12, align=center, minimum width=3.4cm, minimum height=0.75cm},
-        flecha/.style={->, thick, UdeCAzul}
+        subespacio/.style={draw, rounded corners=7pt, thick, fill=blue!5, align=center,
+            text width=4.1cm, minimum height=1.55cm, inner sep=6pt},
+        bell/.style={draw, rounded corners=7pt, thick, fill=orange!12, align=center,
+            text width=6.35cm, minimum height=0.82cm, inner sep=5pt},
+        flecha/.style={->, thick, UdeCAzul, shorten >=3pt, shorten <=3pt},
+        lab/.style={font=\footnotesize, fill=white, inner sep=2pt}
     ]
-        \node[comp] (c00) at (0,1.8) {$\ket{0}\ket{0}$};
-        \node[comp] (c01) at (0,0.6) {$\ket{0}\ket{1}$};
-        \node[comp] (c10) at (0,-0.6) {$\ket{1}\ket{0}$};
-        \node[comp] (c11) at (0,-1.8) {$\ket{1}\ket{1}$};
-        \node[bell] (bp) at (6,1.8) {$\ket{\phi_+}=\frac{1}{\sqrt2}(\ket{0}\ket{0}+\ket{1}\ket{1})$};
-        \node[bell] (bm) at (6,0.6) {$\ket{\phi_-}=\frac{1}{\sqrt2}(\ket{0}\ket{0}-\ket{1}\ket{1})$};
-        \node[bell] (sp) at (6,-0.6) {$\ket{\psi_+}=\frac{1}{\sqrt2}(\ket{0}\ket{1}+\ket{1}\ket{0})$};
-        \node[bell] (sm) at (6,-1.8) {$\ket{\psi_-}=\frac{1}{\sqrt2}(\ket{0}\ket{1}-\ket{1}\ket{0})$};
-        \foreach \c/\b in {c00/bp,c11/bp,c00/bm,c11/bm,c01/sp,c10/sp,c01/sm,c10/sm}{\draw[flecha] (\c.east) -- (\b.west);}
+        \node[subespacio] (par) at (-4.6,1.55) {subespacio par\\$\operatorname{span}\{\ket{00},\ket{11}\}$};
+        \node[subespacio] (impar) at (-4.6,-1.55) {subespacio impar\\$\operatorname{span}\{\ket{01},\ket{10}\}$};
+        \node[bell] (bp) at (3.25,2.25) {$\ket{\phi_+}=\dfrac{1}{\sqrt2}\left(\ket{00}+\ket{11}\right)$};
+        \node[bell] (bm) at (3.25,0.82) {$\ket{\phi_-}=\dfrac{1}{\sqrt2}\left(\ket{00}-\ket{11}\right)$};
+        \node[bell] (sp) at (3.25,-0.82) {$\ket{\psi_+}=\dfrac{1}{\sqrt2}\left(\ket{01}+\ket{10}\right)$};
+        \node[bell] (sm) at (3.25,-2.25) {$\ket{\psi_-}=\dfrac{1}{\sqrt2}\left(\ket{01}-\ket{10}\right)$};
+        \draw[flecha] (par.east) -- node[lab, above, pos=0.60] {$+$} (bp.west);
+        \draw[flecha] (par.east) -- node[lab, below, pos=0.60] {$-$} (bm.west);
+        \draw[flecha] (impar.east) -- node[lab, above, pos=0.60] {$+$} (sp.west);
+        \draw[flecha] (impar.east) -- node[lab, below, pos=0.60] {$-$} (sm.west);
     \end{tikzpicture}
-    \caption{La \textbf{base de Bell} se obtiene combinando pares de estados computacionales con signos relativos.}
+    \caption{La base de Bell se obtiene combinando los subespacios de paridad par e impar con signos relativos. Esta organización evita identificar los estados entrelazados con estados producto individuales.}
     \label{fig:base-computacional-bell}
 \end{figure}
 
@@ -1278,21 +1285,25 @@ Salvo una \textbf{fase global físicamente irrelevante}, también puede parametr
 \end{equation*}
 Esta parametrización se representa geométricamente mediante la esfera de Bloch.
 
-\begin{figure}[H]
+\begin{figure}[htbp]
     \centering
-    \begin{tikzpicture}[>=Latex, scale=1.0]
-        \draw[thick] (0,0) circle (2.0cm);
-        \draw[thick] (-2,0) arc (180:360:2 and 0.55);
-        \draw[dashed] (2,0) arc (0:180:2 and 0.55);
-        \draw[->, thick] (0,0) -- (0,2.45) node[above] {$\ket{0}$};
-        \draw[->, thick] (0,0) -- (0,-2.45) node[below] {$\ket{1}$};
-        \draw[->, thick] (0,0) -- (2.45,0) node[right] {$\frac{\ket{0}+\ket{1}}{\sqrt2}$};
-        \draw[->, thick] (0,0) -- (-1.72,1.1) node[left, align=center] {$\frac{\ket{0}+\ii\ket{1}}{\sqrt2}$};
-        \draw[->, very thick, UdeCAzul] (0,0) -- (1.15,1.45) node[above right] {$\ket{\psi}$};
-        \draw[dashed] (1.15,1.45) -- (1.15,0);
-        \draw (0.35,0) arc (0:51:0.35) node[midway, right] {$\vartheta$};
-        \node[align=center, font=\footnotesize, text width=5.5cm] at (6.5,0.4)
-        {La esfera de Bloch describe un qubit puro. Los polos son los estados computacionales y el ecuador contiene superposiciones balanceadas con distintas fases relativas.};
+    \begin{tikzpicture}[>=Latex, scale=1.04, font=\small]
+        \draw[thick] (0,0) circle (2.25cm);
+        \draw[thick] (-2.25,0) arc (180:360:2.25 and 0.62);
+        \draw[dashed] (2.25,0) arc (0:180:2.25 and 0.62);
+        \draw[->, thick] (0,-2.65) -- (0,2.70) node[above] {$\ket{0}$};
+        \node[below] at (0,-2.70) {$\ket{1}$};
+        \draw[->, thick] (-2.70,0) -- (2.80,0)
+            node[right, text width=2.15cm, align=left] {$\dfrac{\ket{0}+\ket{1}}{\sqrt2}$};
+        \node[left, text width=2.55cm, align=right] at (-2.48,1.22)
+            {$\dfrac{\ket{0}+\ii\ket{1}}{\sqrt2}$};
+        \draw[->, very thick, UdeCAzul] (0,0) -- (1.22,1.62)
+            node[above right, xshift=2pt] {$\ket{\psi}$};
+        \draw[dashed] (1.22,1.62) -- (1.22,0);
+        \draw[dashed] (0,0) -- (-0.96,-0.33);
+        \draw (0,0.40) arc (90:53:0.40) node[midway, above right] {$\vartheta$};
+        \node[align=center, font=\footnotesize, text width=12.4cm] at (0,-3.42)
+        {Los polos representan los estados computacionales; el ecuador reúne superposiciones balanceadas que difieren por su fase relativa.};
     \end{tikzpicture}
     \caption{Representación geométrica de un qubit puro en la esfera de Bloch.}
     \label{fig:bloch-qubit}
@@ -1395,23 +1406,25 @@ El signo global $-1$ no cambia las predicciones físicas del estado. Finalmente,
     &=\ket{\psi_-}.
 \end{align*}
 
-\begin{figure}[H]
+\begin{figure}[htbp]
     \centering
     \begin{tikzpicture}[
         >=Latex,
-        estado/.style={draw, rounded corners=6pt, thick, align=center, fill=blue!5, minimum width=2.6cm, minimum height=0.8cm},
-        op/.style={font=\small, fill=white, inner sep=2pt},
-        flecha/.style={->, thick, UdeCAzul}
+        estado/.style={draw, rounded corners=6pt, thick, align=center, fill=blue!5,
+            minimum width=3.0cm, minimum height=0.92cm},
+        op/.style={font=\small, fill=white, inner sep=3pt},
+        flecha/.style={->, thick, UdeCAzul, shorten >=3pt, shorten <=3pt}
     ]
-        \node[estado] (phip) at (0,1.6) {$\ket{\phi_+}$};
-        \node[estado] (phim) at (5,1.6) {$\ket{\phi_-}$};
-        \node[estado] (psip) at (0,-1.6) {$\ket{\psi_+}$};
-        \node[estado] (psim) at (5,-1.6) {$\ket{\psi_-}$};
+        \node[estado] (phip) at (-3.7,1.55) {$\ket{\phi_+}$};
+        \node[estado] (phim) at (3.7,1.55) {$\ket{\phi_-}$};
+        \node[estado] (psip) at (-3.7,-1.55) {$\ket{\psi_+}$};
+        \node[estado] (psim) at (3.7,-1.55) {$\ket{\psi_-}$};
         \draw[flecha] (phip) -- node[op, above] {$\sigma_z^{(1)}$} (phim);
         \draw[flecha] (phip) -- node[op, left] {$\sigma_x^{(1)}$} (psip);
         \draw[flecha] (psip) -- node[op, below] {$\sigma_z^{(1)}$} (psim);
         \draw[flecha] (phim) -- node[op, right] {$\sigma_x^{(1)}$} (psim);
-        \draw[flecha, bend left=18] (phip) to node[op, above right] {$\sigma_z^{(1)}\sigma_x^{(1)}$} (psim);
+        \draw[flecha, dashed, bend right=22] (phip.south east) to
+            node[op, below right, pos=0.52] {$\sigma_z^{(1)}\sigma_x^{(1)}$} (psim.north west);
     \end{tikzpicture}
     \caption{Los cuatro estados de Bell se obtienen unos de otros mediante operaciones locales de Pauli sobre uno de los qubits.}
     \label{fig:orbita-local-bell}
@@ -1606,37 +1619,41 @@ En el experimento de Bouwmeester et al. no se implementa una medición de Bell c
 
 La figura siguiente reescribe la Fig. 1(a) del paper en la notación del apunte. El punto esencial es distinguir entre el canal cuántico y el canal clásico. El canal cuántico es el par EPR compartido; el canal clásico es el mensaje de Alice anunciando el resultado de su medición de Bell.
 
-\begin{figure}[H]
+\begin{figure}[htbp]
     \centering
     \shorthandoff{<>}
     \begin{tikzpicture}[
         >=Latex,
         font=\small,
-        box/.style={draw, thick, rounded corners=12pt, fill=blue!6, minimum width=2.7cm, minimum height=1.3cm, align=center},
-        meas/.style={draw, thick, diamond, aspect=1.55, fill=orange!18, inner sep=3pt, align=center},
-        qubit/.style={circle, draw, thick, fill=white, minimum size=0.68cm},
+        bloque/.style={draw, thick, rounded corners=10pt, fill=blue!6, align=center,
+            text width=3.05cm, minimum height=1.25cm, inner sep=6pt},
+        bsm/.style={draw, thick, rounded corners=10pt, fill=orange!16, align=center,
+            text width=3.45cm, minimum height=1.32cm, inner sep=6pt},
+        fuente/.style={draw, thick, rounded corners=10pt, fill=gray!10, align=center,
+            text width=3.0cm, minimum height=1.05cm, inner sep=5pt},
+        q/.style={circle, draw, thick, fill=white, minimum size=0.72cm},
         qline/.style={->, thick},
-        epr/.style={thick, UdeCDorado},
-        cline/.style={->, thick, dashed, UdeCAzul},
-        lab/.style={font=\footnotesize, align=center}
+        par/.style={very thick, UdeCDorado},
+        clasica/.style={->, thick, dashed, UdeCAzul},
+        lab/.style={font=\footnotesize, align=center, fill=white, inner sep=2pt}
     ]
-        \node[box] (alice) at (-4.8,0) {Alice};
-        \node[box] (bob) at (4.8,0) {Bob\\aplica $U$};
-        \node[meas] (bsm) at (-2.1,0) {BSM};
-        \node[box, fill=gray!10, minimum width=2.2cm] (eprsrc) at (0,-2.2) {fuente EPR};
-        \node[qubit] (q1) at (-6.4,0.75) {$1$};
-        \node[lab] at (-6.4,1.35) {$\ket{T}_1$};
-        \node[qubit] (q2) at (-1.0,-1.35) {$2$};
-        \node[qubit] (q3) at (3.15,-1.35) {$3$};
-        \draw[qline] (q1) -- (bsm.west);
-        \draw[qline] (q2) -- (bsm.south east);
+        \node[bsm] (alice) at (-3.7,0.70) {Alice\\medición de Bell};
+        \node[bloque] (bob) at (4.6,0.70) {Bob\\corrección $U_k$};
+        \node[fuente] (src) at (0,-2.05) {fuente EPR\\$\ket{\psi_-}_{23}$};
+
+        \node[q] (q1) at (-6.25,0.70) {$1$};
+        \node[lab, above=0.18cm of q1, text width=2.15cm] {$\ket{T}_1$\\estado desconocido};
+        \node[q] (q2) at (-2.55,-1.18) {$2$};
+        \node[q] (q3) at (3.05,-1.18) {$3$};
+
+        \draw[qline] (q1) -- (alice.west);
+        \draw[qline] (q2) -- (alice.south east);
         \draw[qline] (q3) -- (bob.south);
-        \draw[epr, very thick] (q2) .. controls (0.0,-0.4) and (2.0,-0.4) .. (q3)
-            node[midway, above, lab] {$\ket{\psi_-}_{23}$};
-        \draw[cline] (bsm.north east) .. controls (0.0,1.35) and (2.5,1.35) .. (bob.north west)
-            node[midway, above, lab] {resultado clásico};
+        \draw[par] (q2) .. controls (-0.9,-0.42) and (1.55,-0.42) .. (q3)
+            node[midway, above, lab] {canal cuántico};
+        \draw[clasica] (alice.east) -- node[lab, above] {resultado $k$} (bob.west);
     \end{tikzpicture}
-    \caption{Esquema conceptual de teleportación cuántica. Alice mide conjuntamente los fotones $1$ y $2$ en la base de Bell. Condicionado al resultado y al mensaje clásico, Bob reconstruye en el fotón $3$ el estado inicialmente codificado en el fotón $1$.}
+    \caption{Esquema conceptual de teleportación cuántica. El par EPR constituye el canal cuántico; el resultado de la medición de Bell se transmite por un canal clásico.}
     \label{fig:bouwmeester-protocolo}
 \end{figure}
 
@@ -1646,46 +1663,44 @@ El montaje experimental usa conversión paramétrica descendente en un cristal n
 
 Alice superpone los fotones $1$ y $2$ en un divisor de haz. Cuando hay una coincidencia entre los detectores $f_1$ y $f_2$, el montaje identifica el estado antisimétrico $\ket{\psi_-}_{12}$. En ese subensamble, el fotón $3$ de Bob debe encontrarse en la polarización original del fotón $1$. Bob verifica esto con un divisor de haz polarizante y detectores $d_1,d_2$.
 
-\begin{figure}[H]
+\begin{figure}[htbp]
     \centering
     \shorthandoff{<>}
     \begin{tikzpicture}[
         >=Latex,
         font=\small,
-        block/.style={draw, thick, rounded corners=10pt, fill=blue!6, minimum width=2.35cm, minimum height=0.9cm, align=center},
-        smallblock/.style={draw, thick, rounded corners=7pt, fill=gray!10, minimum width=1.1cm, minimum height=0.55cm, align=center},
-        bs/.style={draw, thick, diamond, aspect=1.45, fill=orange!18, inner sep=2pt, align=center},
-        line/.style={->, thick},
+        block/.style={draw, thick, rounded corners=8pt, fill=blue!6, align=center,
+            text width=2.65cm, minimum height=0.95cm, inner sep=5pt},
+        det/.style={draw, thick, rounded corners=5pt, fill=gray!10, align=center,
+            text width=0.72cm, minimum height=0.55cm, inner sep=3pt},
+        bs/.style={draw, thick, diamond, aspect=1.55, fill=orange!18, inner sep=3pt, align=center},
+        ruta/.style={->, thick, shorten >=2pt},
         pump/.style={->, very thick, violet},
-        cline/.style={->, thick, dashed, UdeCAzul},
-        lab/.style={font=\footnotesize, align=center}
+        clasica/.style={->, thick, dashed, UdeCAzul},
+        lab/.style={font=\footnotesize, align=center, fill=white, inner sep=2pt}
     ]
-        \node[block] (cristal) at (-4.6,0) {cristal no lineal\\tipo II};
-        \node[smallblock] (mirror) at (-4.6,1.35) {espejo};
-        \node[bs] (BS) at (0,0.15) {BS};
-        \node[smallblock] (f1) at (-1.05,1.55) {$f_1$};
-        \node[smallblock] (f2) at (1.05,1.55) {$f_2$};
-        \node[block, fill=orange!10] (alice) at (0,-1.2) {Alice\\coincidencia $f_1f_2$};
-        \node[block, fill=green!10] (bob) at (4.8,0.15) {Bob\\PBS + $d_1,d_2$};
-        \node[smallblock] (p) at (-6.9,-0.9) {$p$};
+        \node[block] (cristal) at (-5.55,0) {cristal no lineal\\tipo II};
+        \node[det] (trig) at (-5.55,-2.05) {$p$};
+        \node[bs] (bs) at (-0.75,0) {BS};
+        \node[det] (f1) at (-2.05,1.82) {$f_1$};
+        \node[det] (f2) at (0.55,1.82) {$f_2$};
+        \node[block, fill=green!8] (bob) at (5.1,0.15) {Bob\\PBS y $d_1,d_2$};
+        \node[block, fill=orange!10, text width=2.95cm] (alice) at (-0.75,-2.10)
+            {Alice\\coincidencia $f_1f_2$};
 
-        \draw[pump] (-7.2,0.35) -- (cristal.west) node[midway, above, lab] {pulso UV};
-        \draw[pump] (cristal.north) -- (mirror.south);
-        \draw[pump] (mirror.south) -- (cristal.north);
-
-        \draw[line] (cristal.east) -- (BS.west) node[midway, above, lab] {fotón $2$};
-        \draw[line] (cristal.east) .. controls (-2.1,-0.85) and (-1.2,-0.45) .. (BS.south west)
-            node[midway, below, lab] {fotón $1$};
-        \draw[line] (cristal.east) .. controls (-1.3,0.85) and (2.2,0.85) .. (bob.west)
-            node[midway, above, lab] {fotón $3$};
-        \draw[line] (cristal.south west) -- (p.east) node[midway, below, lab] {trigger};
-
-        \draw[line] (BS.north west) -- (f1.south);
-        \draw[line] (BS.north east) -- (f2.south);
-        \draw[cline] (f2.east) .. controls (2.1,1.7) and (3.2,1.15) .. (bob.north)
-            node[midway, above, lab] {mensaje clásico};
+        \draw[pump] (-8.0,0) -- node[lab, above] {pulso UV} (cristal.west);
+        \draw[ruta] (cristal.east) -- node[lab, above] {fotón $2$} (bs.west);
+        \draw[ruta] (cristal.east) .. controls (-3.65,-1.05) and (-2.20,-1.05) ..
+            node[lab, below] {fotón $1$} (bs.south west);
+        \draw[ruta] (cristal.north east) .. controls (-3.05,1.02) and (2.20,1.02) ..
+            node[lab, above] {fotón $3$} (bob.west);
+        \draw[ruta] (cristal.south) -- node[lab, left] {disparo} (trig.north);
+        \draw[ruta] (bs.north west) -- (f1.south);
+        \draw[ruta] (bs.north east) -- (f2.south);
+        \draw[clasica] (alice.east) .. controls (1.10,-1.82) and (3.50,-1.15) ..
+            node[lab, below] {mensaje clásico} (bob.south);
     \end{tikzpicture}
-    \caption{Redibujo esquemático del montaje de Bouwmeester et al. Un pulso UV genera pares por conversión paramétrica descendente. Alice mezcla los fotones $1$ y $2$ en un divisor de haz y detecta coincidencias $f_1f_2$; Bob analiza el fotón $3$ con un divisor de haz polarizante.}
+    \caption{Redibujo esquemático del montaje de Bouwmeester et al. Alice mezcla los fotones $1$ y $2$ y detecta coincidencias; Bob analiza el fotón $3$ condicionado al anuncio clásico.}
     \label{fig:bouwmeester-montaje}
 \end{figure}
 
@@ -1693,24 +1708,27 @@ Alice superpone los fotones $1$ y $2$ en un divisor de haz. Cuando hay una coinc
 
 La fuente EPR del experimento se basa en conversión paramétrica descendente tipo II. En este proceso, un fotón del pulso de bombeo puede decaer dentro del cristal en dos fotones de menor energía. En tipo II, los fotones emitidos tienen polarizaciones ortogonales. La geometría de emisión produce dos conos: en uno aparecen fotones con una polarización y en el otro fotones con la polarización ortogonal. En las intersecciones de los conos, no queda información que permita decidir qué alternativa ocurrió. Esa indistinguibilidad produce un estado entrelazado.
 
-\begin{figure}[H]
+\begin{figure}[htbp]
     \centering
     \shorthandoff{<>}
-    \begin{tikzpicture}[>=Latex, font=\small, scale=1.0]
-        \draw[thick, UdeCAzul] (0,0.48) ellipse (2.75cm and 0.95cm);
-        \draw[thick, UdeCDorado] (0,-0.48) ellipse (2.75cm and 0.95cm);
-        \fill[black] (-1.05,0) circle (2.5pt);
-        \fill[black] (1.05,0) circle (2.5pt);
-        \draw[->, very thick, violet] (-4.2,0) -- (-1.25,0) node[midway, above] {UV};
-        \node[UdeCAzul] at (-3.25,0.92) {cono $H$};
-        \node[UdeCDorado] at (-3.25,-0.92) {cono $V$};
-        \node[font=\footnotesize, align=center] at (0,-1.75) {las regiones marcadas corresponden a los modos donde las alternativas de polarización son indistinguibles};
-        \draw[->, thick] (-1.05,0) -- (-2.25,1.15) node[left] {modo $2$};
-        \draw[->, thick] (-1.05,0) -- (-2.25,-1.15) node[left] {modo $3$};
-        \draw[->, thick] (1.05,0) -- (2.25,1.15) node[right] {modo $2$};
-        \draw[->, thick] (1.05,0) -- (2.25,-1.15) node[right] {modo $3$};
+    \begin{tikzpicture}[>=Latex, font=\small]
+        \draw[thick, UdeCAzul] (0,0.62) ellipse (3.35cm and 1.14cm);
+        \draw[thick, UdeCDorado] (0,-0.62) ellipse (3.35cm and 1.14cm);
+        \fill[black] (-1.24,0) circle (2.7pt);
+        \fill[black] (1.24,0) circle (2.7pt);
+        \draw[->, very thick, violet] (-5.5,0) -- (-3.55,0)
+            node[midway, above] {UV};
+        \node[UdeCAzul, anchor=east] at (-3.65,1.03) {cono $H$};
+        \node[UdeCDorado, anchor=east] at (-3.65,-1.03) {cono $V$};
+        \draw[->, thick] (-1.24,0) -- (-2.25,1.45) node[above left] {modo $2$};
+        \draw[->, thick] (-1.24,0) -- (-2.25,-1.45) node[below left] {modo $3$};
+        \draw[->, thick] (1.24,0) -- (2.25,1.45) node[above right] {modo $2$};
+        \draw[->, thick] (1.24,0) -- (2.25,-1.45) node[below right] {modo $3$};
+        \node[draw, rounded corners=5pt, fill=white, align=center, font=\footnotesize,
+            text width=11.2cm, inner sep=5pt] at (0,-2.75)
+            {En los puntos de intersección no es posible distinguir cuál polarización corresponde a cada modo espacial; esa indistinguibilidad permite la superposición entrelazada.};
     \end{tikzpicture}
-    \caption{Esquema conceptual de la Fig. 2 del paper: pares de fotones producidos por conversión paramétrica descendente tipo II. En las intersecciones de los conos no queda información suficiente para distinguir las alternativas de polarización, y por ello se obtiene entrelazamiento.}
+    \caption{Esquema conceptual de conversión paramétrica descendente tipo II: los puntos de intersección de los conos definen los modos entrelazados.}
     \label{fig:tipo-II-conos}
 \end{figure}
 
@@ -1718,26 +1736,28 @@ La fuente EPR del experimento se basa en conversión paramétrica descendente ti
 
 La medición de Bell del experimento descansa en la interferencia de dos fotones en un divisor de haz. Los fotones $1$ y $2$ se hacen indistinguibles temporal y espectralmente. Si llegan uno por cada puerto de entrada, hay dos caminos indistinguibles para que salgan uno por cada puerto: ambos transmitidos o ambos reflejados. Para estados simétricos, las amplitudes se cancelan en el canal de coincidencia; para el estado antisimétrico $\ket{\psi_-}_{12}$, el signo relativo cambia y las amplitudes se suman. Por eso una coincidencia $f_1f_2$ anuncia la proyección sobre $\ket{\psi_-}_{12}$.
 
-\begin{figure}[H]
+\begin{figure}[htbp]
     \centering
     \shorthandoff{<>}
     \begin{tikzpicture}[
         >=Latex,
         font=\small,
-        bs/.style={draw, thick, diamond, aspect=1.5, fill=orange!18, inner sep=2pt},
-        det/.style={draw, thick, fill=gray!12, minimum width=0.8cm, minimum height=0.55cm, align=center},
+        bs/.style={draw, thick, diamond, aspect=1.55, fill=orange!18, inner sep=5pt},
+        det/.style={draw, thick, rounded corners=4pt, fill=gray!12, minimum width=1.0cm,
+            minimum height=0.62cm, align=center},
         line/.style={->, thick},
-        lab/.style={font=\footnotesize, align=center}
+        lab/.style={font=\footnotesize, align=center, fill=white, inner sep=2pt}
     ]
         \node[bs] (BS) at (0,0) {BS};
-        \node[det] (f1) at (-2.5,1.55) {$f_1$};
-        \node[det] (f2) at (2.5,1.55) {$f_2$};
-        \draw[line] (-3.1,-1.2) -- (BS.west) node[midway, above left, lab] {fotón $1$};
-        \draw[line] (3.1,-1.2) -- (BS.east) node[midway, above right, lab] {fotón $2$};
+        \node[det] (f1) at (-3.05,2.0) {$f_1$};
+        \node[det] (f2) at (3.05,2.0) {$f_2$};
+        \draw[line] (-4.15,-1.45) -- node[lab, above left] {fotón $1$} (BS.west);
+        \draw[line] (4.15,-1.45) -- node[lab, above right] {fotón $2$} (BS.east);
         \draw[line] (BS.north west) -- (f1.south);
         \draw[line] (BS.north east) -- (f2.south);
-        \node[lab, text width=7.5cm] at (0,-2.2)
-        {La coincidencia $f_1f_2$ selecciona el subespacio antisimétrico. En el montaje lineal usado en el paper esto permite identificar $\ket{\psi_-}_{12}$, pero no realizar una medición completa de los cuatro estados de Bell.};
+        \node[draw, rounded corners=5pt, fill=white, font=\footnotesize, align=center,
+            text width=12.5cm, inner sep=5pt] at (0,-2.45)
+        {La coincidencia $f_1f_2$ selecciona el subespacio antisimétrico; en el montaje lineal del experimento identifica $\ket{\psi_-}_{12}$, pero no constituye una medición completa de Bell.};
     \end{tikzpicture}
     \caption{Analizador parcial de Bell mediante divisor de haz. La firma experimental de $\ket{\psi_-}_{12}$ es una coincidencia entre los detectores $f_1$ y $f_2$.}
     \label{fig:bsm-beamsplitter}
@@ -1747,20 +1767,24 @@ La medición de Bell del experimento descansa en la interferencia de dos fotones
 
 El experimento no observa directamente vectores de estado; observa tasas de coincidencia. Para verificar teleportación de un fotón preparado, por ejemplo, en la polarización $+45^\circ$, Bob analiza el fotón $3$ en la base $\{+45^\circ,-45^\circ\}$. Si ocurre la coincidencia $f_1f_2$, entonces el detector correspondiente a $+45^\circ$ debe permanecer con señal compatible con la teleportación, mientras que el detector ortogonal $-45^\circ$ debe mostrar un descenso pronunciado en la región de solapamiento temporal.
 
-\begin{figure}[H]
+\begin{figure}[htbp]
     \centering
     \shorthandoff{<>}
-    \begin{tikzpicture}[x=0.032cm,y=3.8cm, font=\small]
-        \draw[->, thick] (-125,0) -- (125,0) node[right] {delay};
-        \draw[->, thick] (-120,0) -- (-120,0.32) node[above] {coincidencias};
-        \draw[thick, UdeCAzul] plot[smooth, domain=-110:110, samples=80] (\x,{0.25*(1-exp(-((\x)/35)^2))});
-        \draw[thick, UdeCDorado] plot[smooth, domain=-110:110, samples=80] (\x,{0.25});
-        \fill[gray!20, opacity=0.7] (-18,0) rectangle (18,0.32);
-        \node[font=\footnotesize] at (62,0.08) {$-45^\circ$};
-        \node[font=\footnotesize] at (62,0.27) {$+45^\circ$};
-        \node[font=\footnotesize, align=center] at (0,-0.055) {solapamiento temporal};
+    \begin{tikzpicture}[x=0.046cm,y=5.3cm, font=\small]
+        \fill[gray!16] (-18,0) rectangle (18,0.32);
+        \draw[->, thick] (-125,0) -- (128,0) node[right] {delay};
+        \draw[->, thick] (-120,0) -- (-120,0.34) node[above, align=center] {coincidencias};
+        \draw[thick, UdeCAzul] plot[smooth, domain=-110:110, samples=100]
+            (\x,{0.25*(1-exp(-((\x)/35)^2))});
+        \draw[thick, UdeCDorado] plot[smooth, domain=-110:110, samples=100]
+            (\x,{0.25});
+        \draw[thick, UdeCAzul] (47,0.105) -- (65,0.105)
+            node[right, text=black] {$-45^\circ$};
+        \draw[thick, UdeCDorado] (47,0.275) -- (65,0.275)
+            node[right, text=black] {$+45^\circ$};
+        \node[font=\footnotesize, align=center] at (0,-0.045) {solapamiento temporal};
     \end{tikzpicture}
-    \caption{Predicción cualitativa de la Fig. 3 del paper. Para teleportar $+45^\circ$, la coincidencia asociada al análisis ortogonal $-45^\circ$ presenta un dip cerca de delay nulo, mientras que el análisis correcto $+45^\circ$ permanece aproximadamente constante.}
+    \caption{Predicción cualitativa de la Fig. 3 del paper. Para teleportar $+45^\circ$, el canal ortogonal presenta un dip cerca del retardo nulo, mientras que el canal correcto permanece aproximadamente constante.}
     \label{fig:prediccion-dip}
 \end{figure}
 
@@ -1787,20 +1811,24 @@ Circular & $0.57\pm0.02$ \\
 
 El paper también discute una dificultad experimental importante: existen coincidencias espurias de tres fotones provenientes de la emisión de dos pares por una misma fuente. Estas no corresponden a teleportación real. Por ello se realizaron mediciones de cuatro coincidencias condicionando además al fotón de disparo. Al hacerlo, se elimina el fondo espurio sin necesidad de sustracción y se obtiene una visibilidad cercana a $70\%$ para dos estados no ortogonales. Este punto es esencial: verificar dos estados no ortogonales descarta una explicación puramente clásica basada sólo en una medición y re-preparación en una base fija.
 
-\begin{figure}[H]
+\begin{figure}[htbp]
     \centering
     \shorthandoff{<>}
-    \begin{tikzpicture}[x=0.031cm,y=0.006cm, font=\small]
-        \draw[->, thick] (-130,0) -- (130,0) node[right] {delay};
-        \draw[->, thick] (-120,0) -- (-120,115) node[above] {cuentas};
-        \draw[thick, UdeCAzul] plot[smooth, domain=-110:110, samples=90] (\x,{90-70*exp(-((\x)/36)^2)});
-        \draw[thick, UdeCDorado] plot[smooth, domain=-110:110, samples=90] (\x,{88+5*sin(\x/20)});
-        \fill[gray!20, opacity=0.6] (-18,0) rectangle (18,115);
-        \node[font=\footnotesize] at (65,35) {canal ortogonal};
-        \node[font=\footnotesize] at (65,92) {canal correcto};
-        \node[font=\footnotesize, align=center] at (0,-13) {región de teleportación};
+    \begin{tikzpicture}[x=0.044cm,y=0.0080cm, font=\small]
+        \fill[gray!16] (-18,0) rectangle (18,118);
+        \draw[->, thick] (-130,0) -- (132,0) node[right] {delay};
+        \draw[->, thick] (-120,0) -- (-120,122) node[above] {cuentas};
+        \draw[thick, UdeCAzul] plot[smooth, domain=-110:110, samples=100]
+            (\x,{90-70*exp(-((\x)/36)^2)});
+        \draw[thick, UdeCDorado] plot[smooth, domain=-110:110, samples=100]
+            (\x,{88+5*sin(\x/20)});
+        \draw[thick, UdeCAzul] (42,35) -- (60,35)
+            node[right, fill=white, inner sep=2pt, text=black] {canal ortogonal};
+        \draw[thick, UdeCDorado] (42,95) -- (60,95)
+            node[right, fill=white, inner sep=2pt, text=black] {canal correcto};
+        \node[font=\footnotesize, align=center, below=8pt] at (0,0) {región de teleportación};
     \end{tikzpicture}
-    \caption{Redibujo cualitativo de las Figs. 4 y 5 del paper. El canal ortogonal presenta un dip en la región de solapamiento, mientras que el canal compatible con la polarización teleportada permanece alto. En cuatro coincidencias se reduce el fondo espurio.}
+    \caption{Redibujo cualitativo de las Figs. 4 y 5 del paper. El canal ortogonal presenta un dip en la región de solapamiento, mientras que el canal compatible con la polarización teleportada permanece alto.}
     \label{fig:resultados-dips}
 \end{figure}
 
@@ -1943,33 +1971,39 @@ Desarrollando los productos y cancelando los términos cruzados, queda
 \end{equation*}
 Esta identidad muestra que una medición de Bell sobre $2,3$ proyecta los sistemas $1,4$ en el estado de Bell correspondiente. Por ejemplo, si el resultado de la medición central es $\ket{\psi_-}_{23}$, entonces el par remoto $1,4$ queda proyectado en $\ket{\psi_-}_{14}$. Los sistemas $1$ y $4$ no interactuaron directamente; el entrelazamiento aparece condicionado al resultado de la medición conjunta sobre $2,3$.
 
-\begin{figure}[H]
+\begin{figure}[htbp]
     \centering
     \shorthandoff{<>}
     \begin{tikzpicture}[
         >=Latex,
         font=\small,
-        qubit/.style={circle, draw, thick, minimum size=0.72cm, fill=white},
-        box/.style={draw, thick, rounded corners=14pt, fill=blue!5, minimum width=2.15cm, minimum height=1.5cm, align=center},
-        meas/.style={draw, thick, rounded corners=14pt, fill=orange!18, minimum width=2.8cm, minimum height=1.65cm, align=center},
+        qubit/.style={circle, draw, thick, minimum size=0.78cm, fill=white},
+        box/.style={draw, thick, rounded corners=10pt, fill=blue!5, text width=2.8cm,
+            minimum height=1.25cm, align=center, inner sep=5pt},
+        meas/.style={draw, thick, rounded corners=10pt, fill=orange!18, text width=3.4cm,
+            minimum height=1.35cm, align=center, inner sep=5pt},
         ent/.style={thick, UdeCDorado},
-        cl/.style={->, dashed, thick, UdeCAzul},
-        lab/.style={font=\footnotesize, align=center}
+        class/.style={->, dashed, thick, UdeCAzul},
+        lab/.style={font=\footnotesize, align=center, fill=white, inner sep=2pt}
     ]
-        \node[box] (L) at (-5,0) {estación\\remota};
+        \node[box] (L) at (-5.4,0) {estación remota\\sistema $1$};
         \node[meas] (M) at (0,0) {medición de Bell\\sobre $2,3$};
-        \node[box] (R) at (5,0) {estación\\remota};
-        \node[qubit] (q1) at (-5,0.95) {$1$};
-        \node[qubit] (q2) at (-0.75,0.95) {$2$};
-        \node[qubit] (q3) at (0.75,0.95) {$3$};
-        \node[qubit] (q4) at (5,0.95) {$4$};
-        \draw[ent] (q1) .. controls (-4,2.0) and (-1.8,2.0) .. (q2) node[midway, above, lab] {$\ket{\phi_+}_{12}$};
-        \draw[ent] (q3) .. controls (1.8,2.0) and (4,2.0) .. (q4) node[midway, above, lab] {$\ket{\phi_+}_{34}$};
-        \draw[ent, dotted, very thick] (q1) .. controls (-2.6,-0.95) and (2.6,-0.95) .. (q4) node[midway, below, lab] {entrelazamiento condicionado $1,4$};
-        \draw[cl] (M.south west) .. controls (-2.1,-1.7) and (-3.8,-1.5) .. (L.south);
-        \draw[cl] (M.south east) .. controls (2.1,-1.7) and (3.8,-1.5) .. (R.south);
+        \node[box] (R) at (5.4,0) {estación remota\\sistema $4$};
+        \node[qubit] (q1) at (-5.4,1.0) {$1$};
+        \node[qubit] (q2) at (-1.05,1.0) {$2$};
+        \node[qubit] (q3) at (1.05,1.0) {$3$};
+        \node[qubit] (q4) at (5.4,1.0) {$4$};
+        \draw[ent] (q1) .. controls (-4.15,2.18) and (-2.30,2.18) .. (q2)
+            node[midway, above, lab] {$\ket{\phi_+}_{12}$};
+        \draw[ent] (q3) .. controls (2.30,2.18) and (4.15,2.18) .. (q4)
+            node[midway, above, lab] {$\ket{\phi_+}_{34}$};
+        \draw[ent, dotted, very thick] (L.south) .. controls (-3.05,-1.20) and (3.05,-1.20) .. (R.south)
+            node[midway, below, lab, yshift=-3pt] {entrelazamiento condicionado entre $1$ y $4$};
+        \draw[class] (M.south west) .. controls (-2.10,-2.08) and (-4.15,-2.08) .. (L.south west);
+        \draw[class] (M.south east) .. controls (2.10,-2.08) and (4.15,-2.08) .. (R.south east);
+        \node[lab] at (0,-2.43) {comunicación clásica};
     \end{tikzpicture}
-    \caption{Intercambio de entrelazamiento escrito en la convención $1,4$ para los sistemas remotos y $2,3$ para los sistemas medidos. La medición de Bell no crea una señal superlumínica; selecciona un subensamble que sólo puede identificarse después de comunicar clásicamente el resultado.}
+    \caption{Intercambio de entrelazamiento en la convención $1,4$ para los sistemas remotos y $2,3$ para los sistemas medidos. La correlación remota queda condicionada al resultado de la medición central.}
     \label{fig:swapping-bouwmeester}
 \end{figure}
 
@@ -1980,6 +2014,691 @@ La teleportación experimental de Bouwmeester et al. muestra, en forma concreta,
 El intercambio de entrelazamiento es la consecuencia natural de esa misma estructura. Si lo que se teleporta es un subsistema que formaba parte de un par entrelazado, entonces la correlación cuántica se traslada hacia otro par de sistemas. En redes cuánticas, esta idea reemplaza la noción clásica de amplificar y copiar señales: como los estados cuánticos desconocidos no pueden clonarse, se deben conectar enlaces mediante mediciones de Bell, comunicación clásica y, eventualmente, purificación de entrelazamiento.
 
 \newpage
+
+\section{Mediciones generalizadas, POVM y canales cuánticos}\label{sec:povm-canales}
+
+Hasta ahora hemos descrito las mediciones cuánticas principalmente mediante observables hermíticos y proyectores ortogonales. Esa formulación es suficiente para introducir la regla de Born y el colapso proyectivo ideal, pero no es la forma más general en que una medición aparece en teoría cuántica de la información. En un laboratorio real intervienen detectores imperfectos, pérdidas, acoplamientos con aparatos macroscópicos y, muchas veces, una parte del sistema que no se observa directamente. Para describir esas situaciones se introduce el formalismo de las \textbf{mediciones generalizadas}.
+
+La idea central es separar dos niveles de descripción. Primero, las probabilidades de los resultados se determinan mediante una familia de operadores positivos $E_k$, llamados \textbf{efectos}. Segundo, el cambio de estado producido por la medición se describe mediante operadores $M_k$, llamados \textbf{operadores de Kraus}. Los efectos determinan la estadística observable; los operadores de Kraus contienen, además, información sobre la perturbación física que la medición produce sobre el estado.
+
+\subsection{Mediciones proyectivas como caso particular}
+
+Sea $O$ un observable hermítico en un espacio de Hilbert finito $\Hil$. Como $O=O^\dagger$, el operador es normal y admite una descomposición espectral de la forma
+\begin{equation*}
+    O=\sum_{\lambda}\lambda P_\lambda,
+\end{equation*}
+donde $P_\lambda$ es el proyector ortogonal sobre el subespacio propio asociado al valor propio $\lambda$. Los proyectores satisfacen
+\begin{equation*}
+    P_\lambda P_{\lambda'}=\delta_{\lambda\lambda'}P_\lambda,
+    \qquad
+    \sum_\lambda P_\lambda=\I.
+\end{equation*}
+En el caso no degenerado, cada proyector es de rango uno:
+\begin{equation*}
+    P_\lambda=\ket{\lambda}\bra{\lambda},
+    \qquad
+    O\ket{\lambda}=\lambda\ket{\lambda}.
+\end{equation*}
+Si el sistema se encuentra en el estado $\rho$, la probabilidad de obtener el resultado $\lambda$ es
+\begin{equation*}
+    P(\lambda|\rho)=\operatorname{Tr}(P_\lambda\rho).
+\end{equation*}
+Esta expresión ya tiene la forma general que se usará más adelante: un operador positivo asociado al resultado y una traza contra el estado densidad.
+
+\begin{definicion}[POVM]
+Una \textbf{medida de operadores positivos}, o \textbf{POVM} por la expresión inglesa \emph{positive operator-valued measure}, es una colección de operadores
+\begin{equation*}
+    \{E_k\}_k
+\end{equation*}
+sobre $\Hil$ que satisface
+\begin{equation*}
+    E_k\geq 0,
+    \qquad
+    \sum_k E_k=\I.
+\end{equation*}
+Los operadores $E_k$ se llaman \textbf{efectos}. Si el estado del sistema es $\rho$, la probabilidad de obtener el resultado $k$ está dada por
+\begin{equation*}
+    P(k|\rho)=\operatorname{Tr}(E_k\rho).
+\end{equation*}
+\end{definicion}
+
+La positividad de $E_k$ garantiza que las probabilidades sean no negativas. En efecto, si $\rho\geq0$ y $E_k\geq0$, entonces
+\begin{equation*}
+    \operatorname{Tr}(E_k\rho)\geq0.
+\end{equation*}
+Por otra parte, la condición de completitud asegura la normalización:
+\begin{align*}
+    \sum_k P(k|\rho)
+    &=\sum_k\operatorname{Tr}(E_k\rho)\\
+    &=\operatorname{Tr}\left[\left(\sum_kE_k\right)\rho\right]\\
+    &=\operatorname{Tr}(\rho)\\
+    &=1.
+\end{align*}
+
+\begin{proposicion}
+Toda medición proyectiva es un caso particular de POVM.
+\end{proposicion}
+
+\begin{proof}
+Para una medición proyectiva asociada a un observable $O$, tomamos
+\begin{equation*}
+    E_\lambda=P_\lambda.
+\end{equation*}
+Como $P_\lambda$ es un proyector ortogonal, se tiene
+\begin{equation*}
+    P_\lambda=P_\lambda^\dagger,
+    \qquad
+    P_\lambda^2=P_\lambda.
+\end{equation*}
+Luego sus valores propios son $0$ o $1$, de modo que $P_\lambda\geq0$. Además, por la descomposición espectral,
+\begin{equation*}
+    \sum_\lambda P_\lambda=\I.
+\end{equation*}
+Así, la familia $\{P_\lambda\}_\lambda$ satisface las condiciones de un POVM. En consecuencia,
+\begin{equation*}
+    P(\lambda|\rho)=\operatorname{Tr}(P_\lambda\rho)
+\end{equation*}
+es simplemente la regla de Born escrita en el lenguaje de efectos positivos.
+\end{proof}
+
+\begin{observacion}
+En una medición proyectiva no degenerada sobre un espacio de dimensión $d$, aparecen naturalmente $d$ proyectores de rango uno. Sin embargo, un POVM general no está obligado a tener exactamente $d$ resultados. Puede tener menos resultados, más resultados, o incluso estar construido de manera que sus efectos no sean proyectores ortogonales. Si además se exige que el POVM sea informacionalmente completo, entonces se requieren suficientes efectos para reconstruir un operador densidad arbitrario; en dimensión $d$, esto exige resolver un espacio real de dimensión $d^2-1$ para los estados normalizados.
+\end{observacion}
+
+\subsection{Operadores de Kraus y estado posterior}
+
+El POVM determina las probabilidades de los resultados, pero por sí solo no fija de manera única el estado posterior a la medición. Para describir la transformación física del estado se introducen operadores $M_k$ tales que
+\begin{equation*}
+    E_k=M_k^\dagger M_k.
+\end{equation*}
+Esta escritura siempre es posible para cada $E_k\geq0$, pues todo operador positivo posee una raíz cuadrada positiva. Una elección canónica es
+\begin{equation*}
+    M_k=E_k^{1/2}.
+\end{equation*}
+Con esta convención, la probabilidad del resultado $k$ puede escribirse como
+\begin{align*}
+    P(k|\rho)
+    &=\operatorname{Tr}(E_k\rho)\\
+    &=\operatorname{Tr}(M_k^\dagger M_k\rho)\\
+    &=\operatorname{Tr}(M_k\rho M_k^\dagger),
+\end{align*}
+donde en la última igualdad se usó la ciclicidad de la traza.
+
+Si se obtiene el resultado $k$, el estado posterior normalizado se escribe
+\begin{equation*}
+    \rho_k=
+    \frac{M_k\rho M_k^\dagger}
+    {\operatorname{Tr}(M_k\rho M_k^\dagger)}
+    =
+    \frac{M_k\rho M_k^\dagger}{P(k|\rho)}.
+\end{equation*}
+Esta fórmula generaliza la regla de actualización proyectiva. En efecto, para una medición proyectiva basta tomar $M_\lambda=P_\lambda$, y se obtiene
+\begin{equation*}
+    \rho_\lambda=
+    \frac{P_\lambda\rho P_\lambda}
+    {\operatorname{Tr}(P_\lambda\rho)}.
+\end{equation*}
+
+\begin{observacion}
+En la literatura se habla usualmente de \textbf{operadores de Kraus}. En algunos apuntes o transcripciones aparece escrito como ``Krauss'', pero la denominación estándar en teoría de información cuántica es \emph{Kraus operators}.
+\end{observacion}
+
+Un punto importante es que los operadores $M_k$ no están determinados de manera única por los efectos $E_k$. Si $U_k$ es unitario y definimos
+\begin{equation*}
+    \widetilde M_k=U_kM_k,
+\end{equation*}
+entonces
+\begin{align*}
+    \widetilde M_k^\dagger\widetilde M_k
+    &=(U_kM_k)^\dagger(U_kM_k)\\
+    &=M_k^\dagger U_k^\dagger U_kM_k\\
+    &=M_k^\dagger M_k\\
+    &=E_k.
+\end{align*}
+Por tanto, $M_k$ y $\widetilde M_k$ definen el mismo efecto y, en consecuencia, la misma probabilidad:
+\begin{align*}
+    \operatorname{Tr}(\widetilde M_k\rho\widetilde M_k^\dagger)
+    &=\operatorname{Tr}(U_kM_k\rho M_k^\dagger U_k^\dagger)\\
+    &=\operatorname{Tr}(M_k\rho M_k^\dagger U_k^\dagger U_k)\\
+    &=\operatorname{Tr}(M_k\rho M_k^\dagger).
+\end{align*}
+Sin embargo, el estado posterior sí puede cambiar:
+\begin{equation*}
+    \widetilde\rho_k
+    =
+    \frac{\widetilde M_k\rho\widetilde M_k^\dagger}{P(k|\rho)}
+    =
+    U_k
+    \left(
+    \frac{M_k\rho M_k^\dagger}{P(k|\rho)}
+    \right)
+    U_k^\dagger.
+\end{equation*}
+En consecuencia, el POVM fija la estadística de la medición, pero no fija por completo la dinámica de actualización del estado.
+
+\begin{observacion}
+El estado $\rho_k$ no tiene por qué ser puro, aun cuando el resultado $k$ haya sido registrado. Tampoco tiene por qué ser ortogonal al estado asociado a otro resultado $k'$. Por ejemplo, en general no se cumple
+\begin{equation*}
+    \operatorname{Tr}(\rho_k\rho_{k'})=\delta_{kk'}.
+\end{equation*}
+Esta diferencia es una de las señales de que una medición generalizada no se comporta simplemente como una proyección ortogonal sobre autoespacios mutuamente excluyentes.
+\end{observacion}
+
+\subsection{Canales cuánticos al olvidar el resultado}
+
+Supongamos ahora que se realiza una medición generalizada, pero después se borra la información clásica sobre cuál resultado ocurrió. En ese caso no corresponde conservar un estado condicionado $\rho_k$, sino promediar sobre todos los resultados posibles. La transformación total es
+\begin{align*}
+    \rho
+    &\longmapsto
+    \sum_k P(k|\rho)\rho_k\\
+    &=\sum_k P(k|\rho)
+    \frac{M_k\rho M_k^\dagger}{P(k|\rho)}\\
+    &=\sum_k M_k\rho M_k^\dagger.
+\end{align*}
+Definimos entonces
+\begin{equation*}
+    \mathcal{E}(\rho)=\sum_k M_k\rho M_k^\dagger.
+\end{equation*}
+La aplicación $\mathcal{E}$ recibe el nombre de \textbf{canal cuántico}. La condición de completitud del POVM implica
+\begin{equation*}
+    \sum_k M_k^\dagger M_k=\I,
+\end{equation*}
+y por tanto el canal preserva la traza:
+\begin{align*}
+    \operatorname{Tr}[\mathcal{E}(\rho)]
+    &=\operatorname{Tr}\left(\sum_kM_k\rho M_k^\dagger\right)\\
+    &=\operatorname{Tr}\left[\left(\sum_kM_k^\dagger M_k\right)\rho\right]\\
+    &=\operatorname{Tr}(\rho)\\
+    &=1.
+\end{align*}
+
+Desde el punto de vista físico, un canal cuántico representa la evolución efectiva de un sistema cuando no se tiene acceso a todos los grados de libertad involucrados. Por ejemplo, si un qubit interactúa con un aparato de medición o con un medio externo, el sistema total puede evolucionar unitariamente, pero el subsistema observado queda descrito por una transformación no necesariamente unitaria. Esa transformación efectiva es precisamente lo que se modela mediante un canal.
+
+Un caso particularmente importante es el de una medición proyectiva cuyo resultado se olvida. Sea $\{\ket{i}\}_{i=1}^{d}$ una base ortonormal y sea
+\begin{equation*}
+    P_i=\ket{i}\bra{i}.
+\end{equation*}
+Si
+\begin{equation*}
+    \rho=\sum_{i,j}\rho_{ij}\ket{i}\bra{j},
+\end{equation*}
+entonces el canal asociado a medir en esa base y olvidar el resultado es
+\begin{align*}
+    \mathcal{D}(\rho)
+    &=\sum_i P_i\rho P_i\\
+    &=\sum_i\rho_{ii}\ket{i}\bra{i}.
+\end{align*}
+Los términos diagonales se conservan, pero las coherencias $\rho_{ij}$ con $i\neq j$ desaparecen. Esta es la forma algebraica elemental de la \textbf{decoherencia}: la superposición no desaparece por una contradicción lógica dentro del formalismo, sino porque la información de fase queda dispersa en grados de libertad que no se observan.
+
+\begin{observacion}
+La capacidad de un canal cuántico mide, en distintos sentidos técnicos, cuánta información puede transmitirse de manera fiable a través de él. En estas notas no desarrollaremos todavía esa teoría, pero conviene retener la idea operacional: un canal no describe sólo una ecuación abstracta para $\rho$, sino una situación física de transmisión, ruido, pérdida o interacción con un entorno.
+\end{observacion}
+
+\newpage
+
+\section{Separabilidad, transposición parcial y criterio PPT}\label{sec:separabilidad-ppt}
+
+La descripción mediante operadores densidad adquiere una importancia adicional cuando el sistema está formado por dos partes. Sean $A$ y $B$ dos subsistemas, con espacio de Hilbert compuesto
+\begin{equation*}
+    \Hil_{AB}=\Hil_A\otimes\Hil_B.
+\end{equation*}
+Un estado bipartito es un operador
+\begin{equation*}
+    \rho_{AB}\in \operatorname{End}(\Hil_{AB}),
+    \qquad
+    \rho_{AB}\geq 0,
+    \qquad
+    \TrA(\rho_{AB})=1.
+\end{equation*}
+La cuestión central es determinar si las correlaciones contenidas en $\rho_{AB}$ pueden explicarse como una mezcla estadística de preparaciones locales, o si corresponden a un estado genuinamente entrelazado.
+
+\subsection{Estados separables y estados entrelazados}
+
+\begin{definicion}[Estado separable]
+Un estado $\rho_{AB}$ se denomina \textbf{separable} si admite una descomposición convexa de la forma
+\begin{equation*}
+    \rho_{AB}
+    =\sum_{\alpha} p_{\alpha}\,
+    \rho_A^{(\alpha)}\otimes\rho_B^{(\alpha)},
+    \qquad
+    p_{\alpha}\geq 0,
+    \qquad
+    \sum_{\alpha}p_{\alpha}=1,
+\end{equation*}
+con $\rho_A^{(\alpha)}$ y $\rho_B^{(\alpha)}$ operadores densidad de los subsistemas respectivos. Si no existe una descomposición de esta forma, el estado se denomina \textbf{entrelazado}.
+\end{definicion}
+
+La estructura anterior debe entenderse físicamente. Cada término $\rho_A^{(\alpha)}\otimes\rho_B^{(\alpha)}$ describe una preparación en la que las dos partes poseen estados locales independientes; el índice $\alpha$ representa únicamente incertidumbre clásica sobre cuál preparación producto fue realizada. Por consiguiente, un estado separable puede contener correlaciones, pero éstas son compatibles con una mezcla probabilística de estados locales. Esta formulación convexa es estándar en el estudio moderno del entrelazamiento y aparece, en particular, en el trabajo de Werner~\cite{Werner1989}.
+
+No debe interpretarse que el espacio de estados carezca de parametrizaciones. En dimensión finita, una matriz densidad puede parametrizarse mediante sus elementos matriciales sujetos a hermiticidad, positividad y traza unitaria. La dificultad real es distinta: en dimensión general no existe un criterio elemental único que permita decidir, a partir de esos parámetros, si un estado mixto pertenece al subconjunto convexo de estados separables.
+
+\subsection{Transposición parcial}
+
+Elegida una base producto $\{\ket{i}_A\otimes\ket{\mu}_B\}$, todo operador densidad bipartito puede escribirse como
+\begin{equation*}
+    \rho_{AB}
+    =\sum_{i,j=0}^{d_A-1}
+     \sum_{\mu,\nu=0}^{d_B-1}
+     \rho_{i\mu,j\nu}
+     \left(\ket{i}_A\bra{j}\right)
+     \otimes
+     \left(\ket{\mu}_B\bra{\nu}\right).
+\end{equation*}
+La \textbf{transpuesta parcial respecto del subsistema $B$} se define aplicando la identidad sobre $A$ y la transposición ordinaria sobre $B$:
+\begin{align*}
+    \rho_{AB}^{T_B}
+    &:=(\I_A\otimes T_B)(\rho_{AB})\\
+    &=\sum_{i,j=0}^{d_A-1}
+     \sum_{\mu,\nu=0}^{d_B-1}
+     \rho_{i\mu,j\nu}
+     \left(\ket{i}_A\bra{j}\right)
+     \otimes
+     \left(\ket{\nu}_B\bra{\mu}\right).
+\end{align*}
+Así, los índices asociados a $A$ permanecen fijos, mientras se intercambian los índices de fila y columna pertenecientes al subsistema $B$.
+
+Consideremos explícitamente dos qubits en la base ordenada
+\begin{equation*}
+    \mathcal{B}=\left\{\ket{00},\ket{01},\ket{10},\ket{11}\right\}.
+\end{equation*}
+Una matriz densidad hermítica general puede disponerse en bloques de $2\times 2$ como
+\begin{equation*}
+    \rho_{AB}
+    =
+    \left(
+    \begin{array}{cc|cc}
+        a      & u      & v      & w \\
+        u^{*}  & b      & x      & y \\
+        \hline
+        v^{*}  & x^{*}  & c      & z \\
+        w^{*}  & y^{*}  & z^{*}  & d
+    \end{array}
+    \right)
+    =
+    \begin{pmatrix}
+        A & B\\
+        C & D
+    \end{pmatrix},
+\end{equation*}
+donde cada bloque reúne los elementos matriciales del subsistema $B$ para índices fijos del subsistema $A$. Por definición, transponer sólo el segundo subsistema equivale a transponer cada bloque:
+\begin{align*}
+    \rho_{AB}^{T_B}
+    &=
+    \begin{pmatrix}
+        A^{T} & B^{T}\\
+        C^{T} & D^{T}
+    \end{pmatrix}\\[0.2cm]
+    &=
+    \left(
+    \begin{array}{cc|cc}
+        a      & u^{*}  & v      & x \\
+        u      & b      & w      & y \\
+        \hline
+        v^{*}  & w^{*}  & c      & z^{*} \\
+        x^{*}  & y^{*}  & z      & d
+    \end{array}
+    \right).
+\end{align*}
+Por ejemplo, el coeficiente $w=\bra{00}\rho_{AB}\ket{11}$ ocupa originalmente la posición $(00,11)$. Al aplicar $T_B$, la componente $\ket{0}\bra{1}_B$ se convierte en $\ket{1}\bra{0}_B$, de modo que el mismo coeficiente pasa a la posición $(01,10)$. Análogamente, $x=\bra{01}\rho_{AB}\ket{10}$ pasa a la posición $(00,11)$.
+
+\subsection{Criterio de Peres--Horodecki}
+
+Si $\rho_{AB}$ es separable, entonces
+\begin{align*}
+    \rho_{AB}^{T_B}
+    &=\left(\I_A\otimes T_B\right)
+    \left(
+        \sum_{\alpha}p_{\alpha}
+        \rho_A^{(\alpha)}\otimes\rho_B^{(\alpha)}
+    \right)\\
+    &=\sum_{\alpha}p_{\alpha}
+        \rho_A^{(\alpha)}\otimes
+        \left(\rho_B^{(\alpha)}\right)^T.
+\end{align*}
+La transposición ordinaria preserva los autovalores de cada $\rho_B^{(\alpha)}$; por tanto, $\left(\rho_B^{(\alpha)}\right)^T\geq 0$. Como el producto tensorial y las combinaciones convexas preservan la positividad, se obtiene
+\begin{equation*}
+    \rho_{AB}\ \text{separable}
+    \quad\Longrightarrow\quad
+    \rho_{AB}^{T_B}\geq 0.
+\end{equation*}
+Esta condición se denomina \textbf{criterio PPT}, por la expresión inglesa \emph{positive partial transpose}.
+
+\begin{teorema}[Criterio de Peres--Horodecki]
+Para sistemas bipartitos de dimensiones $2\times 2$ o $2\times 3$ se cumple
+\begin{equation*}
+    \rho_{AB}\ \text{separable}
+    \quad\Longleftrightarrow\quad
+    \rho_{AB}^{T_B}\geq 0.
+\end{equation*}
+En dimensiones mayores, la positividad de la transpuesta parcial continúa siendo una condición necesaria para la separabilidad, pero deja de ser suficiente: existen estados entrelazados con transpuesta parcial positiva.
+\end{teorema}
+
+El criterio fue propuesto inicialmente por Peres como condición necesaria y completado por la familia Horodecki, quienes establecieron su suficiencia en los casos $2\times 2$ y $2\times 3$~\cite{Peres1996,Horodecki1996}.
+
+\subsection{Ejemplo: un estado de Bell}
+
+Consideremos el estado máximo entrelazado
+\begin{equation*}
+    \ket{\phi_+}
+    =\frac{1}{\sqrt{2}}
+    \left(\ket{00}+\ket{11}\right).
+\end{equation*}
+Su operador densidad y su transpuesta parcial respecto de $B$ son, respectivamente,
+\begin{equation*}
+    \rho_{\phi_+}
+    =\proj{\phi_+}
+    =\frac{1}{2}
+    \begin{pmatrix}
+        1 & 0 & 0 & 1\\
+        0 & 0 & 0 & 0\\
+        0 & 0 & 0 & 0\\
+        1 & 0 & 0 & 1
+    \end{pmatrix},
+    \qquad
+    \rho_{\phi_+}^{T_B}
+    =\frac{1}{2}
+    \begin{pmatrix}
+        1 & 0 & 0 & 0\\
+        0 & 0 & 1 & 0\\
+        0 & 1 & 0 & 0\\
+        0 & 0 & 0 & 1
+    \end{pmatrix}.
+\end{equation*}
+Los autovalores de la transpuesta parcial son
+\begin{equation*}
+    \operatorname{spec}\left(\rho_{\phi_+}^{T_B}\right)
+    =\left\{\frac{1}{2},\frac{1}{2},\frac{1}{2},-\frac{1}{2}\right\}.
+\end{equation*}
+Como aparece un autovalor negativo, $\rho_{\phi_+}^{T_B}\ngeq 0$ y el criterio PPT detecta inmediatamente que $\ket{\phi_+}$ es entrelazado.
+
+\subsection{Mapas positivos, mapas completamente positivos y operaciones físicas}
+
+La transposición ordinaria $T$ es un \textbf{mapa positivo}: si $\rho\geq 0$, entonces $\rho^{T}\geq 0$. Sin embargo, no es \textbf{completamente positivo}, pues al extenderla mediante la identidad a un subsistema auxiliar se obtiene
+\begin{equation*}
+    (\I_A\otimes T_B)(\rho_{\phi_+})
+    =\rho_{\phi_+}^{T_B}\ngeq 0.
+\end{equation*}
+Precisamente por eso la transposición parcial es útil como criterio matemático de entrelazamiento: puede revelar negatividad al actuar sobre un estado bipartito entrelazado. No debe interpretarse como una evolución física realizable localmente sobre $B$.
+
+Una operación cuántica determinista físicamente admisible debe representarse mediante un mapa \textbf{completamente positivo y preservador de la traza} (CPTP). En la representación de Kraus estudiada en la sección anterior, un canal tiene la forma
+\begin{equation*}
+    \mathcal{E}(\rho)
+    =\sum_k M_k\rho M_k^{\dagger},
+    \qquad
+    \sum_k M_k^{\dagger}M_k=\I,
+\end{equation*}
+lo que asegura que incluso la transformación extendida $\I_R\otimes\mathcal{E}$ preserve la positividad para cualquier sistema auxiliar $R$.
+
+\begin{observacion}
+La positividad exigida a un operador densidad o a un efecto de medición no debe confundirse con el signo de los autovalores de un Hamiltoniano. Un Hamiltoniano hermítico puede poseer energías negativas y seguir representando un sistema físico; de hecho, sumar una constante al Hamiltoniano sólo cambia el origen convencional de la energía. Lo inadmisible sería que una matriz densidad presentara probabilidades negativas, es decir, que dejara de ser positiva semidefinida.
+\end{observacion}
+
+% =========================
+%       MATERIA DE LA ÚLTIMA CLASE
+% =========================
+
+\subsection{Negatividad y norma traza}\label{subsec:negatividad}
+
+El criterio PPT permite detectar entrelazamiento cuando la transpuesta parcial de un estado deja de ser positiva. Esta idea puede refinarse cuantitativamente: en lugar de preguntar únicamente si existen autovalores negativos de $\rho_{AB}^{T_B}$, se mide cuánto peso espectral posee su parte negativa.
+
+\begin{definicion}[Norma traza]
+Sea $X$ un operador lineal sobre un espacio de Hilbert de dimensión finita. La \textbf{norma traza} de $X$ se define por
+\begin{equation*}
+    \|X\|_1
+    :=\TrA\!\left(\sqrt{X^{\dagger}X}\right)
+    =\sum_j s_j(X),
+\end{equation*}
+donde $s_j(X)$ son los valores singulares de $X$, es decir, los autovalores no negativos de $\sqrt{X^{\dagger}X}$.
+\end{definicion}
+
+Si $X=X^{\dagger}$ es hermítico, sus valores singulares son los valores absolutos de sus autovalores. Por consiguiente,
+\begin{equation*}
+    \|X\|_1=\sum_j \left|\lambda_j(X)\right|.
+\end{equation*}
+Esta observación es particularmente útil para $X=\rho_{AB}^{T_B}$, puesto que la transpuesta parcial de una matriz densidad sigue siendo hermítica, aunque no necesariamente positiva.
+
+\begin{definicion}[Negatividad]
+La \textbf{negatividad} de un estado bipartito $\rho_{AB}$ respecto de la bipartición $A|B$ se define como
+\begin{equation*}
+    \mathcal{N}(\rho_{AB})
+    :=\sum_{\lambda_j(\rho_{AB}^{T_B})<0}
+    \left|\lambda_j(\rho_{AB}^{T_B})\right|.
+\end{equation*}
+Es decir, $\mathcal{N}(\rho_{AB})$ cuantifica la suma de los módulos de los autovalores negativos producidos por la transposición parcial.
+\end{definicion}
+
+Para obtener una expresión equivalente en términos de la norma traza, definamos
+\begin{equation*}
+    P:=\sum_{\lambda_j\geq 0}\lambda_j\!\left(\rho_{AB}^{T_B}\right),
+    \qquad
+    \mathcal{N}:=\sum_{\lambda_j<0}\left|\lambda_j\!\left(\rho_{AB}^{T_B}\right)\right|.
+\end{equation*}
+Como la transposición parcial preserva la traza,
+\begin{equation*}
+    \TrA\!\left(\rho_{AB}^{T_B}\right)
+    =\TrA(\rho_{AB})=1,
+\end{equation*}
+y, por tanto,
+\begin{equation*}
+    1
+    =\sum_j\lambda_j\!\left(\rho_{AB}^{T_B}\right)
+    =P-\mathcal{N}.
+\end{equation*}
+De aquí se sigue que $P=1+\mathcal{N}$. Por otra parte,
+\begin{equation*}
+    \left\|\rho_{AB}^{T_B}\right\|_1
+    =P+\mathcal{N}
+    =1+2\mathcal{N},
+\end{equation*}
+de modo que
+\begin{equation*}
+    \boxed{
+    \mathcal{N}(\rho_{AB})
+    =\frac{1}{2}\left(
+        \left\|\rho_{AB}^{T_B}\right\|_1-1
+    \right)}.
+\end{equation*}
+
+La negatividad está directamente vinculada con el criterio PPT. Si $\rho_{AB}$ es separable, entonces $\rho_{AB}^{T_B}\geq 0$, por lo que
+\begin{equation*}
+    \rho_{AB}\ \text{separable}
+    \quad\Longrightarrow\quad
+    \mathcal{N}(\rho_{AB})=0.
+\end{equation*}
+En sistemas $2\times 2$ y $2\times 3$, el recíproco también es cierto, pues en esas dimensiones el criterio PPT es necesario y suficiente. En dimensiones mayores pueden existir estados entrelazados PPT; en tales casos, la negatividad se anula aunque el estado no sea separable. Por ello, en general, $\mathcal{N}$ cuantifica el entrelazamiento detectado por la pérdida de positividad de la transpuesta parcial, denominado también entrelazamiento NPT.
+
+En particular, para el estado de Bell analizado anteriormente,
+\begin{equation*}
+    \operatorname{spec}\left(\rho_{\phi_+}^{T_B}\right)
+    =\left\{\frac{1}{2},\frac{1}{2},\frac{1}{2},-\frac{1}{2}\right\},
+\end{equation*}
+por lo cual
+\begin{equation*}
+    \mathcal{N}(\rho_{\phi_+})=\frac{1}{2}.
+\end{equation*}
+
+\subsection{Convexidad y mezcla clásica de estados}
+
+Una propiedad fundamental de la norma traza es su convexidad. Sean $\rho_{AB}^{(\alpha)}$ estados bipartitos y sean $p_\alpha\geq 0$ probabilidades tales que $\sum_\alpha p_\alpha=1$. Para el estado mezcla
+\begin{equation*}
+    \rho_{AB}=\sum_\alpha p_\alpha\rho_{AB}^{(\alpha)},
+\end{equation*}
+la linealidad de la transposición parcial y la desigualdad triangular implican
+\begin{align*}
+    \left\|\rho_{AB}^{T_B}\right\|_1
+    &=\left\|
+        \sum_\alpha p_\alpha
+        \left(\rho_{AB}^{(\alpha)}\right)^{T_B}
+      \right\|_1 \\
+    &\leq
+      \sum_\alpha p_\alpha
+      \left\|\left(\rho_{AB}^{(\alpha)}\right)^{T_B}\right\|_1.
+\end{align*}
+Sustituyendo la expresión de la negatividad en términos de la norma traza, se obtiene
+\begin{equation*}
+    \mathcal{N}\!\left(\sum_\alpha p_\alpha\rho_{AB}^{(\alpha)}\right)
+    \leq
+    \sum_\alpha p_\alpha\mathcal{N}\!\left(\rho_{AB}^{(\alpha)}\right).
+\end{equation*}
+
+Esta desigualdad afirma que la mezcla clásica de estados no puede producir, en promedio, más entrelazamiento NPT que el contenido en los estados que se están mezclando. Una medida de entrelazamiento físicamente admisible debe comportarse de forma compatible con la imposibilidad de aumentar entrelazamiento mediante operaciones locales y comunicación clásica; la negatividad satisface esta propiedad de monotonía.
+
+\subsection{Operaciones locales y comunicación clásica}\label{subsec:locc}
+
+Consideremos ahora un estado bipartito $\rho_{AB}$ distribuido entre dos observadores, convencionalmente llamados Alice y Bob. Alice posee el subsistema asociado a $\Hil_A$ y Bob el asociado a $\Hil_B$. Una operación es \textbf{local} si cada observador actúa únicamente sobre su propio subsistema. Si, además, los observadores pueden comunicar resultados clásicos y condicionar operaciones posteriores a dichos resultados, el procedimiento recibe el nombre de \textbf{operaciones locales y comunicación clásica}, abreviado \textbf{LOCC} por la expresión inglesa \emph{local operations and classical communication}.
+
+La noción de LOCC es central en teoría cuántica de la información: el entrelazamiento se entiende como un recurso no local precisamente porque no puede generarse a partir de estados separables empleando únicamente operaciones locales y comunicación clásica.
+
+\subsubsection*{Instrumento local y resultado de una medición}
+
+Una operación local realizada por Alice, con resultados clásicos posibles $i$, se describe mediante una familia de mapas completamente positivos $\{\mathcal{E}_{A,i}\}_i$. En representación de Kraus, cada resultado puede involucrar operadores $A_{i\alpha}$ sobre $\Hil_A$ tales que
+\begin{equation*}
+    \sum_{i,\alpha} A_{i\alpha}^{\dagger}A_{i\alpha}=\I_A.
+\end{equation*}
+La suma sobre los resultados define una operación determinista y preservadora de la traza. Aplicada al estado compuesto, la operación no normalizada asociada al resultado $i$ es
+\begin{equation*}
+    \widetilde{\rho}_{AB}^{(i)}
+    =\sum_\alpha
+    \left(A_{i\alpha}\otimes\I_B\right)
+    \rho_{AB}
+    \left(A_{i\alpha}^{\dagger}\otimes\I_B\right).
+\end{equation*}
+La probabilidad de obtener dicho resultado viene dada por
+\begin{equation*}
+    p_i=\TrA\!\left(\widetilde{\rho}_{AB}^{(i)}\right),
+\end{equation*}
+y, siempre que $p_i>0$, el estado condicionado posterior a la medición es
+\begin{equation*}
+    \rho_{AB}^{(i)}
+    =\frac{\widetilde{\rho}_{AB}^{(i)}}{p_i}.
+\end{equation*}
+En consecuencia, una medición cuyo resultado se conserva transforma el estado inicial en un ensamble clásico-cuántico:
+\begin{equation*}
+    \rho_{AB}
+    \longmapsto
+    \left\{p_i,\rho_{AB}^{(i)}\right\}_i.
+\end{equation*}
+
+Si el resultado no se registra, o si un observador externo sabe que la operación fue realizada pero no tiene acceso al valor de $i$, el estado que debe asignar al sistema es el estado no selectivo
+\begin{equation*}
+    \rho'_{AB}
+    =\sum_i p_i\rho_{AB}^{(i)}
+    =\sum_{i,\alpha}
+    \left(A_{i\alpha}\otimes\I_B\right)
+    \rho_{AB}
+    \left(A_{i\alpha}^{\dagger}\otimes\I_B\right).
+\end{equation*}
+Así se precisa la diferencia entre conocer el resultado de una medición y conocer únicamente que una operación cuántica tuvo lugar.
+
+\begin{observacion}
+En la representación de Kraus aparece la adjunta hermítica $A_{i\alpha}^{\dagger}$, no la transpuesta ordinaria $A_{i\alpha}^{T}$. Ambas coinciden únicamente en casos particulares, por ejemplo cuando los operadores tienen entradas reales en la base elegida.
+\end{observacion}
+
+\subsubsection*{Operación local de Alice y estado reducido de Bob}
+
+Si Alice realiza una operación local determinista y Bob no recibe el resultado clásico, el estado global $\rho_{AB}$ puede cambiar, pues pueden modificarse las correlaciones entre ambos subsistemas. Sin embargo, el estado reducido de Bob no puede alterarse mediante una operación local realizada a distancia. En efecto,
+\begin{align*}
+    \rho'_B
+    &=\TrA_A\!\left(\rho'_{AB}\right) \\
+    &=\TrA_A\!\left[
+        \sum_{i,\alpha}
+        \left(A_{i\alpha}\otimes\I_B\right)
+        \rho_{AB}
+        \left(A_{i\alpha}^{\dagger}\otimes\I_B\right)
+      \right] \\
+    &=\TrA_A\!\left[
+        \rho_{AB}
+        \left(
+            \sum_{i,\alpha}A_{i\alpha}^{\dagger}A_{i\alpha}
+            \otimes\I_B
+        \right)
+      \right] \\
+    &=\TrA_A(\rho_{AB}) \\
+    &=\rho_B.
+\end{align*}
+Este resultado expresa el principio de no señalización: sin comunicación clásica, Bob no puede determinar qué medición o canal local fue aplicado por Alice. Si Alice comunica el resultado $i$, Bob puede asignar el estado condicionado correspondiente; esta dependencia condicional no constituye comunicación superlumínica, pues requiere el envío del registro clásico.
+
+\subsection{Operaciones elementales en la realización de un canal local}
+
+Las operaciones locales empleadas en un protocolo LOCC pueden analizarse en términos de procedimientos físicos elementales. Para el subsistema de Alice, algunos de los más importantes son los siguientes.
+
+\begin{enumerate}
+    \item \textbf{Transformación unitaria local.} Si Alice deja evolucionar su subsistema mediante un operador unitario $U_A$, entonces
+    \begin{equation*}
+        \rho_{AB}
+        \longmapsto
+        \rho'_{AB}
+        =\left(U_A\otimes\I_B\right)
+        \rho_{AB}
+        \left(U_A^{\dagger}\otimes\I_B\right).
+    \end{equation*}
+    Esta operación corresponde, por ejemplo, a una evolución generada por un Hamiltoniano local. Al ser reversible y local, no modifica la cantidad de entrelazamiento entre $A$ y $B$.
+
+    \item \textbf{Medición proyectiva local.} Sea un observable de Alice con descomposición espectral
+    \begin{equation*}
+        S_A=\sum_k s_k P_A^{(k)},
+        \qquad
+        \sum_k P_A^{(k)}=\I_A.
+    \end{equation*}
+    La probabilidad de obtener el resultado $s_k$ es
+    \begin{equation*}
+        p_k
+        =\TrA\!\left[
+            \left(P_A^{(k)}\otimes\I_B\right)
+            \rho_{AB}
+        \right],
+    \end{equation*}
+    y el estado condicionado es
+    \begin{equation*}
+        \rho_{AB}^{(k)}
+        =\frac{
+            \left(P_A^{(k)}\otimes\I_B\right)
+            \rho_{AB}
+            \left(P_A^{(k)}\otimes\I_B\right)
+        }{p_k}.
+    \end{equation*}
+    Las mediciones proyectivas son un caso particular de los instrumentos descritos mediante operadores de Kraus.
+
+    \item \textbf{Adjuntar una ancilla local.} Alice puede añadir un sistema auxiliar $\mathcal{A}$ preparado en un estado fijo $\tau_{\mathcal{A}}$:
+    \begin{equation*}
+        \rho_{AB}
+        \longmapsto
+        \rho_{AB\mathcal{A}}'
+        =\rho_{AB}\otimes\tau_{\mathcal{A}}.
+    \end{equation*}
+    Si $\dim\Hil_A=n$ y $\dim\Hil_{\mathcal{A}}=m$, entonces el nuevo espacio local de Alice es
+    \begin{equation*}
+        \Hil_{A'}=\Hil_A\otimes\Hil_{\mathcal{A}},
+        \qquad
+        \dim\Hil_{A'}=nm.
+    \end{equation*}
+    Como la ancilla se incorpora localmente y sin correlaciones iniciales con Bob, esta operación no crea ni destruye entrelazamiento a través de la bipartición $A'|B$; sólo amplía el espacio disponible para realizar operaciones locales.
+
+    \item \textbf{Descartar un subsistema local.} Si Alice deja de tener acceso a la ancilla, el estado efectivo se obtiene tomando la traza parcial:
+    \begin{equation*}
+        \rho_{AB\mathcal{A}}
+        \longmapsto
+        \rho'_{AB}
+        =\TrA_{\mathcal{A}}\!\left(\rho_{AB\mathcal{A}}\right).
+    \end{equation*}
+    El descarte de información local es una operación irreversible: puede mantener o disminuir el entrelazamiento accesible entre Alice y Bob, pero no aumentarlo.
+\end{enumerate}
+
+Estas operaciones se reúnen en la descripción general de los canales cuánticos. En particular, todo canal local completamente positivo y preservador de la traza puede realizarse añadiendo una ancilla local en un estado fijo, aplicando una transformación unitaria sobre el sistema ampliado y descartando posteriormente la ancilla:
+\begin{equation*}
+    \mathcal{E}_A(\rho_A)
+    =\TrA_{\mathcal{A}}\!\left[
+        U_{A\mathcal{A}}
+        \left(\rho_A\otimes\tau_{\mathcal{A}}\right)
+        U_{A\mathcal{A}}^{\dagger}
+    \right].
+\end{equation*}
+Si, en vez de descartar toda la información de la ancilla, se la mide y se conserva un registro clásico del resultado, se obtiene un instrumento cuántico. La concatenación de instrumentos locales de Alice y Bob, donde cada elección posterior puede depender de los resultados clásicos comunicados previamente, constituye un protocolo LOCC.
+
+\begin{observacion}
+La transposición parcial no pertenece a esta clase de operaciones físicas locales, pues no es completamente positiva. Su función en el análisis del entrelazamiento es diagnóstica: al producir un operador no positivo para ciertos estados, permite detectar que dichos estados no pueden escribirse como mezclas convexas de estados producto.
+\end{observacion}
+
 
 \begin{thebibliography}{99}
 
@@ -2004,248 +2723,19 @@ J.-W. Pan, D. Bouwmeester, H. Weinfurter and A. Zeilinger, ``Experimental entang
 \bibitem{BuzekHillery1996}
 V. Bu{\v z}ek and M. Hillery, ``Quantum copying: beyond the no-cloning theorem'', \emph{Physical Review A} \textbf{54}, 1844--1852 (1996).
 
+\bibitem{Gisin1998}
+N. Gisin, ``Quantum cloning without signaling'', \emph{Physics Letters A} \textbf{242}, 1--3 (1998).
+
+
+\bibitem{Werner1989}
+R. F. Werner, ``Quantum states with Einstein--Podolsky--Rosen correlations admitting a hidden-variable model'', \emph{Physical Review A} \textbf{40}, 4277--4281 (1989).
+
+\bibitem{Peres1996}
+A. Peres, ``Separability criterion for density matrices'', \emph{Physical Review Letters} \textbf{77}, 1413--1415 (1996).
+
+\bibitem{Horodecki1996}
+M. Horodecki, P. Horodecki and R. Horodecki, ``Separability of mixed states: necessary and sufficient conditions'', \emph{Physics Letters A} \textbf{223}, 1--8 (1996).
+
 \end{thebibliography}
-
-\newpage
-
-\appendix
-
-\section{Cuantización modal del campo electromagnético}
-
-En la sección sobre intercambio de entrelazamiento se usa la palabra fotón como si fuese un objeto elemental ya conocido. Para precisar esa idea, recordemos primero la estructura mínima de la cuantización del campo electromagnético libre. En una cavidad ideal, o en una región donde se imponen condiciones de borde convenientes, el campo se descompone en modos normales. Cada modo se comporta matemáticamente como un oscilador armónico cuántico.
-
-En el gauge de Coulomb,
-\begin{equation*}
-    \vec\nabla\cdot\vec A=0,
-\end{equation*}
-el potencial vectorial cuantizado puede escribirse esquemáticamente como
-\begin{equation*}
-    \hat{\vec A}(\vec x,t)
-    =
-    \sum_{\vec k,\lambda}
-    \mathcal{A}_{\vec k}
-    \vec\epsilon_{\vec k,\lambda}
-    \left(
-        \hat a_{\vec k,\lambda}
-        \ee^{\ii(\vec k\cdot\vec x-\omega_{\vec k} t)}
-        +
-        \hat a_{\vec k,\lambda}^{\dagger}
-        \ee^{-\ii(\vec k\cdot\vec x-\omega_{\vec k} t)}
-    \right),
-\end{equation*}
-donde $\vec k$ etiqueta el modo espacial, $\lambda$ etiqueta la polarización transversal, $\vec\epsilon_{\vec k,\lambda}$ es un vector de polarización y $\omega_{\vec k}=c\abs{\vec k}$ en el vacío. El coeficiente $\mathcal{A}_{\vec k}$ depende de la normalización elegida, del volumen de cuantización y de las unidades usadas.
-
-A partir de $\hat{\vec A}$ se obtienen los campos cuantizados, en ausencia de cargas libres, mediante
-\begin{equation*}
-    \hat{\vec E}= -\pdv{\hat{\vec A}}{t},
-    \qquad
-    \hat{\vec B}= \vec\nabla\times\hat{\vec A}.
-\end{equation*}
-El Hamiltoniano del campo libre queda como una suma de osciladores armónicos independientes:
-\begin{equation*}
-    \hat H
-    =
-    \sum_{\vec k,\lambda}
-    \hbar\omega_{\vec k}
-    \left(
-        \hat a_{\vec k,\lambda}^{\dagger}
-        \hat a_{\vec k,\lambda}
-        +
-        \frac{1}{2}
-    \right).
-\end{equation*}
-Aquí $\hat a_{\vec k,\lambda}^{\dagger}$ es el operador de creación y $\hat a_{\vec k,\lambda}$ es el operador de aniquilación del modo $(\vec k,\lambda)$. Si $\ket{n_{\vec k,\lambda}}$ denota un estado con $n$ fotones en ese modo, entonces
-\begin{align*}
-    \hat a_{\vec k,\lambda}^{\dagger}\ket{n_{\vec k,\lambda}}
-    &=
-    \sqrt{n+1}\ket{(n+1)_{\vec k,\lambda}},\\
-    \hat a_{\vec k,\lambda}\ket{n_{\vec k,\lambda}}
-    &=
-    \sqrt{n}\ket{(n-1)_{\vec k,\lambda}}.
-\end{align*}
-Por tanto, un fotón no es una bolita clásica que se desplaza por una trayectoria definida, sino una excitación discreta de un modo del campo electromagnético.
-\begin{observacion}
-La energía de punto cero, representada por el término $\hbar\omega_{\vec k}/2$, no significa que los detectores ``vean fotones del vacío'' de manera ordinaria. Los conteos oscuros de un detector real suelen deberse a ruido instrumental, procesos térmicos o eventos electrónicos internos. Las fluctuaciones del vacío, en cambio, son una propiedad del estado fundamental del campo y aparecen indirectamente en fenómenos como emisión espontánea, corrimientos de niveles y efectos de borde.
-\end{observacion}
-
-\section{Notas experimentales sobre fotones, divisores de haz y mediciones de Bell}
-
-Un divisor de haz ideal de razón $50{:}50$ mezcla dos modos espaciales de entrada. Si $\hat a^{\dagger}$ y $\hat b^{\dagger}$ son operadores de creación asociados a los modos entrantes, y $\hat c^{\dagger}$, $\hat d^{\dagger}$ los modos salientes, una convención posible es
-\begin{equation*}
-    \hat a^{\dagger}
-    \longmapsto
-    \frac{1}{\sqrt{2}}
-    \left(
-        \hat c^{\dagger}+
-        \hat d^{\dagger}
-    \right),
-    \qquad
-    \hat b^{\dagger}
-    \longmapsto
-    \frac{1}{\sqrt{2}}
-    \left(
-        \hat c^{\dagger}-
-        \hat d^{\dagger}
-    \right).
-\end{equation*}
-La interferencia de dos fotones indistinguibles en un divisor de haz es la base física de varias mediciones de Bell fotónicas. El dispositivo no mide ``el estado'' como objeto abstracto; produce patrones de salida que, al ser detectados en coincidencia, permiten inferir que cierto proyector de Bell actuó sobre los fotones incidentes.
-
-En una medición de Bell ideal sobre dos qubits, los cuatro proyectores
-\begin{equation*}
-    \Pi_{\phi_+},
-    \qquad
-    \Pi_{\phi_-},
-    \qquad
-    \Pi_{\psi_+},
-    \qquad
-    \Pi_{\psi_-}
-\end{equation*}
-se distinguirían perfectamente. En óptica lineal pasiva esto no ocurre de manera determinista. La razón física es que los elementos lineales mezclan modos, pero no implementan por sí solos una interacción no lineal fuerte entre fotones individuales. Por ello, los experimentos usuales trabajan con mediciones de Bell parciales y con postselección sobre coincidencias.
-
-El lenguaje experimental, entonces, debe leerse estadísticamente. Una fuente de pares no produce exactamente un par en cada pulso; un detector no registra todos los fotones incidentes; y una coincidencia dentro de una ventana temporal no equivale a una certeza metafísica, sino a un evento compatible con el modelo dentro de las eficiencias y errores instrumentales. Esta es la razón por la que los artículos experimentales reportan tasas, visibilidades, fidelidades y barras de error, además de las identidades algebraicas ideales.
-
-
-\section{Deducción de la ecuación de Schrödinger a partir de \texorpdfstring{$U(t)$}{U(t)}}
-
-Supongamos que el Hamiltoniano $H$ no depende explícitamente del tiempo. Entonces el operador de evolución temporal puede escribirse como
-\begin{equation*}
-    U(t)=\ee^{-\frac{\ii}{\hbar}Ht}.
-\end{equation*}
-Usando la expansión en serie de potencias del exponencial,
-\begin{equation*}
-    U(t)=\sum_{n=0}^{\infty}\frac{1}{n!}\left(-\frac{\ii t}{\hbar}H\right)^n.
-\end{equation*}
-Derivando término a término respecto del tiempo,
-\begin{align*}
-    \dv{U}{t}
-    &=
-    \sum_{n=1}^{\infty}\frac{1}{(n-1)!}\left(-\frac{\ii}{\hbar}H\right)\left(-\frac{\ii t}{\hbar}H\right)^{n-1}\\
-    &=
-    -\frac{\ii}{\hbar}H\sum_{n=1}^{\infty}\frac{1}{(n-1)!}\left(-\frac{\ii t}{\hbar}H\right)^{n-1}\\
-    &=
-    -\frac{\ii}{\hbar}H\,U(t).
-\end{align*}
-Si el estado inicial es $\ket{\psi(0)}$, entonces
-\begin{equation*}
-    \ket{\psi(t)}=U(t)\ket{\psi(0)}.
-\end{equation*}
-Por tanto,
-\begin{align*}
-    \dv{}{t}\ket{\psi(t)}
-    &=
-    \dv{U}{t}\ket{\psi(0)}\\
-    &=
-    -\frac{\ii}{\hbar}H\,U(t)\ket{\psi(0)}\\
-    &=
-    -\frac{\ii}{\hbar}H\ket{\psi(t)}.
-\end{align*}
-Multiplicando por $\ii\hbar$, se obtiene la ecuación de Schrödinger dependiente del tiempo:
-\begin{equation*}
-    \ii\hbar\dv{}{t}\ket{\psi(t)}=H\ket{\psi(t)}.
-\end{equation*}
-
-\section{Frecuencias experimentales y error estadístico}
-
-La \textbf{regla de Born} entrega la probabilidad ideal $p_\lambda=P(\lambda|\psi)$ de obtener el resultado $\lambda$. Sin embargo, en un laboratorio sólo es posible realizar un número finito $N$ de mediciones sobre copias idénticamente preparadas del sistema. Si $n_\lambda$ es el número de veces que aparece el resultado $\lambda$, la frecuencia relativa observada es
-\begin{equation*}
-    \hat p_\lambda=\frac{n_\lambda}{N}.
-\end{equation*}
-Bajo el supuesto de mediciones independientes, $n_\lambda$ sigue una distribución binomial con parámetros $N$ y $p_\lambda$. En consecuencia,
-\begin{equation*}
-    \mathbb{E}[\hat p_\lambda]=p_\lambda,
-    \qquad
-    \mathrm{Var}(\hat p_\lambda)=\frac{p_\lambda(1-p_\lambda)}{N}.
-\end{equation*}
-La desviación estándar asociada a la frecuencia estimada es entonces
-\begin{equation*}
-    \sigma_{\hat p_\lambda}=
-    \sqrt{\frac{p_\lambda(1-p_\lambda)}{N}}.
-\end{equation*}
-Este resultado muestra que la incertidumbre estadística decrece como $N^{-1/2}$. Por ello, al aumentar el número de repeticiones del experimento, las frecuencias observadas se aproximan cada vez mejor a las probabilidades predichas por la teoría.
-
-\section{Espectros atómicos y contraste entre teoría y observación}
-
-La formulación abstracta de la mecánica cuántica adquiere contenido físico cuando se la contrasta con resultados experimentales. Uno de los escenarios más importantes para ello es la espectroscopía. Si $E_i$ y $E_f$ son dos niveles de energía con $E_i>E_f$, la emisión de un fotón satisface idealmente
-\begin{equation*}
-    h\nu=E_i-E_f,
-    \qquad
-    \lambda=\frac{hc}{E_i-E_f}.
-\end{equation*}
-En términos del número de onda $\tilde\nu$, la relación puede escribirse como
-\begin{equation*}
-    \lambda=\frac{10^{7}}{\Delta\tilde\nu},
-    \qquad
-    \Delta\tilde\nu \text{ en } \mathrm{cm}^{-1},
-    \quad
-    \lambda \text{ en nm}.
-\end{equation*}
-Por consiguiente, el formalismo cuántico predice líneas discretas y no un continuo arbitrario de frecuencias.
-
-En átomos multielectrónicos, como el oxígeno, la predicción cuantitativa completa de todas las energías y de todas las intensidades relativas no se obtiene en general mediante una resolución elemental de la ecuación de Schrödinger. Se requieren métodos efectivos de muchos cuerpos, correcciones relativistas y contraste sistemático con datos espectroscópicos. Aun así, la idea central permanece: la estructura discreta de niveles conduce a espectros discretos medibles.
-
-Como ejemplo ilustrativo, consideremos algunas líneas prominentes del oxígeno atómico neutro. Este caso es particularmente útil porque permite relacionar una estructura discreta de niveles con señales efectivamente registradas en espectros atmosféricos y aurorales.
-
-\begin{figure}[htbp]
-    \centering
-    \IfFileExists{oxygen_spectrum_clean_final.png}{%
-    \includegraphics[width=0.92\textwidth]{oxygen_spectrum_clean_final.png}%
-}{%
-    \begin{tikzpicture}[x=0.010\textwidth,y=0.04cm]
-        \draw[->, thick] (0,0) -- (90,0) node[right] {$\lambda$};
-        \draw[->, thick] (0,0) -- (0,7) node[above] {intensidad};
-        \foreach \x/\h/\lab in {18/5/557.7,48/6/630.0,58/4.8/636.4,76/3/777.4}{
-            \draw[very thick, UdeCAzul] (\x,0) -- (\x,\h);
-            \node[rotate=90, font=\scriptsize, anchor=west] at (\x+1,\h) {\lab\,nm};
-        }
-        \node[font=\footnotesize, align=center] at (45,-2.0) {Representación esquemática de líneas de emisión del oxígeno};
-    \end{tikzpicture}%
-}
-    \caption{Comparación entre posiciones teóricas y líneas empíricas representativas del oxígeno atómico neutro. Las marcas teóricas se obtienen a partir de diferencias entre niveles de energía tabulados, mientras que las líneas empíricas corresponden a emisiones observadas en espectros atmosféricos. Esta figura está organizada en función de la longitud de onda y, por tanto, muestra directamente el contraste entre predicción y observación.}
-    \label{fig:ap-oxigeno-comparacion}
-\end{figure}
-
-La figura espectral anterior debe leerse como una representación espectroscópica. Su eje horizontal corresponde a la longitud de onda, de modo que el objetivo principal es exhibir la proximidad entre las posiciones predichas por el modelo y las líneas observadas. En este sentido, la cuantización de la energía no constituye sólo una construcción formal, sino que posee una manifestación empírica directa en el espectro de emisión.
-
-\begin{figure}[htbp]
-    \centering
-    \IfFileExists{oxygen_standard.png}{%
-    \includegraphics[width=0.82\textwidth]{oxygen_standard.png}%
-}{%
-    \begin{tikzpicture}[x=1cm,y=0.85cm]
-        \draw[->, thick] (0,0) -- (0,5.8) node[above] {$E$};
-        \draw[thick] (1,0.7) -- (6,0.7) node[right] {$^3P_J$};
-        \draw[thick] (1,3.0) -- (6,3.0) node[right] {$^1D_2$};
-        \draw[thick] (1,4.6) -- (6,4.6) node[right] {$^1S_0$};
-        \draw[->, thick, UdeCAzul] (2.0,4.6) -- (2.0,3.0) node[midway, right] {$557.7\,\mathrm{nm}$};
-        \draw[->, thick, UdeCAzul] (4.2,3.0) -- (4.2,0.7) node[midway, right] {$630.0,636.4\,\mathrm{nm}$};
-        \node[font=\footnotesize, align=center] at (3.5,-0.2) {Diagrama simplificado de niveles y transiciones};
-    \end{tikzpicture}%
-}
-    \caption{Esquema simplificado de niveles de energía del oxígeno neutro y de algunas transiciones radiativas asociadas. A diferencia de la figura anterior, esta representación está organizada en función de la energía, por lo que no muestra directamente un espectro observado, sino el origen microscópico de varias líneas espectrales.}
-    \label{fig:ap-oxigeno-niveles}
-\end{figure}
-
-Por su parte, el diagrama de niveles anterior cumple una función distinta. Aquí la variable relevante ya no es la longitud de onda, sino la energía de los estados atómicos. Por ello, esta segunda figura no debe interpretarse como un espectro, sino como un diagrama estructural que permite identificar qué transiciones son responsables de determinadas líneas. En particular, la línea verde en torno a $557.7\,\mathrm{nm}$ puede asociarse a una transición entre los estados metastables $^{1}S_{0}$ y $^{1}D_{2}$, mientras que las líneas rojas próximas a $630.0\,\mathrm{nm}$ y $636.4\,\mathrm{nm}$ se vinculan a transiciones desde $^{1}D_{2}$ hacia el multiplete base $^{3}P_J$.
-
-Ambas representaciones describen, por tanto, un mismo fenómeno desde perspectivas complementarias. El gráfico espectral organiza la información en función de la longitud de onda y destaca el acuerdo entre teoría y observación; el diagrama de niveles, en cambio, organiza la información en función de la energía y exhibe la estructura cuántica que subyace a dichas líneas. En conjunto, estas figuras muestran cómo la espectroscopía constituye un puente entre la descripción microscópica del átomo y la señal efectivamente registrada por el experimento.
-
-\begin{center}
-\renewcommand{\arraystretch}{1.2}
-\begin{tabular}{>{\raggedright\arraybackslash}p{0.23\textwidth} >{\raggedright\arraybackslash}p{0.34\textwidth} >{\raggedright\arraybackslash}p{0.33\textwidth}}
-\toprule
-\textbf{Magnitud} & \textbf{Descripción teórica} & \textbf{Contraparte observacional} \\
-\midrule
-Energía del sistema & Valores propios del Hamiltoniano $H$ & Posiciones de las líneas espectrales \\
-Transición cuántica & Diferencia $E_i-E_f$ entre niveles permitidos & Emisión o absorción en una longitud de onda determinada \\
-Probabilidad de transición & Amplitudes y reglas de selección & Intensidades relativas de las líneas, sujetas además a efectos instrumentales y poblacionales \\
-Medición real & Estado preparado y observable idealizados & Señal finita con ruido, ensanchamiento e incertidumbre experimental \\
-\bottomrule
-\end{tabular}
-\end{center}
-
-\begin{observacion}
-No toda diferencia de energía conduce necesariamente a una línea visible intensa en un espectro real. La visibilidad efectiva de una transición depende además de reglas de selección, probabilidades de transición y condiciones físicas del medio emisor. Por ello, las figuras anteriores deben entenderse como una comparación físicamente informativa entre estructura cuántica y observación espectral, más que como una deducción espectroscópica completa del átomo de oxígeno.
-\end{observacion}
-
 
 \end{document}
