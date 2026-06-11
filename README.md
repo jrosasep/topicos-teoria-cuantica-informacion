@@ -122,7 +122,3 @@ pdflatex topicos-de-la-teoria-cuantica-de-la-informacion.tex
 También puede importarse el proyecto directamente en **Overleaf**, manteniendo el archivo `.tex` y los recursos gráficos requeridos en la misma carpeta del proyecto.
 
 ---
-
-## Nota final
-
-Este repositorio documenta un proceso personal de estudio y escritura. Las correcciones, observaciones conceptuales y sugerencias de mejora son bienvenidas, especialmente aquellas relacionadas con precisión matemática, interpretación física y claridad expositiva.
