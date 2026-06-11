@@ -3,7 +3,6 @@
 Apunte en desarrollo del curso **Tópicos de Teoría Cuántica de la Información**  
 **Universidad de Concepción — semestre 1 de 2026**
 
-**Profesor:** Aldo Patricio Delgado  
 **Autor:** José Ignacio Rosas
 
 ---
