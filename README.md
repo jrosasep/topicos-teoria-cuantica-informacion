@@ -64,6 +64,10 @@ pdflatex main.tex
 
 El proyecto puede importarse directamente en Overleaf manteniendo la misma estructura de carpetas.
 
+## Agradecimientos
+
+Agradezco al profesor **Aldo Patricio Delgado** por las clases del curso y por facilitar los artículos en los cuales se basa parte importante de este apunte.
+
 ## Uso de herramientas de IA
 
 Durante la elaboración del apunte se usaron **ChatGPT Plus** y **Claude Pro** como herramientas de apoyo para redacción, organización en LaTeX, revisión local de consistencia matemática y edición de figuras en TikZ. En particular, Claude Pro fue utilizado para modificar figuras TikZ y revisar el capítulo de preliminares.
