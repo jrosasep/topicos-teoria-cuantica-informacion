@@ -1,0 +1,469 @@
+% Este capítulo puede editarse y compilarse de forma individual.
+% Para compilar el libro completo, usa main.tex.
+\documentclass[../main.tex]{subfiles}
+\begin{document}
+\chapter{Separabilidad, transposición parcial y criterio PPT}\label{sec:separabilidad-ppt}
+
+La descripción mediante operadores densidad adquiere una importancia adicional cuando el sistema está formado por dos partes. Sean $A$ y $B$ dos subsistemas, con espacio de Hilbert compuesto
+\begin{equation*}
+    \Hil_{AB}=\Hil_A\otimes\Hil_B.
+\end{equation*}
+Un estado bipartito es un operador
+\begin{equation*}
+    \rho_{AB}\in \operatorname{End}(\Hil_{AB}),
+    \qquad
+    \rho_{AB}\geq 0,
+    \qquad
+    \Tr(\rho_{AB})=1.
+\end{equation*}
+La cuestión central es determinar si las correlaciones contenidas en $\rho_{AB}$ pueden explicarse como una mezcla estadística de preparaciones locales, o si corresponden a un estado genuinamente entrelazado.
+
+\section{Estados separables y estados entrelazados}
+
+\begin{definicion}[Estado separable]
+Un estado $\rho_{AB}$ se denomina \textbf{separable} si admite una descomposición convexa de la forma
+\begin{equation*}
+    \rho_{AB}
+    =\sum_{\alpha} p_{\alpha}\,
+    \rho_A^{(\alpha)}\otimes\rho_B^{(\alpha)},
+    \qquad
+    p_{\alpha}\geq 0,
+    \qquad
+    \sum_{\alpha}p_{\alpha}=1,
+\end{equation*}
+con $\rho_A^{(\alpha)}$ y $\rho_B^{(\alpha)}$ operadores densidad de los subsistemas respectivos. Si no existe una descomposición de esta forma, el estado se denomina \textbf{entrelazado}.
+\end{definicion}
+
+La estructura anterior debe entenderse físicamente. Cada término $\rho_A^{(\alpha)}\otimes\rho_B^{(\alpha)}$ describe una preparación en la que las dos partes poseen estados locales independientes; el índice $\alpha$ representa únicamente incertidumbre clásica sobre cuál preparación producto fue realizada. Por consiguiente, un estado separable puede contener correlaciones, pero éstas son compatibles con una mezcla probabilística de estados locales. Esta formulación convexa es estándar en el estudio moderno del entrelazamiento y aparece, en particular, en el trabajo de Werner~\cite{Werner1989}.
+
+No debe interpretarse que el espacio de estados carezca de parametrizaciones. En dimensión finita, una matriz densidad puede parametrizarse mediante sus elementos matriciales sujetos a hermiticidad, positividad y traza unitaria. La dificultad real es distinta: en dimensión general no existe un criterio elemental único que permita decidir, a partir de esos parámetros, si un estado mixto pertenece al subconjunto convexo de estados separables.
+
+\section{Transposición parcial}
+
+Elegida una base producto $\{\ket{i}_A\otimes\ket{\mu}_B\}$, todo operador densidad bipartito puede escribirse como
+\begin{equation*}
+    \rho_{AB}
+    =\sum_{i,j=0}^{d_A-1}
+     \sum_{\mu,\nu=0}^{d_B-1}
+     \rho_{i\mu,j\nu}
+     \left(\ket{i}_A\bra{j}\right)
+     \otimes
+     \left(\ket{\mu}_B\bra{\nu}\right).
+\end{equation*}
+La \textbf{transpuesta parcial respecto del subsistema $B$} se define aplicando la identidad sobre $A$ y la transposición ordinaria sobre $B$:
+\begin{align*}
+    \rho_{AB}^{T_B}
+    &:=(\I_A\otimes T_B)(\rho_{AB})\\
+    &=\sum_{i,j=0}^{d_A-1}
+     \sum_{\mu,\nu=0}^{d_B-1}
+     \rho_{i\mu,j\nu}
+     \left(\ket{i}_A\bra{j}\right)
+     \otimes
+     \left(\ket{\nu}_B\bra{\mu}\right).
+\end{align*}
+Así, los índices asociados a $A$ permanecen fijos, mientras se intercambian los índices de fila y columna pertenecientes al subsistema $B$.
+
+Consideremos explícitamente dos qubits en la base ordenada
+\begin{equation*}
+    \mathcal{B}=\left\{\ket{00},\ket{01},\ket{10},\ket{11}\right\}.
+\end{equation*}
+Una matriz densidad hermítica general puede disponerse en bloques de $2\times 2$ como
+\begin{equation*}
+    \rho_{AB}
+    =
+    \left(
+    \begin{array}{cc|cc}
+        a      & u      & v      & w \\
+        u^{*}  & b      & x      & y \\
+        \hline
+        v^{*}  & x^{*}  & c      & z \\
+        w^{*}  & y^{*}  & z^{*}  & d
+    \end{array}
+    \right)
+    =
+    \begin{pmatrix}
+        A & B\\
+        C & D
+    \end{pmatrix},
+\end{equation*}
+donde cada bloque reúne los elementos matriciales del subsistema $B$ para índices fijos del subsistema $A$. Por definición, transponer sólo el segundo subsistema equivale a transponer cada bloque:
+\begin{align*}
+    \rho_{AB}^{T_B}
+    &=
+    \begin{pmatrix}
+        A^{T} & B^{T}\\
+        C^{T} & D^{T}
+    \end{pmatrix}\\[0.2cm]
+    &=
+    \left(
+    \begin{array}{cc|cc}
+        a      & u^{*}  & v      & x \\
+        u      & b      & w      & y \\
+        \hline
+        v^{*}  & w^{*}  & c      & z^{*} \\
+        x^{*}  & y^{*}  & z      & d
+    \end{array}
+    \right).
+\end{align*}
+Por ejemplo, el coeficiente $w=\bra{00}\rho_{AB}\ket{11}$ ocupa originalmente la posición $(00,11)$. Al aplicar $T_B$, la componente $\ket{0}\bra{1}_B$ se convierte en $\ket{1}\bra{0}_B$, de modo que el mismo coeficiente pasa a la posición $(01,10)$. Análogamente, $x=\bra{01}\rho_{AB}\ket{10}$ pasa a la posición $(00,11)$.
+
+\section{Criterio de Peres--Horodecki}
+
+Si $\rho_{AB}$ es separable, entonces
+\begin{align*}
+    \rho_{AB}^{T_B}
+    &=\left(\I_A\otimes T_B\right)
+    \left(
+        \sum_{\alpha}p_{\alpha}
+        \rho_A^{(\alpha)}\otimes\rho_B^{(\alpha)}
+    \right)\\
+    &=\sum_{\alpha}p_{\alpha}
+        \rho_A^{(\alpha)}\otimes
+        \left(\rho_B^{(\alpha)}\right)^T.
+\end{align*}
+La transposición ordinaria preserva los autovalores de cada $\rho_B^{(\alpha)}$; por tanto, $\left(\rho_B^{(\alpha)}\right)^T\geq 0$. Como el producto tensorial y las combinaciones convexas preservan la positividad, se obtiene
+\begin{equation*}
+    \rho_{AB}\ \text{separable}
+    \quad\Longrightarrow\quad
+    \rho_{AB}^{T_B}\geq 0.
+\end{equation*}
+Esta condición se denomina \textbf{criterio PPT}, por la expresión inglesa \emph{positive partial transpose}.
+
+\begin{teorema}[Criterio de Peres--Horodecki]
+Para sistemas bipartitos de dimensiones $2\times 2$ o $2\times 3$ se cumple
+\begin{equation*}
+    \rho_{AB}\ \text{separable}
+    \quad\Longleftrightarrow\quad
+    \rho_{AB}^{T_B}\geq 0.
+\end{equation*}
+En dimensiones mayores, la positividad de la transpuesta parcial continúa siendo una condición necesaria para la separabilidad, pero deja de ser suficiente: existen estados entrelazados con transpuesta parcial positiva.
+\end{teorema}
+
+El criterio fue propuesto inicialmente por Peres como condición necesaria y completado por la familia Horodecki, quienes establecieron su suficiencia en los casos $2\times 2$ y $2\times 3$~\cite{Peres1996,Horodecki1996}.
+
+\section{Ejemplo: un estado de Bell}
+
+Consideremos el estado máximo entrelazado
+\begin{equation*}
+    \ket{\phi_+}
+    =\frac{1}{\sqrt{2}}
+    \left(\ket{00}+\ket{11}\right).
+\end{equation*}
+Su operador densidad y su transpuesta parcial respecto de $B$ son, respectivamente,
+\begin{equation*}
+    \rho_{\phi_+}
+    =\proj{\phi_+}
+    =\frac{1}{2}
+    \begin{pmatrix}
+        1 & 0 & 0 & 1\\
+        0 & 0 & 0 & 0\\
+        0 & 0 & 0 & 0\\
+        1 & 0 & 0 & 1
+    \end{pmatrix},
+    \qquad
+    \rho_{\phi_+}^{T_B}
+    =\frac{1}{2}
+    \begin{pmatrix}
+        1 & 0 & 0 & 0\\
+        0 & 0 & 1 & 0\\
+        0 & 1 & 0 & 0\\
+        0 & 0 & 0 & 1
+    \end{pmatrix}.
+\end{equation*}
+Los autovalores de la transpuesta parcial son
+\begin{equation*}
+    \operatorname{spec}\left(\rho_{\phi_+}^{T_B}\right)
+    =\left\{\frac{1}{2},\frac{1}{2},\frac{1}{2},-\frac{1}{2}\right\}.
+\end{equation*}
+Como aparece un autovalor negativo, $\rho_{\phi_+}^{T_B}\ngeq 0$ y el criterio PPT detecta inmediatamente que $\ket{\phi_+}$ es entrelazado.
+
+\section{Mapas positivos, mapas completamente positivos y operaciones físicas}
+
+La transposición ordinaria $T$ es un \textbf{mapa positivo}: si $\rho\geq 0$, entonces $\rho^{T}\geq 0$. Sin embargo, no es \textbf{completamente positivo}, pues al extenderla mediante la identidad a un subsistema auxiliar se obtiene
+\begin{equation*}
+    (\I_A\otimes T_B)(\rho_{\phi_+})
+    =\rho_{\phi_+}^{T_B}\ngeq 0.
+\end{equation*}
+Precisamente por eso la transposición parcial es útil como criterio matemático de entrelazamiento: puede revelar negatividad al actuar sobre un estado bipartito entrelazado. No debe interpretarse como una evolución física realizable localmente sobre $B$.
+
+Una operación cuántica determinista físicamente admisible debe representarse mediante un mapa \textbf{completamente positivo y preservador de la traza} (CPTP). En la representación de Kraus estudiada en la sección anterior, un canal tiene la forma
+\begin{equation*}
+    \mathcal{E}(\rho)
+    =\sum_k M_k\rho M_k^{\dagger},
+    \qquad
+    \sum_k M_k^{\dagger}M_k=\I,
+\end{equation*}
+lo que asegura que incluso la transformación extendida $\I_R\otimes\mathcal{E}$ preserve la positividad para cualquier sistema auxiliar $R$.
+
+\begin{observacion}
+La positividad exigida a un operador densidad o a un efecto de medición no debe confundirse con el signo de los autovalores de un Hamiltoniano. Un Hamiltoniano hermítico puede poseer energías negativas y seguir representando un sistema físico; de hecho, sumar una constante al Hamiltoniano sólo cambia el origen convencional de la energía. Lo inadmisible sería que una matriz densidad presentara probabilidades negativas, es decir, que dejara de ser positiva semidefinida.
+\end{observacion}
+
+% =========================
+%       MATERIA DE LA ÚLTIMA CLASE
+% =========================
+
+\section{Negatividad y norma traza}\label{subsec:negatividad}
+
+El criterio PPT permite detectar entrelazamiento cuando la transpuesta parcial de un estado deja de ser positiva. Esta idea puede refinarse cuantitativamente: en lugar de preguntar únicamente si existen autovalores negativos de $\rho_{AB}^{T_B}$, se mide cuánto peso espectral posee su parte negativa.
+
+\begin{definicion}[Norma traza]
+Sea $X$ un operador lineal sobre un espacio de Hilbert de dimensión finita. La \textbf{norma traza} de $X$ se define por
+\begin{equation*}
+    \|X\|_1
+    :=\Tr\!\left(\sqrt{X^{\dagger}X}\right)
+    =\sum_j s_j(X),
+\end{equation*}
+donde $s_j(X)$ son los valores singulares de $X$, es decir, los autovalores no negativos de $\sqrt{X^{\dagger}X}$.
+\end{definicion}
+
+Si $X=X^{\dagger}$ es hermítico, sus valores singulares son los valores absolutos de sus autovalores. Por consiguiente,
+\begin{equation*}
+    \|X\|_1=\sum_j \left|\lambda_j(X)\right|.
+\end{equation*}
+Esta observación es particularmente útil para $X=\rho_{AB}^{T_B}$, puesto que la transpuesta parcial de una matriz densidad sigue siendo hermítica, aunque no necesariamente positiva.
+
+\begin{definicion}[Negatividad]
+La \textbf{negatividad} de un estado bipartito $\rho_{AB}$ respecto de la bipartición $A|B$ se define como
+\begin{equation*}
+    \mathcal{N}(\rho_{AB})
+    :=\sum_{\lambda_j(\rho_{AB}^{T_B})<0}
+    \left|\lambda_j(\rho_{AB}^{T_B})\right|.
+\end{equation*}
+Es decir, $\mathcal{N}(\rho_{AB})$ cuantifica la suma de los módulos de los autovalores negativos producidos por la transposición parcial.
+\end{definicion}
+
+Para obtener una expresión equivalente en términos de la norma traza, definamos
+\begin{equation*}
+    P:=\sum_{\lambda_j\geq 0}\lambda_j\!\left(\rho_{AB}^{T_B}\right),
+    \qquad
+    \mathcal{N}:=\sum_{\lambda_j<0}\left|\lambda_j\!\left(\rho_{AB}^{T_B}\right)\right|.
+\end{equation*}
+Como la transposición parcial preserva la traza,
+\begin{equation*}
+    \Tr\!\left(\rho_{AB}^{T_B}\right)
+    =\Tr(\rho_{AB})=1,
+\end{equation*}
+y, por tanto,
+\begin{equation*}
+    1
+    =\sum_j\lambda_j\!\left(\rho_{AB}^{T_B}\right)
+    =P-\mathcal{N}.
+\end{equation*}
+De aquí se sigue que $P=1+\mathcal{N}$. Por otra parte,
+\begin{equation*}
+    \left\|\rho_{AB}^{T_B}\right\|_1
+    =P+\mathcal{N}
+    =1+2\mathcal{N},
+\end{equation*}
+de modo que
+\begin{equation*}
+    \boxed{
+    \mathcal{N}(\rho_{AB})
+    =\frac{1}{2}\left(
+        \left\|\rho_{AB}^{T_B}\right\|_1-1
+    \right)}.
+\end{equation*}
+
+La negatividad está directamente vinculada con el criterio PPT. Si $\rho_{AB}$ es separable, entonces $\rho_{AB}^{T_B}\geq 0$, por lo que
+\begin{equation*}
+    \rho_{AB}\ \text{separable}
+    \quad\Longrightarrow\quad
+    \mathcal{N}(\rho_{AB})=0.
+\end{equation*}
+En sistemas $2\times 2$ y $2\times 3$, el recíproco también es cierto, pues en esas dimensiones el criterio PPT es necesario y suficiente. En dimensiones mayores pueden existir estados entrelazados PPT; en tales casos, la negatividad se anula aunque el estado no sea separable. Por ello, en general, $\mathcal{N}$ cuantifica el entrelazamiento detectado por la pérdida de positividad de la transpuesta parcial, denominado también entrelazamiento NPT.
+
+En particular, para el estado de Bell analizado anteriormente,
+\begin{equation*}
+    \operatorname{spec}\left(\rho_{\phi_+}^{T_B}\right)
+    =\left\{\frac{1}{2},\frac{1}{2},\frac{1}{2},-\frac{1}{2}\right\},
+\end{equation*}
+por lo cual
+\begin{equation*}
+    \mathcal{N}(\rho_{\phi_+})=\frac{1}{2}.
+\end{equation*}
+
+\section{Convexidad y mezcla clásica de estados}
+
+Una propiedad fundamental de la norma traza es su convexidad. Sean $\rho_{AB}^{(\alpha)}$ estados bipartitos y sean $p_\alpha\geq 0$ probabilidades tales que $\sum_\alpha p_\alpha=1$. Para el estado mezcla
+\begin{equation*}
+    \rho_{AB}=\sum_\alpha p_\alpha\rho_{AB}^{(\alpha)},
+\end{equation*}
+la linealidad de la transposición parcial y la desigualdad triangular implican
+\begin{align*}
+    \left\|\rho_{AB}^{T_B}\right\|_1
+    &=\left\|
+        \sum_\alpha p_\alpha
+        \left(\rho_{AB}^{(\alpha)}\right)^{T_B}
+      \right\|_1 \\
+    &\leq
+      \sum_\alpha p_\alpha
+      \left\|\left(\rho_{AB}^{(\alpha)}\right)^{T_B}\right\|_1.
+\end{align*}
+Sustituyendo la expresión de la negatividad en términos de la norma traza, se obtiene
+\begin{equation*}
+    \mathcal{N}\!\left(\sum_\alpha p_\alpha\rho_{AB}^{(\alpha)}\right)
+    \leq
+    \sum_\alpha p_\alpha\mathcal{N}\!\left(\rho_{AB}^{(\alpha)}\right).
+\end{equation*}
+
+Esta desigualdad afirma que la mezcla clásica de estados no puede producir, en promedio, más entrelazamiento NPT que el contenido en los estados que se están mezclando. Una medida de entrelazamiento físicamente admisible debe comportarse de forma compatible con la imposibilidad de aumentar entrelazamiento mediante operaciones locales y comunicación clásica; la negatividad satisface esta propiedad de monotonía.
+
+\section{Operaciones locales y comunicación clásica}\label{subsec:locc}
+
+Consideremos ahora un estado bipartito $\rho_{AB}$ distribuido entre dos observadores, convencionalmente llamados Alice y Bob. Alice posee el subsistema asociado a $\Hil_A$ y Bob el asociado a $\Hil_B$. Una operación es \textbf{local} si cada observador actúa únicamente sobre su propio subsistema. Si, además, los observadores pueden comunicar resultados clásicos y condicionar operaciones posteriores a dichos resultados, el procedimiento recibe el nombre de \textbf{operaciones locales y comunicación clásica}, abreviado \textbf{LOCC} por la expresión inglesa \emph{local operations and classical communication}.
+
+La noción de LOCC es central en teoría cuántica de la información: el entrelazamiento se entiende como un recurso no local precisamente porque no puede generarse a partir de estados separables empleando únicamente operaciones locales y comunicación clásica.
+
+\subsection*{Instrumento local y resultado de una medición}
+
+Una operación local realizada por Alice, con resultados clásicos posibles $i$, se describe mediante una familia de mapas completamente positivos $\{\mathcal{E}_{A,i}\}_i$. En representación de Kraus, cada resultado puede involucrar operadores $A_{i\alpha}$ sobre $\Hil_A$ tales que
+\begin{equation*}
+    \sum_{i,\alpha} A_{i\alpha}^{\dagger}A_{i\alpha}=\I_A.
+\end{equation*}
+La suma sobre los resultados define una operación determinista y preservadora de la traza. Aplicada al estado compuesto, la operación no normalizada asociada al resultado $i$ es
+\begin{equation*}
+    \widetilde{\rho}_{AB}^{(i)}
+    =\sum_\alpha
+    \left(A_{i\alpha}\otimes\I_B\right)
+    \rho_{AB}
+    \left(A_{i\alpha}^{\dagger}\otimes\I_B\right).
+\end{equation*}
+La probabilidad de obtener dicho resultado viene dada por
+\begin{equation*}
+    p_i=\Tr\!\left(\widetilde{\rho}_{AB}^{(i)}\right),
+\end{equation*}
+y, siempre que $p_i>0$, el estado condicionado posterior a la medición es
+\begin{equation*}
+    \rho_{AB}^{(i)}
+    =\frac{\widetilde{\rho}_{AB}^{(i)}}{p_i}.
+\end{equation*}
+En consecuencia, una medición cuyo resultado se conserva transforma el estado inicial en un ensamble clásico-cuántico:
+\begin{equation*}
+    \rho_{AB}
+    \longmapsto
+    \left\{p_i,\rho_{AB}^{(i)}\right\}_i.
+\end{equation*}
+
+Si el resultado no se registra, o si un observador externo sabe que la operación fue realizada pero no tiene acceso al valor de $i$, el estado que debe asignar al sistema es el estado no selectivo
+\begin{equation*}
+    \rho'_{AB}
+    =\sum_i p_i\rho_{AB}^{(i)}
+    =\sum_{i,\alpha}
+    \left(A_{i\alpha}\otimes\I_B\right)
+    \rho_{AB}
+    \left(A_{i\alpha}^{\dagger}\otimes\I_B\right).
+\end{equation*}
+Así se precisa la diferencia entre conocer el resultado de una medición y conocer únicamente que una operación cuántica tuvo lugar.
+
+\begin{observacion}
+En la representación de Kraus aparece la adjunta hermítica $A_{i\alpha}^{\dagger}$, no la transpuesta ordinaria $A_{i\alpha}^{T}$. Ambas coinciden únicamente en casos particulares, por ejemplo cuando los operadores tienen entradas reales en la base elegida.
+\end{observacion}
+
+\subsection*{Operación local de Alice y estado reducido de Bob}
+
+Si Alice realiza una operación local determinista y Bob no recibe el resultado clásico, el estado global $\rho_{AB}$ puede cambiar, pues pueden modificarse las correlaciones entre ambos subsistemas. Sin embargo, el estado reducido de Bob no puede alterarse mediante una operación local realizada a distancia. En efecto,
+\begin{align*}
+    \rho'_B
+    &=\Tr_A\!\left(\rho'_{AB}\right) \\
+    &=\Tr_A\!\left[
+        \sum_{i,\alpha}
+        \left(A_{i\alpha}\otimes\I_B\right)
+        \rho_{AB}
+        \left(A_{i\alpha}^{\dagger}\otimes\I_B\right)
+      \right] \\
+    &=\Tr_A\!\left[
+        \rho_{AB}
+        \left(
+            \sum_{i,\alpha}A_{i\alpha}^{\dagger}A_{i\alpha}
+            \otimes\I_B
+        \right)
+      \right] \\
+    &=\Tr_A(\rho_{AB}) \\
+    &=\rho_B.
+\end{align*}
+Este resultado expresa el principio de no señalización: sin comunicación clásica, Bob no puede determinar qué medición o canal local fue aplicado por Alice. Si Alice comunica el resultado $i$, Bob puede asignar el estado condicionado correspondiente; esta dependencia condicional no constituye comunicación superlumínica, pues requiere el envío del registro clásico.
+
+\section{Operaciones elementales en la realización de un canal local}
+
+Las operaciones locales empleadas en un protocolo LOCC pueden analizarse en términos de procedimientos físicos elementales. Para el subsistema de Alice, algunos de los más importantes son los siguientes.
+
+\begin{enumerate}
+    \item \textbf{Transformación unitaria local.} Si Alice deja evolucionar su subsistema mediante un operador unitario $U_A$, entonces
+    \begin{equation*}
+        \rho_{AB}
+        \longmapsto
+        \rho'_{AB}
+        =\left(U_A\otimes\I_B\right)
+        \rho_{AB}
+        \left(U_A^{\dagger}\otimes\I_B\right).
+    \end{equation*}
+    Esta operación corresponde, por ejemplo, a una evolución generada por un Hamiltoniano local. Al ser reversible y local, no modifica la cantidad de entrelazamiento entre $A$ y $B$.
+
+    \item \textbf{Medición proyectiva local.} Sea un observable de Alice con descomposición espectral
+    \begin{equation*}
+        S_A=\sum_k s_k P_A^{(k)},
+        \qquad
+        \sum_k P_A^{(k)}=\I_A.
+    \end{equation*}
+    La probabilidad de obtener el resultado $s_k$ es
+    \begin{equation*}
+        p_k
+        =\Tr\!\left[
+            \left(P_A^{(k)}\otimes\I_B\right)
+            \rho_{AB}
+        \right],
+    \end{equation*}
+    y el estado condicionado es
+    \begin{equation*}
+        \rho_{AB}^{(k)}
+        =\frac{
+            \left(P_A^{(k)}\otimes\I_B\right)
+            \rho_{AB}
+            \left(P_A^{(k)}\otimes\I_B\right)
+        }{p_k}.
+    \end{equation*}
+    Las mediciones proyectivas son un caso particular de los instrumentos descritos mediante operadores de Kraus.
+
+    \item \textbf{Adjuntar una ancilla local.} Alice puede añadir un sistema auxiliar $\mathcal{A}$ preparado en un estado fijo $\tau_{\mathcal{A}}$:
+    \begin{equation*}
+        \rho_{AB}
+        \longmapsto
+        \rho_{AB\mathcal{A}}'
+        =\rho_{AB}\otimes\tau_{\mathcal{A}}.
+    \end{equation*}
+    Si $\dim\Hil_A=n$ y $\dim\Hil_{\mathcal{A}}=m$, entonces el nuevo espacio local de Alice es
+    \begin{equation*}
+        \Hil_{A'}=\Hil_A\otimes\Hil_{\mathcal{A}},
+        \qquad
+        \dim\Hil_{A'}=nm.
+    \end{equation*}
+    Como la ancilla se incorpora localmente y sin correlaciones iniciales con Bob, esta operación no crea ni destruye entrelazamiento a través de la bipartición $A'|B$; sólo amplía el espacio disponible para realizar operaciones locales.
+
+    \item \textbf{Descartar un subsistema local.} Si Alice deja de tener acceso a la ancilla, el estado efectivo se obtiene tomando la traza parcial:
+    \begin{equation*}
+        \rho_{AB\mathcal{A}}
+        \longmapsto
+        \rho'_{AB}
+        =\Tr_{\mathcal{A}}\!\left(\rho_{AB\mathcal{A}}\right).
+    \end{equation*}
+    El descarte de información local es una operación irreversible: puede mantener o disminuir el entrelazamiento accesible entre Alice y Bob, pero no aumentarlo.
+\end{enumerate}
+
+Estas operaciones se reúnen en la descripción general de los canales cuánticos. En particular, todo canal local completamente positivo y preservador de la traza puede realizarse añadiendo una ancilla local en un estado fijo, aplicando una transformación unitaria sobre el sistema ampliado y descartando posteriormente la ancilla:
+\begin{equation*}
+    \mathcal{E}_A(\rho_A)
+    =\Tr_{\mathcal{A}}\!\left[
+        U_{A\mathcal{A}}
+        \left(\rho_A\otimes\tau_{\mathcal{A}}\right)
+        U_{A\mathcal{A}}^{\dagger}
+    \right].
+\end{equation*}
+Si, en vez de descartar toda la información de la ancilla, se la mide y se conserva un registro clásico del resultado, se obtiene un instrumento cuántico. La concatenación de instrumentos locales de Alice y Bob, donde cada elección posterior puede depender de los resultados clásicos comunicados previamente, constituye un protocolo LOCC.
+
+\begin{observacion}
+La transposición parcial no pertenece a esta clase de operaciones físicas locales, pues no es completamente positiva. Su función en el análisis del entrelazamiento es diagnóstica: al producir un operador no positivo para ciertos estados, permite detectar que dichos estados no pueden escribirse como mezclas convexas de estados producto.
+\end{observacion}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%5
+\end{document}

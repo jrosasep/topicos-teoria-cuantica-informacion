@@ -1,0 +1,418 @@
+% Este capítulo puede editarse y compilarse de forma individual.
+% Para compilar el libro completo, usa main.tex.
+\documentclass[../main.tex]{subfiles}
+\begin{document}
+\chapter{Medición, ensambles y \textbf{operador densidad}}
+
+
+El lenguaje de operadores densidad, ensambles y mediciones no aparece solamente por comodidad matemática: también es el lenguaje natural para formular con precisión qué información puede obtenerse de un sistema cuántico. Históricamente, esta cuestión quedó especialmente clara a partir de la discusión EPR--Bell. El teorema de Bell mostró que las correlaciones cuánticas entre sistemas que interactuaron en el pasado no pueden entenderse como simples correlaciones clásicas locales~\cite{Bell1964}. Sin embargo, esas correlaciones no permiten enviar mensajes superlumínicos, porque las estadísticas locales de una de las partes no dependen de qué medición elija realizar la otra.
+
+Una forma moderna de decir esto es que un mismo \textbf{operador densidad} puede admitir distintas descomposiciones como ensamble. Por ejemplo, un qubit completamente no polarizado puede escribirse como mezcla equiprobable en la base $\{\ket{0},\ket{1}\}$ o en cualquier otra base ortonormal. La física observable local está contenida en $\rho$, no en la ``historia'' particular del ensamble usado para prepararlo.
+
+Este punto fue crucial en los primeros años de la información cuántica. Herbert propuso el esquema FLASH, una tentativa de usar correlaciones tipo EPR y amplificación láser para distinguir, en el receptor, entre luz no polarizada preparada como mezcla de polarizaciones lineales y luz no polarizada preparada como mezcla de polarizaciones circulares~\cite{HerbertFLASH}. La idea era convertir una diferencia de preparación remota en una señal detectable. Wootters y Zurek mostraron poco después que una pieza esencial de ese razonamiento falla: no existe una máquina cuántica que copie perfectamente un estado arbitrario desconocido~\cite{WoottersZurek1982}. Este resultado, hoy llamado \textbf{teorema de no-cloning}, es uno de los puntos de partida conceptuales de la teoría moderna de la información cuántica.
+
+\begin{figure}[H]
+    \centering
+    \begin{tikzpicture}[
+    >=Latex, font=\small,
+    etapa/.style={draw=UdeCAzul, fill=UdeCAzulClaro, rounded corners, semithick,
+        align=center, text width=3.1cm, minimum height=1.0cm, inner sep=5pt},
+    nota/.style={align=left, text width=7.6cm, font=\footnotesize, anchor=west},
+    arrow/.style={->, thick, UdeCAzul}
+]
+    \node[etapa] (epr) {EPR\\correlaciones cuánticas};
+    \node[etapa, below=0.62cm of epr] (bell) {Bell\\no localidad cuántica};
+    \node[etapa, below=0.62cm of bell] (flash) {FLASH\\¿señalización superlumínica?};
+    \node[etapa, below=0.62cm of flash] (noclone) {no-cloning\\sin copias universales};
+    \node[etapa, below=0.62cm of noclone] (qi) {información cuántica};
+    \foreach \a/\b in {epr/bell,bell/flash,flash/noclone,noclone/qi}{\draw[arrow] (\a)--(\b);}
+    \node[nota, right=0.7cm of epr] {Estados compuestos con correlaciones no clásicas.};
+    \node[nota, right=0.7cm of bell] {Las variables locales clásicas no reproducen todas las predicciones cuánticas.};
+    \node[nota, right=0.7cm of flash] {¿Puede leerse localmente una elección remota de base?};
+    \node[nota, right=0.7cm of noclone] {La linealidad impide amplificar o copiar estados arbitrarios.};
+    \node[nota, right=0.7cm of qi] {Los qubits son recursos físicos, no sólo bits clásicos pequeños.};
+\end{tikzpicture}
+    \caption{Hilo histórico y conceptual que conecta medición, ensambles, no localidad, no-cloning e información cuántica.}
+    \label{fig:hilo-historico-qinfo}
+\end{figure}
+
+Consideremos un observable $O$. Como los observables en mecánica cuántica se representan mediante operadores hermíticos, sus autovalores son reales y, bajo hipótesis habituales, el operador admite una descomposición espectral en una base ortonormal de autoestados. Para fijar ideas, supongamos por simplicidad un espectro discreto y no degenerado. Entonces puede escribirse
+\begin{equation*}
+    O=\sum_i \lambda_i \proj{\lambda_i},
+    \qquad
+    O\ket{\lambda_i}=\lambda_i\ket{\lambda_i},
+\end{equation*}
+donde los autoestados satisfacen la relación de ortonormalidad
+\begin{equation*}
+    \braket{\lambda_i|\lambda_j}=\delta_{ij}.
+\end{equation*}
+
+Si el sistema se encuentra inicialmente en un estado $\ket{\psi}$ y se mide el observable $O$, el resultado posible de la medición es alguno de sus autovalores $\lambda_i$. De acuerdo con la \textbf{regla de Born}, la probabilidad de obtener el valor $\lambda_i$ es
+\begin{equation*}
+    P(\lambda_i \mid \ket{\psi}) = |\braket{\lambda_i|\psi}|^2.
+\end{equation*}
+Además, una vez realizada la medición y obtenido el resultado $\lambda_i$, el estado del sistema colapsa al autoestado correspondiente $\ket{\lambda_i}$. Es decir,
+\begin{equation*}
+    \ket{\psi}
+    \xrightarrow{\;\text{medición de }O\;}
+    \lambda_i,\;\ket{\lambda_i}.
+\end{equation*}
+
+En particular, si en una realización del experimento se obtiene el valor $\lambda_1$, entonces el sistema queda descrito por el estado $\ket{\lambda_1}$ y la probabilidad asociada a dicho resultado es
+\begin{equation*}
+    P(\lambda_1 \mid \ket{\psi}) = |\braket{\lambda_1|\psi}|^2.
+\end{equation*}
+Si el experimento se repite muchas veces, siempre preparando nuevamente el sistema en el mismo estado inicial $\ket{\psi}$, pueden obtenerse distintos resultados $\lambda_1,\lambda_2,\dots,\lambda_n$, cada uno con su respectiva frecuencia de aparición.
+
+Experimentalmente, si el resultado $\lambda_i$ aparece $n_i$ veces en un total de $N$ mediciones, se define la frecuencia relativa
+\begin{equation*}
+    P_{\mathrm{exp}}(\lambda_i \mid \ket{\psi}) = \frac{n_i}{N},
+\end{equation*}
+donde
+\begin{equation*}
+    \sum_i n_i = N.
+\end{equation*}
+En el límite de un gran número de mediciones,
+\begin{equation*}
+    \frac{n_i}{N} \longrightarrow |\braket{\lambda_i|\psi}|^2,
+    \qquad N\to\infty,
+\end{equation*}
+de modo que la frecuencia relativa medida experimentalmente se aproxima a la probabilidad predicha por la teoría.
+
+La idea puede representarse esquemáticamente de la siguiente manera:
+
+\begin{figure}[H]
+    \centering
+    \shorthandoff{<>}
+    \begin{tikzpicture}[
+    >=Latex, font=\small,
+    nodo/.style={draw=UdeCAzul, fill=UdeCAzulClaro, shape=ellipse, semithick, align=center},
+    subnodo/.style={draw=UdeCGris, fill=UdeCGris!15, shape=ellipse, semithick,
+        minimum width=0.9cm, minimum height=0.55cm, font=\footnotesize},
+    arrow/.style={->, thick, UdeCAzul},
+    texto/.style={align=center, font=\footnotesize}
+]
+    \node[nodo, minimum width=2.1cm, minimum height=2.4cm] (A) at (-4.85,0) {$\ket{\psi}$};
+    \node[nodo, minimum width=3.9cm, minimum height=2.8cm] (B) at (0,0) {};
+    \node[nodo, minimum width=2.7cm, minimum height=2.5cm] (C) at (4.75,0) {};
+
+    \node at (-0.85,0.72) {$\ket{\lambda_1}$};
+    \node at (0.15,0.72) {$\ket{\lambda_2}$};
+    \node at (1.05,0.18) {$\ket{\lambda_i}$};
+    \node[subnodo] at (-0.85,0.05) {$n_1$};
+    \node[subnodo] at (0.15,0.05) {$n_2$};
+    \node[subnodo] at (1.05,-0.48) {$n_i$};
+    \node at (0.1,-0.92) {$\cdots$};
+
+    \node at (4.35,0.55) {$\ket{\lambda_1}$};
+    \node at (4.85,0.02) {$\ket{\lambda_2}$};
+    \node at (5.30,-0.5) {$\ket{\lambda_i}$};
+
+    \draw[arrow] (A.east) -- node[texto, above, align=center] {medición de $O$\\sobre $N$ sistemas} (B.west);
+    \draw[arrow] (B.east) -- node[texto, above, align=center] {descripción\\estadística} (C.west);
+
+    \node[texto, text width=3.0cm, anchor=north] at ([yshift=-0.3cm]A.south)
+        {Todos los sistemas se preparan en el mismo $\ket{\psi}$.};
+    \node[texto, text width=3.9cm, anchor=north] at ([yshift=-0.3cm]B.south)
+        {Al medir $O$ sobre $N$ copias, los resultados se agrupan por frecuencias: $p_i\approx n_i/N$.};
+    \node[texto, text width=2.9cm, anchor=north] at ([yshift=-0.3cm]C.south)
+        {\textbf{Ensamble}\\$\{p_i,\ket{\lambda_i}\}_{i=1}^{n}$};
+\end{tikzpicture}
+    \caption{Esquema del paso desde un estado inicial puro hacia un ensamble estadístico de autoestados luego de medir el observable $O$.}
+    \label{fig:medicion-ensamble-centrada}
+\end{figure}
+
+
+Después de la medición, el conjunto total de sistemas ya no se describe, en general, mediante un único vector de estado, sino mediante un \emph{ensamble} de estados. En este caso, el ensamble queda caracterizado por los pares
+\begin{equation*}
+    \{\,p_i,\ket{\lambda_i}\,\}_{i=1}^n,
+\end{equation*}
+donde $p_i$ representa la probabilidad de que el sistema se encuentre en el estado $\ket{\lambda_i}$ luego de la medición. En el caso ideal considerado aquí,
+\begin{equation*}
+    p_i = P(\lambda_i \mid \ket{\psi}) = |\braket{\lambda_i|\psi}|^2.
+\end{equation*}
+
+Para describir cuánticamente este ensamble introducimos el \textbf{operador densidad}
+\begin{equation*}
+    \rho = \sum_i p_i \proj{\lambda_i}.
+\end{equation*}
+Más generalmente, para un ensamble arbitrario de la forma
+\begin{equation*}
+    \{\,p_i,\ket{\psi_i}\,\}_{i\in I},
+\end{equation*}
+el \textbf{operador densidad} se escribe como
+\begin{equation*}
+    \rho = \sum_i p_i \proj{\psi_i}.
+\end{equation*}
+
+Aquí, $\rho$ es el \textbf{operador densidad} asociado al estado mixto del sistema; los coeficientes $p_i$ satisfacen
+\begin{equation*}
+    p_i \ge 0,
+    \qquad
+    \sum_i p_i = 1,
+\end{equation*}
+y cada operador
+\begin{equation*}
+    \proj{\psi_i}
+\end{equation*}
+es un proyector de rango uno sobre el estado $\ket{\psi_i}$. En dimensión finita, si el espacio de Hilbert del sistema tiene dimensión $d$, entonces $\rho$ puede representarse mediante una matriz cuadrada de orden $d\times d$.
+
+En particular, si el sistema está con certeza en un único estado $\ket{\psi}$, entonces el ensamble corresponde a un estado puro y el \textbf{operador densidad} se reduce a
+\begin{equation*}
+    \rho = \proj{\psi}.
+\end{equation*}
+En cambio, cuando intervienen varios estados con distintas probabilidades, el sistema queda descrito por un estado mixto. 
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\section{Propiedades básicas del \textbf{operador densidad}}
+
+Sea un ensamble cuántico de la forma
+\begin{equation*}
+    \{\,p_i,\ket{\psi_i}\,\}_{i\in I},
+\end{equation*}
+donde $p_i\geq 0$ para todo $i$ y
+\begin{equation*}
+    \sum_i p_i = 1.
+\end{equation*}
+El \textbf{operador densidad} asociado a este ensamble se define por
+\begin{equation*}
+    \rho = \sum_i p_i \proj{\psi_i}.
+\end{equation*}
+
+Conviene estudiar ciertas propiedades de $\rho$, pues ellas caracterizan de manera general a los estados cuánticos en esta formulación.
+
+\subsection*{Traza de $\rho$}
+
+Calculemos primero la traza de $\rho$:
+\begin{align*}
+    \Tr(\rho)
+    &= \Tr\left(\sum_i p_i \proj{\psi_i}\right) \\
+    &= \sum_i p_i \Tr\left(\proj{\psi_i}\right) \\
+    &= \sum_i p_i \braket{\psi_i|\psi_i} \\
+    &= \sum_i p_i \\
+    &= 1.
+\end{align*}
+Aquí hemos usado que cada estado $\ket{\psi_i}$ está normalizado, es decir,
+\begin{equation*}
+    \braket{\psi_i|\psi_i}=1.
+\end{equation*}
+
+Por lo tanto,
+\begin{equation*}
+    \Tr(\rho)=1.
+\end{equation*}
+
+Esta condición expresa que la suma total de probabilidades del ensamble es igual a uno. En este sentido, la condición de traza uno no es un mero artificio algebraico, sino la traducción operatorial de la normalización probabilística del sistema cuántico.
+
+\subsection*{Positividad de $\rho$}
+
+Sea ahora $\ket{\varphi}$ un estado arbitrario del espacio de Hilbert. Entonces
+\begin{align*}
+    \braket{\varphi|\rho|\varphi}
+    &= \braket{\varphi\left|\sum_i p_i \proj{\psi_i}\right|\varphi} \\
+    &= \sum_i p_i \braket{\varphi|\psi_i}\braket{\psi_i|\varphi} \\
+    &= \sum_i p_i \left|\braket{\varphi|\psi_i}\right|^2 \\
+    &\geq 0.
+\end{align*}
+Como esto vale para todo $\ket{\varphi}$, se concluye que
+\begin{equation*}
+    \rho \geq 0.
+\end{equation*}
+Es decir, $\rho$ es un operador semidefinido positivo.
+
+Esta propiedad garantiza que las probabilidades calculadas a partir de $\rho$ sean siempre no negativas. Equivalentemente, todos los valores propios de $\rho$ son reales y satisfacen
+\begin{equation*}
+    \lambda_k \geq 0.
+\end{equation*}
+
+En resumen, un \textbf{operador densidad} debe satisfacer las dos condiciones fundamentales
+\begin{equation*}
+    \Tr(\rho)=1,
+    \qquad
+    \rho\geq 0.
+\end{equation*}
+
+\subsection*{Comentario espectral}
+
+En dimensión finita, el operador $\rho$ puede diagonalizarse, pues es hermítico. Por tanto, existe una base ortonormal de autoestados $\{\ket{k}\}$ tal que
+\begin{equation*}
+    \rho = \sum_k \lambda_k \proj{k},
+\end{equation*}
+con $\lambda_k\geq 0$ y
+\begin{equation*}
+    \sum_k \lambda_k = 1.
+\end{equation*}
+
+Formalmente, los valores propios se obtienen resolviendo el polinomio característico de $\rho$. Sin embargo, en dimensiones altas no siempre existe una expresión cerrada en términos de radicales para dichas raíces. Por ello, en mecánica cuántica suele ser más importante el teorema espectral y las propiedades estructurales de $\rho$ que la obtención explícita de sus autovalores en forma analítica.
+
+\subsection*{Estados puros y estados mixtos}
+
+Una distinción central en esta formulación es la que existe entre estados puros y estados mixtos.
+
+Diremos que $\rho$ representa un \textbf{estado puro} si
+\begin{equation*}
+    \Tr(\rho^2)=1.
+\end{equation*}
+En ese caso, necesariamente
+\begin{equation*}
+    \rho = \proj{\psi}
+\end{equation*}
+para algún estado normalizado $\ket{\psi}$. Es decir, $\rho$ es un proyector de rango uno sobre un único estado cuántico.
+
+En cambio, si
+\begin{equation*}
+    \Tr(\rho^2)<1,
+\end{equation*}
+entonces $\rho$ representa un \textbf{estado mixto}, esto es, una mezcla estadística de distintos estados.
+
+En efecto, si
+\begin{equation*}
+    \rho=\sum_k \lambda_k \proj{k},
+\end{equation*}
+entonces
+\begin{equation*}
+    \Tr(\rho^2)=\sum_k \lambda_k^2.
+\end{equation*}
+Como $\lambda_k\geq 0$ y $\sum_k\lambda_k=1$, se tiene
+\begin{equation*}
+    \sum_k \lambda_k^2 \leq 1,
+\end{equation*}
+y la igualdad sólo ocurre cuando uno de los $\lambda_k$ es igual a $1$ y todos los demás son nulos. Ese caso corresponde precisamente a un estado puro.
+
+\subsection*{Convexidad del conjunto de estados}
+
+El conjunto de operadores densidad es convexo. En efecto, si $\rho_1$ y $\rho_2$ son operadores densidad y $\alpha\in[0,1]$, entonces
+\begin{equation*}
+    \rho = \alpha \rho_1 + (1-\alpha)\rho_2
+\end{equation*}
+también es un \textbf{operador densidad}.
+
+En primer lugar,
+\begin{align*}
+    \Tr(\rho)
+    &= \Tr\bigl(\alpha \rho_1 + (1-\alpha)\rho_2\bigr) \\
+    &= \alpha \Tr(\rho_1) + (1-\alpha)\Tr(\rho_2) \\
+    &= \alpha + (1-\alpha) \\
+    &= 1.
+\end{align*}
+Además, para todo $\ket{\varphi}$,
+\begin{align*}
+    \braket{\varphi|\rho|\varphi}
+    &= \alpha \braket{\varphi|\rho_1|\varphi}
+    + (1-\alpha)\braket{\varphi|\rho_2|\varphi} \\
+    &\geq 0,
+\end{align*}
+pues $\rho_1\geq 0$ y $\rho_2\geq 0$.
+
+Por tanto, $\rho$ también satisface las condiciones requeridas.
+
+Geométricamente, esto significa que los estados cuánticos forman un conjunto convexo: los estados puros se ubican en el borde de dicho conjunto, mientras que los estados mixtos aparecen en su interior como combinaciones convexas de estados.
+
+\section{Formulación moderna de los postulados}
+
+La formulación en términos de \textbf{operador densidad} permite expresar los postulados de la mecánica cuántica de una manera más general y unificada, pues incluye tanto estados puros como estados mixtos.
+
+\subsection*{1. Estados}
+
+Todo sistema cuántico está descrito por un \textbf{operador densidad} $\rho$ que actúa sobre un espacio de Hilbert $\Hil$ y satisface
+\begin{equation*}
+    \rho \geq 0,
+    \qquad
+    \Tr(\rho)=1.
+\end{equation*}
+
+Además:
+\begin{itemize}
+    \item $\rho$ representa un estado puro si y sólo si
+    \begin{equation*}
+        \Tr(\rho^2)=1.
+    \end{equation*}
+
+    \item $\rho$ representa un estado mixto si y sólo si
+    \begin{equation*}
+        \Tr(\rho^2)<1.
+    \end{equation*}
+\end{itemize}
+
+\subsection*{2. Evolución temporal}
+
+Si el sistema cuántico está aislado, su evolución es unitaria. En términos del \textbf{operador densidad},
+\begin{equation*}
+    \rho(t)=U(t,t_0)\,\rho(t_0)\,U^\dagger(t,t_0),
+\end{equation*}
+donde $U(t,t_0)$ es un operador unitario.
+
+Si el Hamiltoniano $H$ es independiente del tiempo, entonces
+\begin{equation*}
+    U(t,t_0)=\ee^{-\frac{\ii}{\hbar}H(t-t_0)}.
+\end{equation*}
+
+Equivalentemente, $\rho$ satisface la ecuación de von Neumann
+\begin{equation*}
+    \ii\hbar \frac{d\rho}{dt} = [H,\rho].
+\end{equation*}
+
+\subsection*{3. Mediciones}
+
+Sea $O$ un observable. Su descomposición espectral puede escribirse como
+\begin{equation*}
+    O=\sum_i \lambda_i \Pi_i,
+\end{equation*}
+donde $\lambda_i\in\R$ son los valores propios de $O$ y $\Pi_i$ son los proyectores ortogonales asociados.
+
+La probabilidad de obtener el resultado $\lambda_i$ cuando el sistema está descrito por $\rho$ viene dada por la \textbf{regla de Born}
+\begin{equation*}
+    P(\lambda_i\mid \rho)=\Tr(\Pi_i \rho).
+\end{equation*}
+
+En el caso no degenerado,
+\begin{equation*}
+    \Pi_i=\proj{\lambda_i},
+\end{equation*}
+y entonces
+\begin{equation*}
+    P(\lambda_i\mid \rho)
+    =\Tr\bigl(\proj{\lambda_i}\rho\bigr)
+    =\braket{\lambda_i|\rho|\lambda_i}.
+\end{equation*}
+
+Si el resultado de la medición es $\lambda_i$, el estado posterior a la medición queda dado por
+\begin{equation*}
+    \rho \longmapsto \rho_i'=
+    \frac{\Pi_i \rho \Pi_i}{\Tr(\Pi_i\rho)}.
+\end{equation*}
+
+En el caso ideal no degenerado, si $\Pi_i=\proj{\lambda_i}$, entonces el estado posterior es
+\begin{equation*}
+    \rho_i'=\proj{\lambda_i}.
+\end{equation*}
+
+\paragraph{Observación.}
+Si se realizan mediciones proyectivas suficientemente frecuentes sobre un sistema, su evolución puede verse fuertemente inhibida. Este fenómeno se conoce como \textbf{efecto Zeno cuántico}.
+
+\subsection*{4. Sistemas compuestos}
+
+Si un sistema total está formado por dos subsistemas con espacios de Hilbert $\Hil_1$ y $\Hil_2$, entonces el espacio de Hilbert total es
+\begin{equation*}
+    \Hil_T = \Hil_1 \otimes \Hil_2.
+\end{equation*}
+
+El estado del sistema compuesto está descrito por un \textbf{operador densidad}
+\begin{equation*}
+    \rho \in \operatorname{End}(\Hil_T).
+\end{equation*}
+
+Un estado compuesto se dice \textbf{separable} si puede escribirse en la forma
+\begin{equation*}
+    \rho = \sum_i p_i\, \rho_1^{(i)}\otimes \rho_2^{(i)},
+\end{equation*}
+donde cada $\rho_1^{(i)}$ y $\rho_2^{(i)}$ es un \textbf{operador densidad} sobre $\Hil_1$ y $\Hil_2$, respectivamente.
+
+Si un estado no puede escribirse de esa manera, entonces se trata de un estado \textbf{entrelazado}.
+
+En definitiva, esta formulación resume de manera compacta la estructura moderna de la mecánica cuántica: los estados se describen por operadores densidad, su evolución por \textbf{transformaciones unitarias}, las mediciones por proyectores y probabilidades dadas por la \textbf{regla de Born}, y los sistemas compuestos mediante productos tensoriales de espacios de Hilbert.
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\newpage
+\end{document}

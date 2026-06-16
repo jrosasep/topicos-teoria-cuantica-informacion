@@ -1,0 +1,108 @@
+% Este capítulo puede editarse y compilarse de forma individual.
+% Para compilar el libro completo, usa main.tex.
+\documentclass[../main.tex]{subfiles}
+\begin{document}
+\chapter*{Introducción}
+\addcontentsline{toc}{chapter}{Introducción}
+\markboth{Introducción}{Introducción}
+
+El presente documento reúne y reorganiza contenidos del curso \emph{Tópicos de Teoría Cuántica de la Información}, impartido por el profesor Aldo Patricio Delgado. Su propósito es servir como \textbf{material personal de estudio y apoyo}: no constituye un apunte oficial del curso ni reemplaza las clases o la lectura de las fuentes originales.
+
+El texto surge de los apuntes tomados por el autor durante las clases y posteriormente transcritos a \LaTeX. Esta base fue complementada con los artículos proporcionados por el profesor a través de Microsoft Teams: la propuesta FLASH de Herbert \cite{HerbertFLASH}, el teorema de no-cloning de Wootters y Zurek \cite{WoottersZurek1982}, el copiado aproximado universal de Bu\v{z}ek y Hillery \cite{BuzekHillery1996}, y el análisis de Gisin sobre clonado y no señalización \cite{Gisin1998}.
+
+Se utilizaron \emph{ChatGPT Plus} y \emph{Claude Opus 4.8} como herramientas de apoyo para la asistencia en \LaTeX, la generación y edición de figuras en TikZ, la organización expositiva y la revisión de redacción y de coherencia matemática local. El contenido fue revisado y editado por el autor antes de incorporarse; las fuentes académicas del material continúan siendo las clases y la bibliografía citada, y la responsabilidad por su selección y por eventuales errores remanentes recae en el autor.
+
+Conceptualmente, el apunte parte de la formulación estándar de la mecánica cuántica en espacios de Hilbert y avanza desde los postulados, los operadores densidad y los sistemas compuestos hacia problemas propios de la información cuántica: el teorema de no-cloning, los estados de Bell, la teleportación, las mediciones generalizadas, los canales cuánticos y la separabilidad. La mecánica cuántica se entiende aquí como una teoría predictiva: sus postulados establecen cómo se representan los estados, cómo evolucionan y cómo se asignan probabilidades a los resultados de medición.
+
+
+\section*{Preliminares y notación}
+\addcontentsline{toc}{section}{Preliminares y notación}
+
+Esta sección reúne, a modo de referencia, las definiciones y resultados de álgebra lineal y mecánica cuántica que se emplean de manera recurrente en el resto del texto. Salvo mención explícita, todos los espacios de Hilbert se suponen complejos y de dimensión finita.
+
+\subsection*{Espacios de Hilbert y notación de Dirac}
+
+\begin{definicion}[Espacio de Hilbert finito]
+Un \textbf{espacio de Hilbert} de dimensión finita $\Hil$ es un espacio vectorial complejo dotado de un \textbf{producto interno} $\braket{\cdot|\cdot}:\Hil\times\Hil\to\C$, lineal en su segundo argumento y antilineal en el primero, tal que $\braket{\psi|\psi}\ge 0$, con igualdad si y sólo si $\ket{\psi}=0$.
+\end{definicion}
+
+Siguiendo la \textbf{notación de Dirac}, los vectores se escriben como \emph{kets} $\ket{\psi}\in\Hil$ y los funcionales lineales asociados como \emph{bras} $\bra{\psi}$, de modo que la acción de un bra sobre un ket es el producto interno $\braket{\phi|\psi}$. La norma de un estado es $\lVert\ket{\psi}\rVert=\sqrt{\braket{\psi|\psi}}$, y un estado \textbf{normalizado} satisface $\braket{\psi|\psi}=1$.
+
+\begin{definicion}[Base ortonormal y resolución de la identidad]
+Una familia $\{\ket{i}\}_{i=1}^{d}$ es una \textbf{base ortonormal} de $\Hil$ si $\braket{i|j}=\delta_{ij}$ y genera todo el espacio. En tal caso, todo $\ket{\psi}\in\Hil$ se expande como $\ket{\psi}=\sum_i c_i\ket{i}$, con $c_i=\braket{i|\psi}$, y se cumple la \textbf{relación de completitud} (o resolución de la identidad)
+\begin{equation*}
+    \sum_{i=1}^{d}\proj{i}=\I.
+\end{equation*}
+\end{definicion}
+
+\subsection*{Operadores lineales}
+
+El conjunto de operadores lineales $A:\Hil\to\Hil$ se denota $\operatorname{End}(\Hil)$ y es, a su vez, un espacio vectorial complejo de dimensión $d^2$, con base $\{\ketbra{i}{j}\}_{i,j=1}^{d}$. Las componentes matriciales de $A$ en una base ortonormal son $a_{ij}=\bra{i}A\ket{j}$. El \textbf{adjunto} $A^\dagger$ se define por $\braket{\phi|A\psi}=\braket{A^\dagger\phi|\psi}$ para todo par de vectores.
+
+\begin{definicion}[Clases de operadores]
+Un operador $A\in\operatorname{End}(\Hil)$ se dice:
+\begin{itemize}
+    \item \textbf{hermítico} (autoadjunto) si $A=A^\dagger$;
+    \item \textbf{unitario} si $A^\dagger A=AA^\dagger=\I$;
+    \item \textbf{normal} si $AA^\dagger=A^\dagger A$;
+    \item \textbf{positivo} (semidefinido positivo), y se escribe $A\ge 0$, si $\braket{\psi|A|\psi}\ge 0$ para todo $\ket{\psi}\in\Hil$.
+\end{itemize}
+Un \textbf{proyector ortogonal} es un operador $P$ que cumple $P=P^\dagger$ y $P^2=P$.
+\end{definicion}
+
+Tanto los operadores hermíticos como los unitarios son casos particulares de operadores normales. Para ellos vale el resultado estructural central:
+
+\begin{teorema}[Teorema espectral]
+Todo operador normal $A\in\operatorname{End}(\Hil)$ admite una \textbf{descomposición espectral}
+\begin{equation*}
+    A=\sum_{\lambda}\lambda\,P_\lambda,
+\end{equation*}
+donde la suma recorre los valores propios distintos $\lambda$ y $P_\lambda$ es el proyector ortogonal sobre el subespacio propio asociado. Los proyectores satisfacen
+\begin{equation*}
+    P_\lambda P_{\lambda'}=\delta_{\lambda\lambda'}P_\lambda,
+    \qquad
+    \sum_{\lambda}P_\lambda=\I.
+\end{equation*}
+Si $A$ es hermítico, sus valores propios son reales; si es unitario, tienen módulo unidad; si es positivo, son no negativos. En el caso no degenerado, $P_\lambda=\proj{\lambda}$ con $A\ket{\lambda}=\lambda\ket{\lambda}$.
+\end{teorema}
+
+\subsection*{Traza}
+
+\begin{definicion}[Traza]
+La \textbf{traza} de $A\in\operatorname{End}(\Hil)$ es la suma de sus elementos diagonales en cualquier base ortonormal,
+\begin{equation*}
+    \Tr(A)=\sum_{i=1}^{d}\bra{i}A\ket{i}.
+\end{equation*}
+\end{definicion}
+
+\begin{proposicion}[Propiedades de la traza]
+La traza es lineal, independiente de la base ortonormal elegida y \textbf{cíclica}, es decir, $\Tr(AB)=\Tr(BA)$ para todo par de operadores. En particular, $\Tr(\proj{\psi})=\braket{\psi|\psi}$ y $\Tr\!\bigl(\ketbra{\phi}{\psi}\bigr)=\braket{\psi|\phi}$.
+\end{proposicion}
+
+\subsection*{Sistemas compuestos y traza parcial}
+
+\begin{definicion}[Producto tensorial]
+A un sistema compuesto por dos partes, con espacios $\Hil_A$ y $\Hil_B$, se le asocia el \textbf{producto tensorial}
+\begin{equation*}
+    \Hil_{AB}=\Hil_A\otimes\Hil_B,
+    \qquad
+    \dim(\Hil_{AB})=\dim(\Hil_A)\,\dim(\Hil_B).
+\end{equation*}
+Si $\{\ket{i}_A\}$ y $\{\ket{\mu}_B\}$ son bases ortonormales de cada factor, entonces $\{\ket{i}_A\otimes\ket{\mu}_B\}$ es una base ortonormal de $\Hil_{AB}$.
+\end{definicion}
+
+\begin{definicion}[Traza parcial]
+La \textbf{traza parcial} sobre el subsistema $B$ es la aplicación lineal $\Tr_B:\operatorname{End}(\Hil_{AB})\to\operatorname{End}(\Hil_A)$ determinada por
+\begin{equation*}
+    \Tr_B\!\bigl(\ketbra{i}{j}_A\otimes\ketbra{\mu}{\nu}_B\bigr)
+    =\braket{\nu|\mu}\,\ketbra{i}{j}_A,
+\end{equation*}
+y extendida por linealidad. Dado un estado bipartito $\rho_{AB}$, el \textbf{estado reducido} de $A$ es $\rho_A=\Tr_B(\rho_{AB})$ y reproduce las estadísticas de cualquier medición local efectuada sobre $A$.
+\end{definicion}
+
+\begin{observacion}
+Estos elementos bastan para seguir el desarrollo posterior: los postulados se enuncian sobre $\Hil$ y $\operatorname{End}(\Hil)$; los estados mixtos se describen mediante operadores densidad (positivos y de traza unitaria); las mediciones se expresan con proyectores o efectos positivos junto con la traza; y los sistemas compuestos y sus correlaciones se analizan con el producto tensorial y la traza parcial.
+\end{observacion}
+
+\newpage
+\end{document}
