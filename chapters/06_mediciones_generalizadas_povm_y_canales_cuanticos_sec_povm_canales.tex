@@ -1,0 +1,225 @@
+% Este capítulo puede editarse y compilarse de forma individual.
+% Para compilar el libro completo, usa main.tex.
+\documentclass[../main.tex]{subfiles}
+\begin{document}
+\chapter{Mediciones generalizadas, POVM y canales cuánticos}\label{sec:povm-canales}
+
+Hasta ahora hemos descrito las mediciones cuánticas principalmente mediante observables hermíticos y proyectores ortogonales. Esa formulación es suficiente para introducir la regla de Born y el colapso proyectivo ideal, pero no es la forma más general en que una medición aparece en teoría cuántica de la información. En un laboratorio real intervienen detectores imperfectos, pérdidas, acoplamientos con aparatos macroscópicos y, muchas veces, una parte del sistema que no se observa directamente. Para describir esas situaciones se introduce el formalismo de las \textbf{mediciones generalizadas}.
+
+La idea central es separar dos niveles de descripción. Primero, las probabilidades de los resultados se determinan mediante una familia de operadores positivos $E_k$, llamados \textbf{efectos}. Segundo, el cambio de estado producido por la medición se describe mediante operadores $M_k$, llamados \textbf{operadores de Kraus}. Los efectos determinan la estadística observable; los operadores de Kraus contienen, además, información sobre la perturbación física que la medición produce sobre el estado.
+
+\section{Mediciones proyectivas como caso particular}
+
+Sea $O$ un observable hermítico en un espacio de Hilbert finito $\Hil$. Como $O=O^\dagger$, el operador es normal y admite una descomposición espectral de la forma
+\begin{equation*}
+    O=\sum_{\lambda}\lambda P_\lambda,
+\end{equation*}
+donde $P_\lambda$ es el proyector ortogonal sobre el subespacio propio asociado al valor propio $\lambda$. Los proyectores satisfacen
+\begin{equation*}
+    P_\lambda P_{\lambda'}=\delta_{\lambda\lambda'}P_\lambda,
+    \qquad
+    \sum_\lambda P_\lambda=\I.
+\end{equation*}
+En el caso no degenerado, cada proyector es de rango uno:
+\begin{equation*}
+    P_\lambda=\proj{\lambda},
+    \qquad
+    O\ket{\lambda}=\lambda\ket{\lambda}.
+\end{equation*}
+Si el sistema se encuentra en el estado $\rho$, la probabilidad de obtener el resultado $\lambda$ es
+\begin{equation*}
+    P(\lambda|\rho)=\Tr(P_\lambda\rho).
+\end{equation*}
+Esta expresión ya tiene la forma general que se usará más adelante: un operador positivo asociado al resultado y una traza contra el estado densidad.
+
+\begin{definicion}[POVM]
+Una \textbf{medida de operadores positivos}, o \textbf{POVM} por la expresión inglesa \emph{positive operator-valued measure}, es una colección de operadores
+\begin{equation*}
+    \{E_k\}_k
+\end{equation*}
+sobre $\Hil$ que satisface
+\begin{equation*}
+    E_k\geq 0,
+    \qquad
+    \sum_k E_k=\I.
+\end{equation*}
+Los operadores $E_k$ se llaman \textbf{efectos}. Si el estado del sistema es $\rho$, la probabilidad de obtener el resultado $k$ está dada por
+\begin{equation*}
+    P(k|\rho)=\Tr(E_k\rho).
+\end{equation*}
+\end{definicion}
+
+La positividad de $E_k$ garantiza que las probabilidades sean no negativas. En efecto, si $\rho\geq0$ y $E_k\geq0$, entonces
+\begin{equation*}
+    \Tr(E_k\rho)\geq0.
+\end{equation*}
+Por otra parte, la condición de completitud asegura la normalización:
+\begin{align*}
+    \sum_k P(k|\rho)
+    &=\sum_k\Tr(E_k\rho)\\
+    &=\Tr\left[\left(\sum_kE_k\right)\rho\right]\\
+    &=\Tr(\rho)\\
+    &=1.
+\end{align*}
+
+\begin{proposicion}
+Toda medición proyectiva es un caso particular de POVM.
+\end{proposicion}
+
+\begin{proof}
+Para una medición proyectiva asociada a un observable $O$, tomamos
+\begin{equation*}
+    E_\lambda=P_\lambda.
+\end{equation*}
+Como $P_\lambda$ es un proyector ortogonal, se tiene
+\begin{equation*}
+    P_\lambda=P_\lambda^\dagger,
+    \qquad
+    P_\lambda^2=P_\lambda.
+\end{equation*}
+Luego sus valores propios son $0$ o $1$, de modo que $P_\lambda\geq0$. Además, por la descomposición espectral,
+\begin{equation*}
+    \sum_\lambda P_\lambda=\I.
+\end{equation*}
+Así, la familia $\{P_\lambda\}_\lambda$ satisface las condiciones de un POVM. En consecuencia,
+\begin{equation*}
+    P(\lambda|\rho)=\Tr(P_\lambda\rho)
+\end{equation*}
+es simplemente la regla de Born escrita en el lenguaje de efectos positivos.
+\end{proof}
+
+\begin{observacion}
+En una medición proyectiva no degenerada sobre un espacio de dimensión $d$, aparecen naturalmente $d$ proyectores de rango uno. Sin embargo, un POVM general no está obligado a tener exactamente $d$ resultados. Puede tener menos resultados, más resultados, o incluso estar construido de manera que sus efectos no sean proyectores ortogonales. Si además se exige que el POVM sea informacionalmente completo, entonces se requieren suficientes efectos para reconstruir un operador densidad arbitrario; en dimensión $d$, esto exige resolver un espacio real de dimensión $d^2-1$ para los estados normalizados.
+\end{observacion}
+
+\section{Operadores de Kraus y estado posterior}
+
+El POVM determina las probabilidades de los resultados, pero por sí solo no fija de manera única el estado posterior a la medición. Para describir la transformación física del estado se introducen operadores $M_k$ tales que
+\begin{equation*}
+    E_k=M_k^\dagger M_k.
+\end{equation*}
+Esta escritura siempre es posible para cada $E_k\geq0$, pues todo operador positivo posee una raíz cuadrada positiva. Una elección canónica es
+\begin{equation*}
+    M_k=E_k^{1/2}.
+\end{equation*}
+Con esta convención, la probabilidad del resultado $k$ puede escribirse como
+\begin{align*}
+    P(k|\rho)
+    &=\Tr(E_k\rho)\\
+    &=\Tr(M_k^\dagger M_k\rho)\\
+    &=\Tr(M_k\rho M_k^\dagger),
+\end{align*}
+donde en la última igualdad se usó la ciclicidad de la traza.
+
+Si se obtiene el resultado $k$, el estado posterior normalizado se escribe
+\begin{equation*}
+    \rho_k=
+    \frac{M_k\rho M_k^\dagger}
+    {\Tr(M_k\rho M_k^\dagger)}
+    =
+    \frac{M_k\rho M_k^\dagger}{P(k|\rho)}.
+\end{equation*}
+Esta fórmula generaliza la regla de actualización proyectiva. En efecto, para una medición proyectiva basta tomar $M_\lambda=P_\lambda$, y se obtiene
+\begin{equation*}
+    \rho_\lambda=
+    \frac{P_\lambda\rho P_\lambda}
+    {\Tr(P_\lambda\rho)}.
+\end{equation*}
+
+\begin{observacion}
+En la literatura se habla usualmente de \textbf{operadores de Kraus}. En algunos apuntes o transcripciones aparece escrito como ``Krauss'', pero la denominación estándar en teoría de información cuántica es \emph{Kraus operators}.
+\end{observacion}
+
+Un punto importante es que los operadores $M_k$ no están determinados de manera única por los efectos $E_k$. Si $U_k$ es unitario y definimos
+\begin{equation*}
+    \widetilde M_k=U_kM_k,
+\end{equation*}
+entonces
+\begin{align*}
+    \widetilde M_k^\dagger\widetilde M_k
+    &=(U_kM_k)^\dagger(U_kM_k)\\
+    &=M_k^\dagger U_k^\dagger U_kM_k\\
+    &=M_k^\dagger M_k\\
+    &=E_k.
+\end{align*}
+Por tanto, $M_k$ y $\widetilde M_k$ definen el mismo efecto y, en consecuencia, la misma probabilidad:
+\begin{align*}
+    \Tr(\widetilde M_k\rho\widetilde M_k^\dagger)
+    &=\Tr(U_kM_k\rho M_k^\dagger U_k^\dagger)\\
+    &=\Tr(M_k\rho M_k^\dagger U_k^\dagger U_k)\\
+    &=\Tr(M_k\rho M_k^\dagger).
+\end{align*}
+Sin embargo, el estado posterior sí puede cambiar:
+\begin{equation*}
+    \widetilde\rho_k
+    =
+    \frac{\widetilde M_k\rho\widetilde M_k^\dagger}{P(k|\rho)}
+    =
+    U_k
+    \left(
+    \frac{M_k\rho M_k^\dagger}{P(k|\rho)}
+    \right)
+    U_k^\dagger.
+\end{equation*}
+En consecuencia, el POVM fija la estadística de la medición, pero no fija por completo la dinámica de actualización del estado.
+
+\begin{observacion}
+El estado $\rho_k$ no tiene por qué ser puro, aun cuando el resultado $k$ haya sido registrado. Tampoco tiene por qué ser ortogonal al estado asociado a otro resultado $k'$. Por ejemplo, en general no se cumple
+\begin{equation*}
+    \Tr(\rho_k\rho_{k'})=\delta_{kk'}.
+\end{equation*}
+Esta diferencia es una de las señales de que una medición generalizada no se comporta simplemente como una proyección ortogonal sobre autoespacios mutuamente excluyentes.
+\end{observacion}
+
+\section{Canales cuánticos al olvidar el resultado}
+
+Supongamos ahora que se realiza una medición generalizada, pero después se borra la información clásica sobre cuál resultado ocurrió. En ese caso no corresponde conservar un estado condicionado $\rho_k$, sino promediar sobre todos los resultados posibles. La transformación total es
+\begin{align*}
+    \rho
+    &\longmapsto
+    \sum_k P(k|\rho)\rho_k\\
+    &=\sum_k P(k|\rho)
+    \frac{M_k\rho M_k^\dagger}{P(k|\rho)}\\
+    &=\sum_k M_k\rho M_k^\dagger.
+\end{align*}
+Definimos entonces
+\begin{equation*}
+    \mathcal{E}(\rho)=\sum_k M_k\rho M_k^\dagger.
+\end{equation*}
+La aplicación $\mathcal{E}$ recibe el nombre de \textbf{canal cuántico}. La condición de completitud del POVM implica
+\begin{equation*}
+    \sum_k M_k^\dagger M_k=\I,
+\end{equation*}
+y por tanto el canal preserva la traza:
+\begin{align*}
+    \Tr[\mathcal{E}(\rho)]
+    &=\Tr\left(\sum_kM_k\rho M_k^\dagger\right)\\
+    &=\Tr\left[\left(\sum_kM_k^\dagger M_k\right)\rho\right]\\
+    &=\Tr(\rho)\\
+    &=1.
+\end{align*}
+
+Desde el punto de vista físico, un canal cuántico representa la evolución efectiva de un sistema cuando no se tiene acceso a todos los grados de libertad involucrados. Por ejemplo, si un qubit interactúa con un aparato de medición o con un medio externo, el sistema total puede evolucionar unitariamente, pero el subsistema observado queda descrito por una transformación no necesariamente unitaria. Esa transformación efectiva es precisamente lo que se modela mediante un canal.
+
+Un caso particularmente importante es el de una medición proyectiva cuyo resultado se olvida. Sea $\{\ket{i}\}_{i=1}^{d}$ una base ortonormal y sea
+\begin{equation*}
+    P_i=\proj{i}.
+\end{equation*}
+Si
+\begin{equation*}
+    \rho=\sum_{i,j}\rho_{ij}\ket{i}\bra{j},
+\end{equation*}
+entonces el canal asociado a medir en esa base y olvidar el resultado es
+\begin{align*}
+    \mathcal{D}(\rho)
+    &=\sum_i P_i\rho P_i\\
+    &=\sum_i\rho_{ii}\proj{i}.
+\end{align*}
+Los términos diagonales se conservan, pero las coherencias $\rho_{ij}$ con $i\neq j$ desaparecen. Esta es la forma algebraica elemental de la \textbf{decoherencia}: la superposición no desaparece por una contradicción lógica dentro del formalismo, sino porque la información de fase queda dispersa en grados de libertad que no se observan.
+
+\begin{observacion}
+La capacidad de un canal cuántico mide, en distintos sentidos técnicos, cuánta información puede transmitirse de manera fiable a través de él. En estas notas no desarrollaremos todavía esa teoría, pero conviene retener la idea operacional: un canal no describe sólo una ecuación abstracta para $\rho$, sino una situación física de transmisión, ruido, pérdida o interacción con un entorno.
+\end{observacion}
+
+\newpage
+\end{document}

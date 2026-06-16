@@ -1,0 +1,535 @@
+% Este capítulo puede editarse y compilarse de forma individual.
+% Para compilar el libro completo, usa main.tex.
+\documentclass[../main.tex]{subfiles}
+\begin{document}
+\chapter{Teleportación cuántica experimental e intercambio de entrelazamiento}
+
+En esta sección seguimos principalmente el artículo de Bouwmeester, Pan, Mattle, Eibl, Weinfurter y Zeilinger, donde se reporta la primera demostración experimental de teleportación cuántica usando fotones entrelazados por polarización~\cite{Bouwmeester1997}. La idea central de la clase es la siguiente: la teleportación no consiste en mover una partícula ni en copiar un estado, sino en transferir la información cuántica de un sistema hacia otro mediante tres ingredientes inseparables: un par EPR compartido, una medición conjunta en la base de Bell y un canal clásico que anuncia el resultado de dicha medición.
+
+En el lenguaje del apunte, identificaremos las dos polarizaciones ortogonales del fotón con la base computacional:
+\begin{equation*}
+    \ket{0}\equiv \ket{H},
+    \qquad
+    \ket{1}\equiv \ket{V}.
+\end{equation*}
+Así, un fotón de polarización desconocida se escribe como
+\begin{equation*}
+    \ket{T}_1=\alpha\ket{0}_1+\beta\ket{1}_1,
+    \qquad
+    |\alpha|^2+|\beta|^2=1.
+\end{equation*}
+La letra $T$ recuerda que este es el estado que se desea teleportar. El subíndice $1$ indica que inicialmente dicho estado está codificado en el fotón $1$.
+
+\begin{observacion}
+En el paper original se usa la notación de polarización lineal $\ket{\leftrightarrow}$ y $\ket{\updownarrow}$. En este apunte trabajaremos con $\ket{0}$ y $\ket{1}$ para mantener la misma notación usada en la discusión de qubits, compuertas y estados de Bell.
+\end{observacion}
+
+\section{El problema físico: transferir un estado sin medirlo completamente}
+
+Si Alice conoce clásicamente el estado $\ket{T}$, podría prepararlo de nuevo en otra partícula. Pero el problema de la teleportación es más fuerte: Alice puede recibir un estado desconocido, incluso uno que nadie conoce. En ese caso no puede medir el fotón $1$ para reconstruirlo, porque una medición ordinaria en una base fija proyectaría el estado y destruiría la superposición original.
+
+Por ejemplo, si Alice mide en la base computacional, entonces
+\begin{equation*}
+    \ket{T}_1=\alpha\ket{0}_1+\beta\ket{1}_1
+\end{equation*}
+colapsa a $\ket{0}_1$ con probabilidad $|\alpha|^2$ o a $\ket{1}_1$ con probabilidad $|\beta|^2$. Después de esa medición, la fase relativa entre $\alpha$ y $\beta$ ya no está disponible en el estado físico de un solo evento. Por eso, la estrategia de teleportación no intenta leer toda la información contenida en $\ket{T}$; en cambio, usa entrelazamiento para transferirla sin revelar cuáles eran $\alpha$ y $\beta$.
+
+\section{El canal EPR compartido}
+
+Alice y Bob comparten previamente un par entrelazado. Siguiendo el montaje del paper, tomamos el par auxiliar $2,3$ en el estado singlete
+\begin{equation*}
+    \ket{\psi_-}_{23}
+    =\frac{1}{\sqrt{2}}
+    \left(
+        \ket{0}_2\ket{1}_3-
+        \ket{1}_2\ket{0}_3
+    \right).
+\end{equation*}
+Alice posee los fotones $1$ y $2$, mientras que Bob posee el fotón $3$. El estado total antes de la medición de Alice es
+\begin{equation*}
+    \ket{\Psi}_0
+    =\ket{T}_1\ket{\psi_-}_{23}.
+\end{equation*}
+Escribiéndolo de manera explícita:
+\begin{align*}
+    \ket{\Psi}_0
+    &=
+    \left(
+        \alpha\ket{0}_1+\beta\ket{1}_1
+    \right)
+    \frac{1}{\sqrt{2}}
+    \left(
+        \ket{0}_2\ket{1}_3-
+        \ket{1}_2\ket{0}_3
+    \right)\notag\\
+    &=
+    \frac{1}{\sqrt{2}}
+    \left(
+        \alpha\ket{0}_1\ket{0}_2\ket{1}_3
+        -\alpha\ket{0}_1\ket{1}_2\ket{0}_3
+        +\beta\ket{1}_1\ket{0}_2\ket{1}_3
+        -\beta\ket{1}_1\ket{1}_2\ket{0}_3
+    \right).
+\end{align*}
+La clave consiste en reescribir los sistemas $1,2$ en la base de Bell. Para ello recordamos que
+\begin{align*}
+    \ket{0}_1\ket{0}_2
+    &=\frac{1}{\sqrt{2}}
+    \left(\ket{\phi_+}_{12}+\ket{\phi_-}_{12}\right),
+    &
+    \ket{1}_1\ket{1}_2
+    &=\frac{1}{\sqrt{2}}
+    \left(\ket{\phi_+}_{12}-\ket{\phi_-}_{12}\right),\\
+    \ket{0}_1\ket{1}_2
+    &=\frac{1}{\sqrt{2}}
+    \left(\ket{\psi_+}_{12}+\ket{\psi_-}_{12}\right),
+    &
+    \ket{1}_1\ket{0}_2
+    &=\frac{1}{\sqrt{2}}
+    \left(\ket{\psi_+}_{12}-\ket{\psi_-}_{12}\right).
+\end{align*}
+Entonces
+\begin{align*}
+    \ket{\Psi}_0
+    &=\frac{1}{2}
+    \left[
+        \alpha
+        \left(\ket{\phi_+}_{12}+\ket{\phi_-}_{12}\right)
+        \ket{1}_3
+        -\alpha
+        \left(\ket{\psi_+}_{12}+\ket{\psi_-}_{12}\right)
+        \ket{0}_3
+    \right.\\
+    &\hspace{1.6cm}
+    \left.
+        +\beta
+        \left(\ket{\psi_+}_{12}-\ket{\psi_-}_{12}\right)
+        \ket{1}_3
+        -\beta
+        \left(\ket{\phi_+}_{12}-\ket{\phi_-}_{12}\right)
+        \ket{0}_3
+    \right].
+\end{align*}
+Agrupando según el resultado de Bell en los fotones $1,2$, obtenemos
+\begin{align*}
+    \ket{\Psi}_0
+    &=
+    \frac{1}{2}
+    \left\{
+        \ket{\phi_+}_{12}
+        \left(-\beta\ket{0}_3+\alpha\ket{1}_3\right)
+        +
+        \ket{\phi_-}_{12}
+        \left(\beta\ket{0}_3+\alpha\ket{1}_3\right)
+    \right.\\
+    &\hspace{1.3cm}
+    \left.
+        -
+        \ket{\psi_+}_{12}
+        \left(\alpha\ket{0}_3-\beta\ket{1}_3\right)
+        -
+        \ket{\psi_-}_{12}
+        \left(\alpha\ket{0}_3+\beta\ket{1}_3\right)
+    \right\}.
+\end{align*}
+Es decir,
+\begin{align*}
+    \ket{\Psi}_0
+    &=
+    \frac{1}{2}
+    \left\{
+        \ket{\phi_+}_{12}\,\sigma_x\sigma_z\ket{T}_3
+        +
+        \ket{\phi_-}_{12}\,\sigma_x\ket{T}_3
+        -
+        \ket{\psi_+}_{12}\,\sigma_z\ket{T}_3
+        -
+        \ket{\psi_-}_{12}\,\ket{T}_3
+    \right\}.
+\end{align*}
+Salvo fases globales, esta identidad contiene todo el protocolo. Si Alice obtiene el resultado $\ket{\psi_-}_{12}$, el fotón de Bob queda inmediatamente en el estado $\ket{T}_3$. Si Alice obtiene otro resultado de Bell, Bob recibe una versión localmente transformada de $\ket{T}_3$ y puede corregirla aplicando una operación de Pauli adecuada, siempre que Alice le comunique clásicamente cuál resultado obtuvo.
+
+\begin{center}
+\renewcommand{\arraystretch}{1.25}
+\begin{tabular}{>{\centering\arraybackslash}p{0.25\textwidth} >{\centering\arraybackslash}p{0.36\textwidth} >{\centering\arraybackslash}p{0.25\textwidth}}
+\toprule
+\textbf{Resultado de Alice} & \textbf{Estado de Bob, salvo fase global} & \textbf{Corrección de Bob} \\
+\midrule
+$\ket{\psi_-}_{12}$ & $\ket{T}_3$ & $\I$ \\
+$\ket{\psi_+}_{12}$ & $\sigma_z\ket{T}_3$ & $\sigma_z$ \\
+$\ket{\phi_-}_{12}$ & $\sigma_x\ket{T}_3$ & $\sigma_x$ \\
+$\ket{\phi_+}_{12}$ & $\sigma_x\sigma_z\ket{T}_3$ & $\sigma_z\sigma_x$ \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\begin{observacion}
+En el experimento de Bouwmeester et al. no se implementa una medición de Bell completa determinista. El montaje identifica de manera inequívoca el resultado antisimétrico $\ket{\psi_-}_{12}$ mediante coincidencias en los dos detectores detrás de un divisor de haz. Por eso, en esa realización, la teleportación se verifica de manera condicionada: se acepta el evento cuando Alice detecta el resultado $\ket{\psi_-}_{12}$.
+\end{observacion}
+
+\section{Representación esquemática del protocolo}
+
+La figura siguiente reescribe la Fig. 1(a) del paper en la notación del apunte. El punto esencial es distinguir entre el canal cuántico y el canal clásico. El canal cuántico es el par EPR compartido; el canal clásico es el mensaje de Alice anunciando el resultado de su medición de Bell.
+
+\begin{figure}[htbp]
+    \centering
+    \shorthandoff{<>}
+    \begin{tikzpicture}[
+    >=Latex, font=\small,
+    aliceb/.style={draw=UdeCAzul, fill=UdeCAzul!15, rounded corners, semithick, align=center, text width=2.9cm, minimum height=1.2cm, inner sep=5pt},
+    bobb/.style={draw=UdeCAzul, fill=UdeCAzulClaro, rounded corners, semithick, align=center, text width=2.9cm, minimum height=1.2cm, inner sep=5pt},
+    fuente/.style={draw=UdeCGris, fill=UdeCGris!12, rounded corners, semithick, align=center, text width=2.8cm, minimum height=1.0cm, inner sep=5pt},
+    q/.style={circle, draw=UdeCAzul, fill=white, semithick, minimum size=0.7cm, font=\small},
+    qline/.style={->, thick, UdeCAzul},
+    par/.style={very thick, UdeCDorado},
+    clasica/.style={->, thick, dashed, UdeCGris},
+    lab/.style={font=\footnotesize, align=center, fill=white, inner sep=2pt}
+]
+    \node[aliceb] (alice) at (-3.5,0.7) {Alice\\medición de Bell};
+    \node[bobb] (bob) at (4.2,0.7) {Bob\\corrección $U_k$};
+    \node[fuente] (src) at (0,-2.05) {fuente EPR $\ket{\psi_-}_{23}$};
+    \node[q] (q1) at (-5.9,0.7) {$1$};
+    \node[lab, above=0.12cm of q1, text width=2.2cm] {$\ket{T}_1$ desconocido};
+    \node[q] (q2) at (-2.4,-1.15) {$2$};
+    \node[q] (q3) at (2.9,-1.15) {$3$};
+    \draw[qline] (q1) -- (alice.west);
+    \draw[qline] (q2) -- (alice.south east);
+    \draw[qline] (q3) -- (bob.south);
+    \draw[par] (q2) .. controls (-0.85,-0.42) and (1.45,-0.42) .. (q3)
+        node[midway, above, lab] {canal cuántico};
+    \draw[clasica] (alice.east) -- node[lab, above] {resultado $k$} (bob.west);
+\end{tikzpicture}
+    \caption{Esquema conceptual de teleportación cuántica. El par EPR constituye el canal cuántico; el resultado de la medición de Bell se transmite por un canal clásico.}
+    \label{fig:bouwmeester-protocolo}
+\end{figure}
+
+\section{Montaje experimental del paper}
+
+El montaje experimental usa conversión paramétrica descendente en un cristal no lineal. Un pulso ultravioleta atraviesa el cristal y puede producir un par entrelazado de fotones $2,3$. Luego el pulso es reflejado y atraviesa nuevamente el cristal, produciendo otro par; uno de esos fotones se prepara como el fotón $1$ que será teleportado y el otro sirve como señal de disparo. En el lenguaje del experimento, este disparo informa que un fotón que debe ser teleportado está en camino.
+
+Alice superpone los fotones $1$ y $2$ en un divisor de haz. Cuando hay una coincidencia entre los detectores $f_1$ y $f_2$, el montaje identifica el estado antisimétrico $\ket{\psi_-}_{12}$. En ese subensamble, el fotón $3$ de Bob debe encontrarse en la polarización original del fotón $1$. Bob verifica esto con un divisor de haz polarizante y detectores $d_1,d_2$.
+
+\begin{figure}[htbp]
+    \centering
+    \shorthandoff{<>}
+    \begin{tikzpicture}[
+    >=Latex, font=\small,
+    block/.style={draw=UdeCAzul, fill=UdeCAzulClaro, rounded corners, semithick, align=center, text width=2.4cm, minimum height=0.95cm, inner sep=4pt},
+    bobb/.style={draw=UdeCAzul, fill=UdeCAzul!15, rounded corners, semithick, align=center, text width=2.4cm, minimum height=0.95cm, inner sep=4pt},
+    aliceb/.style={draw=UdeCAzul, fill=UdeCAzul!15, rounded corners, semithick, align=center, text width=2.7cm, minimum height=0.95cm, inner sep=4pt},
+    det/.style={draw=UdeCGris, fill=UdeCGris!15, rounded corners, semithick, align=center, text width=0.7cm, minimum height=0.5cm, font=\footnotesize, inner sep=2pt},
+    bs/.style={draw=UdeCAzul, fill=UdeCAzul!15, diamond, aspect=1.5, semithick, inner sep=3pt, font=\small},
+    ruta/.style={->, thick, UdeCAzul, shorten >=2pt},
+    pump/.style={->, very thick, violet},
+    clasica/.style={->, thick, dashed, UdeCGris},
+    lab/.style={font=\footnotesize, align=center, fill=white, inner sep=1.5pt}
+]
+    \node[block] (cristal) at (-4.6,0) {cristal no lineal tipo II};
+    \node[det] (trig) at (-4.6,-1.9) {$p$};
+    \node[bs] (bs) at (-0.4,0) {BS};
+    \node[det] (f1) at (-1.7,1.7) {$f_1$};
+    \node[det] (f2) at (0.9,1.7) {$f_2$};
+    \node[bobb] (bob) at (4.5,0.15) {Bob: PBS, $d_1,d_2$};
+    \node[aliceb] (alice) at (-0.4,-1.95) {Alice: coincidencia $f_1f_2$};
+    \draw[pump] (-6.4,0) -- node[lab,above]{UV} (cristal.west);
+    \draw[ruta] (cristal.east) -- node[lab,above]{fotón $2$} (bs.west);
+    \draw[ruta] (cristal.east) .. controls (-3.0,-0.9) and (-1.8,-0.9) .. node[lab,below,pos=0.42]{fotón $1$} (bs.south west);
+    \draw[ruta] (cristal.north east) .. controls (-2.6,1.05) and (2.0,1.05) .. node[lab,above,pos=0.5]{fotón $3$} (bob.west);
+    \draw[ruta] (cristal.south) -- node[lab,left]{disparo} (trig.north);
+    \draw[ruta] (bs.north west) -- (f1.south);
+    \draw[ruta] (bs.north east) -- (f2.south);
+    \draw[clasica] (alice.east) .. controls (1.4,-1.6) and (3.4,-1.05) .. node[lab,below,pos=0.6]{mensaje clásico} (bob.south);
+\end{tikzpicture}
+    \caption{Redibujo esquemático del montaje de Bouwmeester et al. Alice mezcla los fotones $1$ y $2$ y detecta coincidencias; Bob analiza el fotón $3$ condicionado al anuncio clásico.}
+    \label{fig:bouwmeester-montaje}
+\end{figure}
+
+\section{Fuente de pares entrelazados: conversión paramétrica tipo II}
+
+La fuente EPR del experimento se basa en conversión paramétrica descendente tipo II. En este proceso, un fotón del pulso de bombeo puede decaer dentro del cristal en dos fotones de menor energía. En tipo II, los fotones emitidos tienen polarizaciones ortogonales. La geometría de emisión produce dos conos: en uno aparecen fotones con una polarización y en el otro fotones con la polarización ortogonal. En las intersecciones de los conos, no queda información que permita decidir qué alternativa ocurrió. Esa indistinguibilidad produce un estado entrelazado.
+
+\begin{figure}[htbp]
+    \centering
+    \shorthandoff{<>}
+    \begin{tikzpicture}[>=Latex, font=\small]
+    \draw[thick, UdeCAzul] (0,0.62) ellipse (3.2cm and 1.08cm);
+    \draw[thick, UdeCDorado] (0,-0.62) ellipse (3.2cm and 1.08cm);
+    \fill[black] (-1.2,0) circle (2.6pt);
+    \fill[black] (1.2,0) circle (2.6pt);
+    \draw[->, very thick, violet] (-5.2,0) -- (-3.45,0) node[midway, above]{UV};
+    \node[UdeCAzul, anchor=east] at (-3.5,1.0) {cono $H$};
+    \node[UdeCDorado, anchor=east] at (-3.5,-1.0) {cono $V$};
+    \draw[->, thick, UdeCAzul] (-1.2,0) -- (-2.15,1.4) node[above left]{modo $2$};
+    \draw[->, thick, UdeCAzul] (-1.2,0) -- (-2.15,-1.4) node[below left]{modo $3$};
+    \draw[->, thick, UdeCAzul] (1.2,0) -- (2.15,1.4) node[above right]{modo $2$};
+    \draw[->, thick, UdeCAzul] (1.2,0) -- (2.15,-1.4) node[below right]{modo $3$};
+\end{tikzpicture}
+    \caption{Esquema conceptual de conversión paramétrica descendente tipo II: los puntos de intersección de los conos definen los modos entrelazados.}
+    \label{fig:tipo-II-conos}
+\end{figure}
+
+\section{Por qué el divisor de haz identifica el estado antisimétrico}
+
+La medición de Bell del experimento descansa en la interferencia de dos fotones en un divisor de haz. Los fotones $1$ y $2$ se hacen indistinguibles temporal y espectralmente. Si llegan uno por cada puerto de entrada, hay dos caminos indistinguibles para que salgan uno por cada puerto: ambos transmitidos o ambos reflejados. Para estados simétricos, las amplitudes se cancelan en el canal de coincidencia; para el estado antisimétrico $\ket{\psi_-}_{12}$, el signo relativo cambia y las amplitudes se suman. Por eso una coincidencia $f_1f_2$ anuncia la proyección sobre $\ket{\psi_-}_{12}$.
+
+\begin{figure}[htbp]
+    \centering
+    \shorthandoff{<>}
+    \begin{tikzpicture}[
+    >=Latex, font=\small,
+    bs/.style={draw=UdeCAzul, fill=UdeCAzul!15, diamond, aspect=1.5, semithick, inner sep=5pt, font=\small},
+    det/.style={draw=UdeCGris, fill=UdeCGris!15, rounded corners, semithick, minimum width=1.0cm, minimum height=0.6cm, align=center},
+    line/.style={->, thick, UdeCAzul},
+    lab/.style={font=\footnotesize, align=center, fill=white, inner sep=2pt}
+]
+    \node[bs] (BS) at (0,0) {BS};
+    \node[det] (f1) at (-2.9,1.9) {$f_1$};
+    \node[det] (f2) at (2.9,1.9) {$f_2$};
+    \draw[line] (-4.0,-1.4) -- node[lab, above left]{fotón $1$} (BS.west);
+    \draw[line] (4.0,-1.4) -- node[lab, above right]{fotón $2$} (BS.east);
+    \draw[line] (BS.north west) -- (f1.south);
+    \draw[line] (BS.north east) -- (f2.south);
+\end{tikzpicture}
+    \caption{Analizador parcial de Bell mediante divisor de haz. La firma experimental de $\ket{\psi_-}_{12}$ es una coincidencia entre los detectores $f_1$ y $f_2$.}
+    \label{fig:bsm-beamsplitter}
+\end{figure}
+
+\section{Predicción experimental: coincidencias y región de teleportación}
+
+El experimento no observa directamente vectores de estado; observa tasas de coincidencia. Para verificar teleportación de un fotón preparado, por ejemplo, en la polarización $+45^\circ$, Bob analiza el fotón $3$ en la base $\{+45^\circ,-45^\circ\}$. Si ocurre la coincidencia $f_1f_2$, entonces el detector correspondiente a $+45^\circ$ debe permanecer con señal compatible con la teleportación, mientras que el detector ortogonal $-45^\circ$ debe mostrar un descenso pronunciado en la región de solapamiento temporal.
+
+\begin{figure}[htbp]
+    \centering
+    \shorthandoff{<>}
+    \begin{tikzpicture}[x=0.052cm, y=5.0cm, font=\small, >=Latex]
+    \fill[UdeCGris!18] (-18,0) rectangle (18,0.30);
+    \draw[->, thick] (-104,0) -- (106,0) node[below=1pt]{retardo};
+    \draw[->, thick] (-100,0) -- (-100,0.33) node[anchor=south west, font=\footnotesize]{coincidencias};
+    \draw[very thick, UdeCDorado] (-96,0.25) -- (96,0.25);
+    \draw[very thick, UdeCAzul] plot[smooth, domain=-96:96, samples=90] (\x,{0.25*(1-0.9*exp(-((\x)/30)^2))});
+    \draw[very thick, UdeCDorado] (46,0.285) -- (62,0.285) node[right, text=black]{$+45^\circ$};
+    \draw[very thick, UdeCAzul] (46,0.075) -- (62,0.075) node[right, text=black]{$-45^\circ$};
+    \node[font=\footnotesize] at (0,-0.05){solapamiento temporal};
+\end{tikzpicture}
+    \caption{Predicción cualitativa de la Fig. 3 del paper. Para teleportar $+45^\circ$, el canal ortogonal presenta un dip cerca del retardo nulo, mientras que el canal correcto permanece aproximadamente constante.}
+    \label{fig:prediccion-dip}
+\end{figure}
+
+La razón física es la siguiente. Fuera de la región de solapamiento, los fotones $1$ y $2$ son distinguibles y no hay una verdadera proyección de Bell; las coincidencias aparecen como eventos no correlacionados. En la región de solapamiento temporal, la interferencia de dos fotones permite seleccionar el estado antisimétrico. Allí el fotón $3$ muestra la polarización que tenía el fotón $1$.
+
+\section{Resultados del paper: visibilidades y coincidencias de tres y cuatro fotones}
+
+Bouwmeester et al. probaron el procedimiento para estados lineales $+45^\circ$, $-45^\circ$, $0^\circ$, $90^\circ$ y también para polarización circular. La señal característica es la visibilidad del dip cuando Bob analiza la polarización ortogonal al estado que se pretendía teleportar. En el artículo se reportan, para coincidencias de tres fotones después de sustraer el fondo accidental, visibilidades del orden de $0.57$ a $0.66$.
+
+\begin{center}
+\renewcommand{\arraystretch}{1.25}
+\begin{tabular}{>{\centering\arraybackslash}p{0.28\textwidth} >{\centering\arraybackslash}p{0.28\textwidth}}
+\toprule
+\textbf{Polarización teleportada} & \textbf{Visibilidad reportada} \\
+\midrule
+$+45^\circ$ & $0.63\pm0.02$ \\
+$-45^\circ$ & $0.64\pm0.02$ \\
+$0^\circ$ & $0.66\pm0.02$ \\
+$90^\circ$ & $0.61\pm0.02$ \\
+Circular & $0.57\pm0.02$ \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+El paper también discute una dificultad experimental importante: existen coincidencias espurias de tres fotones provenientes de la emisión de dos pares por una misma fuente. Estas no corresponden a teleportación real. Por ello se realizaron mediciones de cuatro coincidencias condicionando además al fotón de disparo. Al hacerlo, se elimina el fondo espurio sin necesidad de sustracción y se obtiene una visibilidad cercana a $70\%$ para dos estados no ortogonales. Este punto es esencial: verificar dos estados no ortogonales descarta una explicación puramente clásica basada sólo en una medición y re-preparación en una base fija.
+
+\begin{figure}[htbp]
+    \centering
+    \shorthandoff{<>}
+    \begin{tikzpicture}[x=0.052cm, y=0.0125cm, font=\small, >=Latex]
+    \fill[UdeCGris!18] (-18,0) rectangle (18,108);
+    \draw[->, thick] (-104,0) -- (106,0) node[below=1pt]{retardo};
+    \draw[->, thick] (-100,0) -- (-100,116) node[anchor=south west, font=\footnotesize]{cuentas};
+    \draw[very thick, UdeCDorado] plot[smooth, domain=-96:96, samples=90] (\x,{90+4*sin(\x/22)});
+    \draw[very thick, UdeCAzul] plot[smooth, domain=-96:96, samples=90] (\x,{90-68*exp(-((\x)/30)^2)});
+    \draw[very thick, UdeCDorado] (40,104) -- (56,104) node[right, text=black]{canal correcto};
+    \draw[very thick, UdeCAzul] (40,42) -- (56,42) node[right, text=black]{canal ortogonal};
+    \node[font=\footnotesize] at (0,-13){región de teleportación};
+\end{tikzpicture}
+    \caption{Redibujo cualitativo de las Figs. 4 y 5 del paper. El canal ortogonal presenta un dip en la región de solapamiento, mientras que el canal compatible con la polarización teleportada permanece alto.}
+    \label{fig:resultados-dips}
+\end{figure}
+
+\section{Por qué la teleportación no clona el estado}
+
+La teleportación parece, superficialmente, producir el estado $\ket{T}$ en el laboratorio de Bob. Sin embargo, no hay una copia adicional: durante la medición de Bell, el estado inicial del fotón $1$ se destruye. El sistema $1$ deja de estar en $\ket{T}_1$ y queda absorbido en un resultado conjunto de los sistemas $1,2$. Por eso el protocolo no contradice el teorema de no-cloning de Wootters y Zurek~\cite{WoottersZurek1982}.
+
+Una máquina de clonado perfecta debería realizar, para todo estado desconocido,
+\begin{equation*}
+    \ket{T}_a\ket{Q}_x
+    \longmapsto
+    \ket{T}_a\ket{T}_b\ket{\widetilde Q}_x.
+\end{equation*}
+La teleportación no tiene esta forma. Su estructura es más bien:
+\begin{equation*}
+    \ket{T}_1\ket{\psi_-}_{23}
+    \xrightarrow{\text{BSM sobre }1,2}
+    \ket{\text{resultado}}_{12}\otimes U\ket{T}_3,
+\end{equation*}
+con $U$ determinado por el resultado clásico. La información cuántica se transfiere, pero no se duplica.
+
+\section{De teleportación a intercambio de entrelazamiento}
+
+El propio paper señala que el estado inicial $\ket{T}_1$ podría no estar definido como estado puro individual. Esto ocurre cuando el fotón $1$ forma parte de otro par entrelazado. En tal caso, teleportar el estado del fotón $1$ hacia el fotón $3$ equivale a transferir el entrelazamiento: un fotón que nunca interactuó directamente con otro puede quedar entrelazado con él después de una medición de Bell. Esa es la idea de \textbf{intercambio de entrelazamiento}.
+
+Para dejar la identidad algebraica en la notación que venimos usando, consideremos dos pares inicialmente entrelazados:
+\begin{equation*}
+    \ket{\Psi}_0=\ket{\phi_+}_{12}\ket{\phi_+}_{34}.
+\end{equation*}
+Entonces
+\begin{align*}
+    \ket{\Psi}_0
+    &=
+    \left[
+        \frac{1}{\sqrt{2}}
+        \left(
+            \ket{0}_1\ket{0}_2+
+            \ket{1}_1\ket{1}_2
+        \right)
+    \right]
+    \left[
+        \frac{1}{\sqrt{2}}
+        \left(
+            \ket{0}_3\ket{0}_4+
+            \ket{1}_3\ket{1}_4
+        \right)
+    \right]\\
+    &=
+    \frac{1}{2}
+    \left(
+        \ket{0}_1\ket{0}_2\ket{0}_3\ket{0}_4
+        +
+        \ket{0}_1\ket{0}_2\ket{1}_3\ket{1}_4
+        +
+        \ket{1}_1\ket{1}_2\ket{0}_3\ket{0}_4
+        +
+        \ket{1}_1\ket{1}_2\ket{1}_3\ket{1}_4
+    \right).
+\end{align*}
+Ahora reordenamos los factores agrupando los sistemas remotos $1,4$ y los sistemas que serán medidos conjuntamente $2,3$:
+\begin{align*}
+    \ket{\Psi}_0
+    &=
+    \frac{1}{2}
+    \left(
+        \ket{0}_1\ket{0}_4\ket{0}_2\ket{0}_3
+        +
+        \ket{0}_1\ket{1}_4\ket{0}_2\ket{1}_3
+        +
+        \ket{1}_1\ket{0}_4\ket{1}_2\ket{0}_3
+        +
+        \ket{1}_1\ket{1}_4\ket{1}_2\ket{1}_3
+    \right)\\
+    &=
+    \frac{1}{2}
+    \left(
+        \ket{00}_{14}\ket{00}_{23}
+        +
+        \ket{01}_{14}\ket{01}_{23}
+        +
+        \ket{10}_{14}\ket{10}_{23}
+        +
+        \ket{11}_{14}\ket{11}_{23}
+    \right).
+\end{align*}
+Esta es precisamente la línea de la imagen, pero escrita con la notación tensorial del apunte. Ahora sustituimos cada par computacional por su forma en la base de Bell:
+\begin{align*}
+    \ket{\Psi}_0
+    &=
+    \frac{1}{4}
+    \left[
+        \left(
+            \ket{\phi_+}_{14}+\ket{\phi_-}_{14}
+        \right)
+        \left(
+            \ket{\phi_+}_{23}+\ket{\phi_-}_{23}
+        \right)
+    \right.\\
+    &\hspace{1.3cm}
+        +
+        \left(
+            \ket{\psi_+}_{14}+\ket{\psi_-}_{14}
+        \right)
+        \left(
+            \ket{\psi_+}_{23}+\ket{\psi_-}_{23}
+        \right)\\
+    &\hspace{1.3cm}
+        +
+        \left(
+            \ket{\psi_+}_{14}-\ket{\psi_-}_{14}
+        \right)
+        \left(
+            \ket{\psi_+}_{23}-\ket{\psi_-}_{23}
+        \right)\\
+    &\hspace{1.3cm}
+    \left.
+        +
+        \left(
+            \ket{\phi_+}_{14}-\ket{\phi_-}_{14}
+        \right)
+        \left(
+            \ket{\phi_+}_{23}-\ket{\phi_-}_{23}
+        \right)
+    \right].
+\end{align*}
+Desarrollando los productos y cancelando los términos cruzados, queda
+\begin{equation*}
+    \ket{\Psi}_0
+    =
+    \frac{1}{2}
+    \left\{
+        \ket{\phi_+}_{14}\ket{\phi_+}_{23}
+        +
+        \ket{\phi_-}_{14}\ket{\phi_-}_{23}
+        +
+        \ket{\psi_+}_{14}\ket{\psi_+}_{23}
+        +
+        \ket{\psi_-}_{14}\ket{\psi_-}_{23}
+    \right\}.
+\end{equation*}
+Esta identidad muestra que una medición de Bell sobre $2,3$ proyecta los sistemas $1,4$ en el estado de Bell correspondiente. Por ejemplo, si el resultado de la medición central es $\ket{\psi_-}_{23}$, entonces el par remoto $1,4$ queda proyectado en $\ket{\psi_-}_{14}$. Los sistemas $1$ y $4$ no interactuaron directamente; el entrelazamiento aparece condicionado al resultado de la medición conjunta sobre $2,3$.
+
+\begin{figure}[htbp]
+    \centering
+    \shorthandoff{<>}
+    \begin{tikzpicture}[
+    >=Latex, font=\small,
+    est/.style={draw=UdeCAzul, fill=UdeCAzulClaro, rounded corners, semithick, text width=2.55cm, minimum height=1.2cm, align=center, inner sep=5pt},
+    meas/.style={draw=UdeCAzul, fill=UdeCAzul!15, rounded corners, semithick, text width=2.9cm, minimum height=1.3cm, align=center, inner sep=5pt},
+    q/.style={circle, draw=UdeCAzul, fill=white, semithick, minimum size=0.72cm, font=\small},
+    ent/.style={very thick, UdeCDorado},
+    clas/.style={->, dashed, thick, UdeCGris},
+    lab/.style={font=\footnotesize, align=center, fill=white, inner sep=2pt}
+]
+    \node[est] (L) at (-4.85,0) {estación remota\\sistema $1$};
+    \node[meas] (M) at (0,0) {medición de Bell sobre $2,3$};
+    \node[est] (R) at (4.85,0) {estación remota\\sistema $4$};
+    \node[q] (q1) at (-4.85,1.05) {$1$};
+    \node[q] (q2) at (-1.0,1.05) {$2$};
+    \node[q] (q3) at (1.0,1.05) {$3$};
+    \node[q] (q4) at (4.85,1.05) {$4$};
+    \draw[ent] (q1) .. controls (-3.7,2.15) and (-2.15,2.15) .. (q2) node[midway, above, lab]{$\ket{\phi_+}_{12}$};
+    \draw[ent] (q3) .. controls (2.15,2.15) and (3.7,2.15) .. (q4) node[midway, above, lab]{$\ket{\phi_+}_{34}$};
+    \draw[ent, dotted] (L.south) -- (R.south);
+    \node[lab, text=UdeCDorado!72!black] at (0,-0.62) {entrelazamiento condicionado $1$--$4$};
+    \draw[clas] (M.south west) .. controls (-2.2,-2.05) and (-3.9,-1.75) .. (L.south east);
+    \draw[clas] (M.south east) .. controls (2.2,-2.05) and (3.9,-1.75) .. (R.south west);
+    \node[lab] at (0,-2.15) {comunicación clásica};
+\end{tikzpicture}
+    \caption{Intercambio de entrelazamiento en la convención $1,4$ para los sistemas remotos y $2,3$ para los sistemas medidos. La correlación remota queda condicionada al resultado de la medición central.}
+    \label{fig:swapping-bouwmeester}
+\end{figure}
+
+\section{Lectura conceptual final}
+
+La teleportación experimental de Bouwmeester et al. muestra, en forma concreta, cómo los postulados abstractos de la mecánica cuántica se vuelven operaciones de laboratorio: preparación de pares entrelazados, interferencia de dos fotones, medición proyectiva parcial, detección por coincidencias y reconstrucción condicionada. Su importancia no está sólo en haber ``mandado'' una polarización de un fotón a otro, sino en haber mostrado que la información cuántica puede transferirse sin medir completamente el estado y sin clonarlo.
+
+El intercambio de entrelazamiento es la consecuencia natural de esa misma estructura. Si lo que se teleporta es un subsistema que formaba parte de un par entrelazado, entonces la correlación cuántica se traslada hacia otro par de sistemas. En redes cuánticas, esta idea reemplaza la noción clásica de amplificar y copiar señales: como los estados cuánticos desconocidos no pueden clonarse, se deben conectar enlaces mediante mediciones de Bell, comunicación clásica y, eventualmente, purificación de entrelazamiento.
+
+\newpage
+\end{document}

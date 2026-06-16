@@ -1,0 +1,242 @@
+% Este capítulo puede editarse y compilarse de forma individual.
+% Para compilar el libro completo, usa main.tex.
+\documentclass[../main.tex]{subfiles}
+\begin{document}
+\chapter{Estados de Bell}
+
+Consideremos ahora dos qubits, con espacios de Hilbert $\Hil_1$ y $\Hil_2$, ambos de dimensión dos. El espacio total es
+\begin{equation*}
+    \Hil_T=\Hil_1\otimes\Hil_2,
+    \qquad
+    \dim(\Hil_T)=4.
+\end{equation*}
+Una base natural de $\Hil_T$ es la base computacional
+\begin{equation*}
+    \left\{
+    \ket{0}\ket{0},\,
+    \ket{0}\ket{1},\,
+    \ket{1}\ket{0},\,
+    \ket{1}\ket{1}
+    \right\}.
+\end{equation*}
+En esta base, los cuatro estados de Bell se definen por
+\begin{align*}
+    \ket{\phi_+}&=\frac{1}{\sqrt{2}}\left(\ket{0}\ket{0}+\ket{1}\ket{1}\right),&
+    \ket{\phi_-}&=\frac{1}{\sqrt{2}}\left(\ket{0}\ket{0}-\ket{1}\ket{1}\right),\\
+    \ket{\psi_+}&=\frac{1}{\sqrt{2}}\left(\ket{0}\ket{1}+\ket{1}\ket{0}\right),&
+    \ket{\psi_-}&=\frac{1}{\sqrt{2}}\left(\ket{0}\ket{1}-\ket{1}\ket{0}\right).
+\end{align*}
+Estos cuatro vectores forman una base ortonormal de $\Hil_T$, llamada \textbf{base de Bell}. A diferencia de los vectores de la base computacional, los \textbf{estados de Bell} no describen dos qubits con propiedades independientes: son estados máximamente entrelazados.
+
+\begin{figure}[htbp]
+    \centering
+    \begin{tikzpicture}[
+    >=Latex,
+    subespacio/.style={draw=UdeCAzul, fill=UdeCAzulClaro, rounded corners, semithick, align=center,
+        text width=3.7cm, minimum height=1.5cm, inner sep=6pt, font=\small},
+    bell/.style={draw=UdeCAzul, fill=UdeCAzul!12, rounded corners, semithick, align=center,
+        text width=5.9cm, minimum height=0.82cm, inner sep=5pt, font=\small},
+    flecha/.style={->, thick, UdeCAzul, shorten >=3pt, shorten <=3pt},
+    lab/.style={font=\footnotesize, fill=white, inner sep=1.5pt}
+]
+    \node[subespacio] (par) at (-4.35,1.55) {subespacio par\\$\operatorname{span}\{\ket{00},\ket{11}\}$};
+    \node[subespacio] (impar) at (-4.35,-1.55) {subespacio impar\\$\operatorname{span}\{\ket{01},\ket{10}\}$};
+    \node[bell] (bp) at (3.05,2.25) {$\ket{\phi_+}=\tfrac{1}{\sqrt2}(\ket{00}+\ket{11})$};
+    \node[bell] (bm) at (3.05,0.82) {$\ket{\phi_-}=\tfrac{1}{\sqrt2}(\ket{00}-\ket{11})$};
+    \node[bell] (sp) at (3.05,-0.82) {$\ket{\psi_+}=\tfrac{1}{\sqrt2}(\ket{01}+\ket{10})$};
+    \node[bell] (sm) at (3.05,-2.25) {$\ket{\psi_-}=\tfrac{1}{\sqrt2}(\ket{01}-\ket{10})$};
+    \draw[flecha] (par.east) -- node[lab, above, pos=0.6] {$+$} (bp.west);
+    \draw[flecha] (par.east) -- node[lab, below, pos=0.6] {$-$} (bm.west);
+    \draw[flecha] (impar.east) -- node[lab, above, pos=0.6] {$+$} (sp.west);
+    \draw[flecha] (impar.east) -- node[lab, below, pos=0.6] {$-$} (sm.west);
+\end{tikzpicture}
+    \caption{La base de Bell se obtiene combinando los subespacios de paridad par e impar con signos relativos. Esta organización evita identificar los estados entrelazados con estados producto individuales.}
+    \label{fig:base-computacional-bell}
+\end{figure}
+
+De las definiciones anteriores se obtiene inmediatamente la transformación inversa:
+\begin{align*}
+    \ket{0}\ket{0}&=\frac{1}{\sqrt{2}}\left(\ket{\phi_+}+\ket{\phi_-}\right),&
+    \ket{1}\ket{1}&=\frac{1}{\sqrt{2}}\left(\ket{\phi_+}-\ket{\phi_-}\right),\\
+    \ket{0}\ket{1}&=\frac{1}{\sqrt{2}}\left(\ket{\psi_+}+\ket{\psi_-}\right),&
+    \ket{1}\ket{0}&=\frac{1}{\sqrt{2}}\left(\ket{\psi_+}-\ket{\psi_-}\right).
+\end{align*}
+
+\section{Qubit, fase relativa y esfera de Bloch}
+
+Un qubit puro arbitrario puede escribirse como
+\begin{equation*}
+    \ket{\psi}=\alpha\ket{0}+\beta\ket{1},
+    \qquad
+    |\alpha|^2+|\beta|^2=1.
+\end{equation*}
+Salvo una \textbf{fase global físicamente irrelevante}, también puede parametrizarse como
+\begin{equation*}
+    \ket{\psi}=\cos\left(\frac{\vartheta}{2}\right)\ket{0}
+    +\ee^{\ii\phi}\sin\left(\frac{\vartheta}{2}\right)\ket{1}.
+\end{equation*}
+Esta parametrización se representa geométricamente mediante la esfera de Bloch.
+
+\begin{figure}[htbp]
+    \centering
+    \begin{tikzpicture}[>=Latex, scale=1.04, font=\small]
+        \draw[thick] (0,0) circle (2.25cm);
+        \draw[thick] (-2.25,0) arc (180:360:2.25 and 0.62);
+        \draw[dashed] (2.25,0) arc (0:180:2.25 and 0.62);
+        \draw[->, thick] (0,-2.65) -- (0,2.70) node[above] {$\ket{0}$};
+        \node[below] at (0,-2.70) {$\ket{1}$};
+        \draw[->, thick] (-2.70,0) -- (2.80,0)
+            node[right, text width=2.15cm, align=left] {$\dfrac{\ket{0}+\ket{1}}{\sqrt2}$};
+        \node[left, text width=2.55cm, align=right] at (-2.48,1.22)
+            {$\dfrac{\ket{0}+\ii\ket{1}}{\sqrt2}$};
+        \draw[->, very thick, UdeCAzul] (0,0) -- (1.22,1.62)
+            node[above right, xshift=2pt] {$\ket{\psi}$};
+        \draw[dashed] (1.22,1.62) -- (1.22,0);
+        \draw[dashed] (0,0) -- (-0.96,-0.33);
+        \draw (0,0.40) arc (90:53:0.40) node[midway, above right] {$\vartheta$};
+\end{tikzpicture}
+    \caption{Representación geométrica de un qubit puro en la esfera de Bloch. Los polos representan los estados de la base computacional y el ecuador reúne las superposiciones balanceadas que difieren por su fase relativa.}
+    \label{fig:bloch-qubit}
+\end{figure}
+
+\section{Operadores de Pauli como transformaciones locales}
+
+Los operadores de Pauli que usaremos son
+\begin{equation*}
+    \sigma_x=\ketbra{0}{1}+\ketbra{1}{0},
+    \qquad
+    \sigma_z=\proj{0}-\proj{1}.
+\end{equation*}
+El operador $\sigma_x$ intercambia los estados computacionales:
+\begin{align*}
+    \sigma_x\ket{0}
+    &=\left(\ketbra{0}{1}+\ketbra{1}{0}\right)\ket{0}\\
+    &=\ket{0}\braket{1|0}+\ket{1}\braket{0|0}\\
+    &=\ket{1},
+\end{align*}
+\begin{align*}
+    \sigma_x\ket{1}
+    &=\left(\ketbra{0}{1}+\ketbra{1}{0}\right)\ket{1}\\
+    &=\ket{0}\braket{1|1}+\ket{1}\braket{0|1}\\
+    &=\ket{0}.
+\end{align*}
+Por su parte, $\sigma_z$ conserva $\ket{0}$ y cambia la fase relativa de $\ket{1}$:
+\begin{align*}
+    \sigma_z\ket{0}
+    &=\left(\proj{0}-\proj{1}\right)\ket{0}\\
+    &=\ket{0}\braket{0|0}-\ket{1}\braket{1|0}\\
+    &=\ket{0},
+\end{align*}
+\begin{align*}
+    \sigma_z\ket{1}
+    &=\left(\proj{0}-\proj{1}\right)\ket{1}\\
+    &=\ket{0}\braket{0|1}-\ket{1}\braket{1|1}\\
+    &=-\ket{1}.
+\end{align*}
+
+Cuando estos operadores actúan sobre un solo qubit de un sistema bipartito, se escriben como $\sigma_x^{(1)}\otimes\I^{(2)}$ o $\sigma_z^{(1)}\otimes\I^{(2)}$. La palabra ``local'' significa precisamente que la transformación actúa sobre una de las partes del sistema compuesto, dejando la otra sin modificar.
+
+\section{Acción local sobre estados de Bell}
+
+Partamos del estado
+\begin{equation*}
+    \ket{\psi_+}=\frac{1}{\sqrt{2}}\left(\ket{0}\ket{1}+\ket{1}\ket{0}\right).
+\end{equation*}
+Aplicando $\sigma_z$ sobre el primer qubit, se tiene
+\begin{align*}
+    \left(\sigma_z^{(1)}\otimes\I^{(2)}\right)\ket{\psi_+}
+    &=\frac{1}{\sqrt{2}}\left[
+    \left(\sigma_z\ket{0}\right)\ket{1}
+    +\left(\sigma_z\ket{1}\right)\ket{0}
+    \right]\\
+    &=\frac{1}{\sqrt{2}}\left(\ket{0}\ket{1}-\ket{1}\ket{0}\right)\\
+    &=\ket{\psi_-}.
+\end{align*}
+En cambio, aplicando $\sigma_x$ sobre el primer qubit,
+\begin{align*}
+    \left(\sigma_x^{(1)}\otimes\I^{(2)}\right)\ket{\psi_+}
+    &=\frac{1}{\sqrt{2}}\left[
+    \left(\sigma_x\ket{0}\right)\ket{1}
+    +\left(\sigma_x\ket{1}\right)\ket{0}
+    \right]\\
+    &=\frac{1}{\sqrt{2}}\left(\ket{1}\ket{1}+\ket{0}\ket{0}\right)\\
+    &=\ket{\phi_+}.
+\end{align*}
+Por tanto,
+\begin{align*}
+    \left(\sigma_z^{(1)}\otimes\I^{(2)}\right)
+    \left(\sigma_x^{(1)}\otimes\I^{(2)}\right)
+    \ket{\psi_+}
+    &=\left(\sigma_z^{(1)}\otimes\I^{(2)}\right)\ket{\phi_+}\\
+    &=\frac{1}{\sqrt{2}}\left(\ket{0}\ket{0}-\ket{1}\ket{1}\right)\\
+    &=\ket{\phi_-}.
+\end{align*}
+
+Ahora consideremos
+\begin{equation*}
+    \ket{\phi_-}=\frac{1}{\sqrt{2}}\left(\ket{0}\ket{0}-\ket{1}\ket{1}\right).
+\end{equation*}
+Entonces
+\begin{align*}
+    \left(\sigma_x^{(1)}\otimes\I^{(2)}\right)\ket{\phi_-}
+    &=\frac{1}{\sqrt{2}}\left[
+    \left(\sigma_x\ket{0}\right)\ket{0}
+    -\left(\sigma_x\ket{1}\right)\ket{1}
+    \right]\\
+    &=\frac{1}{\sqrt{2}}\left(\ket{1}\ket{0}-\ket{0}\ket{1}\right)\\
+    &=-\ket{\psi_-}.
+\end{align*}
+El signo global $-1$ no cambia las predicciones físicas del estado. Finalmente, para $\ket{\phi_+}$,
+\begin{align*}
+    \left(\sigma_z^{(1)}\otimes\I^{(2)}\right)
+    \left(\sigma_x^{(1)}\otimes\I^{(2)}\right)\ket{\phi_+}
+    &=\left(\sigma_z^{(1)}\otimes\I^{(2)}\right)
+    \frac{1}{\sqrt{2}}\left(\ket{1}\ket{0}+\ket{0}\ket{1}\right)\\
+    &=\frac{1}{\sqrt{2}}\left(-\ket{1}\ket{0}+\ket{0}\ket{1}\right)\\
+    &=\ket{\psi_-}.
+\end{align*}
+
+\begin{figure}[htbp]
+    \centering
+    \begin{tikzpicture}[
+    >=Latex,
+    estado/.style={draw=UdeCAzul, fill=UdeCAzulClaro, rounded corners, semithick, align=center,
+        minimum width=2.6cm, minimum height=0.95cm, font=\small},
+    op/.style={font=\small, fill=white, inner sep=3pt},
+    flecha/.style={->, thick, UdeCAzul, shorten >=3pt, shorten <=3pt}
+]
+    \node[estado] (phip) at (-3.5,1.7) {$\ket{\phi_+}$};
+    \node[estado] (phim) at (3.5,1.7) {$\ket{\phi_-}$};
+    \node[estado] (psip) at (-3.5,-1.7) {$\ket{\psi_+}$};
+    \node[estado] (psim) at (3.5,-1.7) {$\ket{\psi_-}$};
+    \draw[flecha] (phip) -- node[op, above] {$\sigma_z^{(1)}$} (phim);
+    \draw[flecha] (phip) -- node[op, left] {$\sigma_x^{(1)}$} (psip);
+    \draw[flecha] (psip) -- node[op, below] {$\sigma_z^{(1)}$} (psim);
+    \draw[flecha] (phim) -- node[op, right] {$\sigma_x^{(1)}$} (psim);
+    \draw[flecha, dashed, UdeCGris] (phip.south east) to[bend left=12]
+        node[op, sloped, above, pos=0.5] {$\sigma_z^{(1)}\sigma_x^{(1)}$} (psim.north west);
+\end{tikzpicture}
+    \caption{Los cuatro estados de Bell se obtienen unos de otros mediante operaciones locales de Pauli sobre uno de los qubits.}
+    \label{fig:orbita-local-bell}
+\end{figure}
+
+\section{Equivalencia local de los estados de Bell}
+
+Dos estados bipartitos puros $\ket{\Psi}$ y $\ket{\Phi}$ se dicen \textbf{localmente equivalentes} si existen operadores unitarios $U_1$ y $U_2$, actuando separadamente sobre cada subsistema, tales que
+\begin{equation*}
+    \ket{\Phi}=\left(U_1\otimes U_2\right)\ket{\Psi},
+\end{equation*}
+salvo una \textbf{fase global físicamente irrelevante}. Esta definición es importante porque las transformaciones locales \textbf{no pueden crear ni destruir entrelazamiento}: sólo cambian la base local o las fases relativas con que describimos cada subsistema.
+
+Los estados de Bell son \textbf{localmente equivalentes} entre sí. Por ejemplo, tomando $\ket{\phi_+}$ como estado de referencia,
+\begin{align*}
+    \left(\I\otimes\I\right)\ket{\phi_+}&=\ket{\phi_+},\\
+    \left(\sigma_z\otimes\I\right)\ket{\phi_+}&=\ket{\phi_-},\\
+    \left(\sigma_x\otimes\I\right)\ket{\phi_+}&=\ket{\psi_+},\\
+    \left(\sigma_z\sigma_x\otimes\I\right)\ket{\phi_+}&=\ket{\psi_-}.
+\end{align*}
+Así, las cuatro posibilidades corresponden a la misma cantidad de entrelazamiento, reorganizada mediante operaciones locales. Esta observación será fundamental en protocolos como \textbf{teleportación cuántica} y \textbf{codificación densa}, donde la información clásica sobre qué operación local ocurrió permite reconstruir el estado correcto.
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\end{document}

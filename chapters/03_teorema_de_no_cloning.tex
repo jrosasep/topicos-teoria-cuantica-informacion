@@ -1,0 +1,128 @@
+% Este capítulo puede editarse y compilarse de forma individual.
+% Para compilar el libro completo, usa main.tex.
+\documentclass[../main.tex]{subfiles}
+\begin{document}
+\chapter{Teorema de no-cloning}
+
+Antes de estudiar el resultado formal, conviene separar dos ideas que en la mecánica clásica suelen confundirse. En teoría clásica, si se posee un sistema físico y se conoce su estado, no parece problemático imaginar una copia ideal de ese estado. En mecánica cuántica la situación cambia: un \textbf{estado puro desconocido} no es simplemente una lista de valores preexistentes que podamos leer y duplicar sin perturbar. El estado cuántico contiene amplitudes, fases relativas y relaciones de superposición que sólo se manifiestan estadísticamente al medir muchos sistemas preparados del mismo modo.
+
+Este fue precisamente uno de los puntos que hizo fértil la discusión de Herbert y, poco después, de Wootters y Zurek~\cite{HerbertFLASH,WoottersZurek1982}. Si un estado cuántico arbitrario pudiera copiarse perfectamente, entonces se podría amplificar la información contenida en un solo sistema y medir muchas copias para reconstruir propiedades incompatibles. En el contexto de correlaciones tipo EPR, esa posibilidad amenazaría el principio de no señalización. El \textbf{teorema de no-cloning} muestra que tal \textbf{máquina universal no existe}.
+
+\begin{figure}[htbp]
+    \centering
+    \begin{tikzpicture}[
+    >=Latex,
+    caja/.style={draw=UdeCAzul, fill=UdeCAzulClaro, rounded corners, semithick, align=center,
+        text width=2.8cm, minimum height=1.15cm, inner sep=6pt, font=\small},
+    bloque/.style={draw=UdeCAzul, fill=UdeCAzul!15, rounded corners, semithick, align=center,
+        text width=2.3cm, minimum height=1.55cm, font=\small},
+    flecha/.style={->, thick, UdeCAzul, shorten >=3pt, shorten <=3pt},
+    lab/.style={font=\footnotesize, fill=white, inner sep=2pt}
+]
+    \node[caja] (psi) at (-4.7,1.0) {estado desconocido $\ket{\psi}_{\theta}$};
+    \node[caja] (blank) at (-4.7,-1.0) {registro en blanco $\ket{A}_{c}$};
+    \node[bloque] (U) at (0,0) {$U$\\¿copiador universal?};
+    \node[caja] (out1) at (4.7,1.0) {registro original $\ket{\psi}_{\theta}$};
+    \node[caja] (out2) at (4.7,-1.0) {registro copia $\ket{\psi}_{c}$};
+    \draw[flecha] (psi.east) -- node[lab, above] {entrada} (U.160);
+    \draw[flecha] (blank.east) -- (U.200);
+    \draw[flecha] (U.20) -- node[lab, above] {salida} (out1.west);
+    \draw[flecha] (U.340) -- (out2.west);
+\end{tikzpicture}
+    \caption{Esquema ideal de una máquina universal de clonado. La imposibilidad aparece al exigir que el mismo operador $U$ funcione para cualquier superposición desconocida.}
+    \label{fig:maquina-no-cloning}
+\end{figure}
+
+Supongamos que se desea copiar un estado puro desconocido $\ket{\psi}_\theta$ usando un segundo sistema, inicialmente preparado en un estado fijo $\ket{A}_c$. Idealmente, el proceso tendría que actuar como
+\begin{equation*}
+    \ket{\psi}_\theta\ket{A}_c
+    \longmapsto
+    \ket{\psi}_\theta\ket{\psi}_c.
+\end{equation*}
+La palabra ``universal'' significa que el mismo procedimiento debe funcionar para todo estado $\ket{\psi}$; la palabra ``exacto'' significa que la copia final debe ser idéntica al original; y la palabra ``determinista'' significa que el procedimiento debe ocurrir con probabilidad uno. Para un sistema cerrado, esto se modela mediante una transformación unitaria $U$ tal que
+\begin{equation*}
+    U\left(\ket{\psi}_\theta\ket{A}_c\right)
+    =
+    \ket{\psi}_\theta\ket{\psi}_c,
+    \qquad
+    \forall\,\ket{\psi}_\theta.
+\end{equation*}
+
+Para fijar ideas tomemos dos qubits. El primero, denotado por $\theta$, contiene el estado que queremos copiar; el segundo, denotado por $c$, será el registro copia. Elegimos el estado inicial del registro copia como
+\begin{equation*}
+    \ket{A}_c=\ket{0}_c.
+\end{equation*}
+Si la máquina copia correctamente los estados de la base computacional, debe satisfacer
+\begin{equation*}
+    U\left(\ket{0}_\theta\ket{0}_c\right)
+    =
+    \ket{0}_\theta\ket{0}_c,
+    \qquad
+    U\left(\ket{1}_\theta\ket{0}_c\right)
+    =
+    \ket{1}_\theta\ket{1}_c.
+\end{equation*}
+Hasta aquí no hay contradicción: copiar dos estados ortogonales conocidos sí es compatible con la mecánica cuántica. El problema aparece cuando se exige copiar una superposición arbitraria
+\begin{equation*}
+    \ket{\psi}_\theta=\alpha\ket{0}_\theta+\beta\ket{1}_\theta,
+    \qquad
+    |\alpha|^2+|\beta|^2=1.
+\end{equation*}
+Por \textbf{linealidad} de $U$ se obtiene
+\begin{align*}
+    U\left[\left(\alpha\ket{0}_\theta+\beta\ket{1}_\theta\right)\ket{0}_c\right]
+    &=U\left(\alpha\ket{0}_\theta\ket{0}_c+
+    \beta\ket{1}_\theta\ket{0}_c\right)\\
+    &=\alpha U\left(\ket{0}_\theta\ket{0}_c\right)
+    +\beta U\left(\ket{1}_\theta\ket{0}_c\right)\\
+    &=\alpha\ket{0}_\theta\ket{0}_c+
+    \beta\ket{1}_\theta\ket{1}_c.
+\end{align*}
+Sin embargo, si el proceso hubiera clonado de verdad el estado $\ket{\psi}$, el resultado tendría que ser
+\begin{align*}
+    \ket{\psi}_\theta\ket{\psi}_c
+    &=
+    \left(\alpha\ket{0}_\theta+\beta\ket{1}_\theta\right)
+    \left(\alpha\ket{0}_c+\beta\ket{1}_c\right)\\
+    &=
+    \alpha^2\ket{0}_\theta\ket{0}_c
+    +\alpha\beta\ket{0}_\theta\ket{1}_c
+    +\alpha\beta\ket{1}_\theta\ket{0}_c
+    +\beta^2\ket{1}_\theta\ket{1}_c.
+\end{align*}
+\textbf{En general, estos dos resultados no coinciden}. Por tanto, el mismo operador que copia correctamente $\ket{0}$ y $\ket{1}$ no copia correctamente una superposición arbitraria de ellos.
+
+\begin{teorema}[No-cloning]
+No existe una transformación unitaria universal que, para todo estado puro desconocido $\ket{\psi}$, realice el mapa
+\begin{equation*}
+    \ket{\psi}\ket{A}\longmapsto \ket{\psi}\ket{\psi},
+\end{equation*}
+con $\ket{A}$ fijo e independiente de $\ket{\psi}$.
+\end{teorema}
+
+\begin{proof}
+La demostración anterior muestra la contradicción usando explícitamente la linealidad. También existe una prueba compacta usando preservación de productos internos. Supongamos que la máquina copia dos estados normalizados arbitrarios $\ket{\psi}$ y $\ket{\varphi}$:
+\begin{equation*}
+    U\ket{\psi}\ket{A}=\ket{\psi}\ket{\psi},
+    \qquad
+    U\ket{\varphi}\ket{A}=\ket{\varphi}\ket{\varphi}.
+\end{equation*}
+Como $U$ es unitario, preserva productos internos. Luego
+\begin{align*}
+    \braket{\psi|\varphi}
+    &=\braket{\psi|\varphi}\braket{A|A}\\
+    &=\left(\bra{\psi}\bra{A}\right)U^\dagger U\left(\ket{\varphi}\ket{A}\right)\\
+    &=\left(\bra{\psi}\bra{\psi}\right)\left(\ket{\varphi}\ket{\varphi}\right)\\
+    &=\braket{\psi|\varphi}^2.
+\end{align*}
+Por tanto, si $s=\braket{\psi|\varphi}$, se tiene $s=s^2$. Esta condición sólo se satisface, en general, si $s=0$ o $s=1$. Es decir, la copia perfecta sólo puede exigirse simultáneamente para estados ortogonales o idénticos. No puede existir una máquina universal que copie todos los estados cuánticos puros.
+\end{proof}
+
+\begin{observacion}
+El teorema no dice que sea imposible copiar información clásica codificada en estados ortogonales. Por ejemplo, si sólo se usan los estados $\ket{0}$ y $\ket{1}$, una compuerta tipo CNOT puede copiar el valor lógico en un registro auxiliar. Lo que está prohibido es copiar de manera exacta, determinista y universal un estado cuántico desconocido. En particular, no se puede convertir una sola partícula en muchas copias idénticas para reconstruir todas sus amplitudes y fases mediante tomografía.
+\end{observacion}
+
+\begin{comentario}
+Existen máquinas de clonado aproximado y protocolos probabilísticos que funcionan bajo hipótesis más restrictivas. La palabra clave es que dejan de ser simultáneamente universales, exactos y deterministas. El resultado de Wootters y Zurek se refiere precisamente a la imposibilidad de la copia perfecta de un cuanto arbitrario.
+\end{comentario}
+\end{document}

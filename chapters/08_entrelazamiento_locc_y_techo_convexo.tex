@@ -1,0 +1,553 @@
+% Este capítulo puede editarse y compilarse de forma individual.
+% Para compilar el libro completo, usa main.tex.
+\documentclass[../main.tex]{subfiles}
+
+\begin{document}
+
+\chapter{Entrelazamiento, LOCC y construcción por techo convexo}
+\label{chap:entrelazamiento-locc-techo-convexo}
+
+En este capítulo se estudia el entrelazamiento como recurso físico y la clase de transformaciones que define operacionalmente su manipulación: las operaciones locales asistidas por comunicación clásica. La distinción inicial es importante: las \emph{transformaciones unitarias locales} son solo un caso particular de las operaciones LOCC. En cambio, LOCC incluye mediciones locales, adición y eliminación de ancillas locales, canales cuánticos locales generales y comunicación clásica entre las partes.
+
+La idea física es que el entrelazamiento es un recurso no local. Por tanto, si dos observadores separados espacialmente solo pueden actuar localmente y comunicarse mediante canales clásicos, entonces no deberían poder crear entrelazamiento a partir de estados separables ni aumentar el entrelazamiento disponible en promedio. Esta afirmación no es solo una intuición: sirve como criterio para definir qué funciones pueden llamarse medidas de entrelazamiento.
+
+\section{Preliminares: estados bipartitos y separabilidad}
+
+Antes de introducir LOCC conviene fijar el lenguaje básico. Consideremos dos sistemas cuánticos, llamados convencionalmente Alice y Bob, con espacios de Hilbert
+\begin{equation*}
+    \Hil_A,\qquad \Hil_B.
+\end{equation*}
+El sistema compuesto se describe en el producto tensorial
+\begin{equation*}
+    \Hil_{AB}=\Hil_A\otimes\Hil_B.
+\end{equation*}
+Un estado bipartito general se representa por una matriz densidad
+\begin{equation*}
+    \rho_{AB}\in\mathcal D(\Hil_A\otimes\Hil_B),
+\end{equation*}
+donde \(\mathcal D(\Hil)\) denota el conjunto de operadores positivos semidefinidos y de traza unitaria sobre \(\Hil\). Sus estados reducidos se obtienen mediante trazas parciales:
+\begin{equation*}
+    \rho_A=\Tr_B(\rho_{AB}),
+    \qquad
+    \rho_B=\Tr_A(\rho_{AB}).
+\end{equation*}
+
+\begin{definicion}[Estado separable]
+Un estado bipartito \(\rho_{AB}\) es separable si puede escribirse como una mezcla convexa de estados producto,
+\begin{equation}
+    \rho_{AB}=\sum_k p_k\,\rho_A^{(k)}\otimes\rho_B^{(k)},
+    \qquad
+    p_k\geq0,
+    \qquad
+    \sum_k p_k=1.
+    \label{eq:estado-separable}
+\end{equation}
+Si no admite una descomposición de esta forma, se dice que \(\rho_{AB}\) es entrelazado.
+\end{definicion}
+
+La separabilidad no significa ausencia de correlaciones. Un estado separable puede contener correlaciones clásicas, codificadas en la variable aleatoria \(k\). Lo que no contiene es correlación cuántica no local capaz de comportarse como recurso de entrelazamiento.
+
+\begin{ejemplo}[Correlación clásica sin entrelazamiento]
+El estado de dos qubits
+\begin{equation*}
+    \rho_{AB}=\frac{1}{2}\proj{00}+\frac{1}{2}\proj{11}
+\end{equation*}
+no es producto, porque las mediciones locales en la base computacional están perfectamente correlacionadas. Sin embargo, es separable, pues ya está escrito como mezcla convexa de estados producto. Por tanto, contiene correlación clásica, pero no entrelazamiento.
+\end{ejemplo}
+
+Para estados puros bipartitos, la noción de entrelazamiento es más simple. Todo estado puro \(\ket{\psi}_{AB}\in\Hil_A\otimes\Hil_B\) admite una descomposición de Schmidt:
+\begin{equation}
+    \ket{\psi}_{AB}=\sum_{i=1}^{r}\sqrt{\lambda_i}\,\ket{i_A}\otimes\ket{i_B},
+    \qquad
+    \lambda_i>0,
+    \qquad
+    \sum_{i=1}^{r}\lambda_i=1,
+    \label{eq:schmidt}
+\end{equation}
+donde \(\{\ket{i_A}\}\) y \(\{\ket{i_B}\}\) son familias ortonormales locales. El número \(r\) de coeficientes de Schmidt no nulos se llama rango de Schmidt.
+
+\begin{proposicion}[Criterio de separabilidad para estados puros]
+Un estado puro bipartito \(\ket{\psi}_{AB}\) es separable si y solo si su rango de Schmidt es \(r=1\).
+\end{proposicion}
+
+\begin{proof}
+Si \(r=1\), entonces \(\ket{\psi}_{AB}=\ket{1_A}\otimes\ket{1_B}\), luego el estado es producto. Recíprocamente, si \(\ket{\psi}_{AB}=\ket{\alpha}_A\otimes\ket{\beta}_B\), su matriz de coeficientes tiene rango uno; por tanto, su descomposición de Schmidt tiene un único coeficiente no nulo.
+\end{proof}
+
+Al trazar una de las partes de \eqref{eq:schmidt}, se obtiene
+\begin{equation*}
+    \rho_A=\Tr_B\proj{\psi}_{AB}
+    =\sum_{i=1}^{r}\lambda_i\proj{i_A},
+    \qquad
+    \rho_B=\Tr_A\proj{\psi}_{AB}
+    =\sum_{i=1}^{r}\lambda_i\proj{i_B}.
+\end{equation*}
+Por tanto, las reducciones \(\rho_A\) y \(\rho_B\) tienen el mismo espectro no nulo. Esto justifica que, para estados puros, una medida natural de entrelazamiento sea la entropía de von Neumann de cualquiera de las reducciones:
+\begin{equation}
+    E(\proj{\psi}_{AB})
+    =S(\rho_A)
+    =S(\rho_B),
+    \qquad
+    S(\sigma)=-\Tr(\sigma\log_2\sigma).
+    \label{eq:entropia-entrelazamiento-puros}
+\end{equation}
+Si \(\ket{\psi}_{AB}\) es producto, entonces una reducción es pura y \(S(\rho_A)=S(\rho_B)=0\). Si el estado está entrelazado, las reducciones son mixtas y la entropía local mide cuánta información se pierde al ignorar la otra parte.
+
+\begin{figure}[H]
+\centering
+\shorthandoff{<>}
+\begin{tikzpicture}[
+    >=Latex, node distance=0.8cm,
+    box/.style={draw=UdeCAzul, rounded corners, semithick, fill=UdeCAzulClaro, align=center, font=\small, inner sep=4pt, minimum height=1.05cm},
+    small/.style={draw=UdeCGris, rounded corners, semithick, align=center, font=\small, inner sep=4pt, minimum height=1.05cm},
+    arrow/.style={->, thick, UdeCAzul}
+]
+    \node[box] (psi) {estado puro\\bipartito \(\ket{\psi}_{AB}\)};
+    \node[small, right=of psi] (sch) {Schmidt\\\(\lambda_i\)};
+    \node[box, right=of sch] (red) {reducciones\\\(\rho_A,\rho_B\)};
+    \node[small, right=of red] (ent) {entropía local\\\(S(\rho_A)\!=\!S(\rho_B)\)};
+
+    \draw[arrow] (psi) -- (sch);
+    \draw[arrow] (sch) -- (red);
+    \draw[arrow] (red) -- (ent);
+
+    \node[align=center, font=\footnotesize, below=0.32cm of sch] {\(r=1\): producto\\\(r>1\): entrelazado};
+\end{tikzpicture}
+\shorthandon{<>}
+\caption{Para estados puros, el espectro de Schmidt determina el entrelazamiento. Las reducciones locales tienen los mismos autovalores no nulos \(\lambda_i\).}
+\label{fig:schmidt-entrelazamiento}
+\end{figure}
+
+\section{Operaciones locales como canales cuánticos}
+
+Una operación física general sobre un sistema cuántico se modela mediante un canal cuántico, es decir, una aplicación completamente positiva y preservadora de la traza. En dimensión finita, todo canal \(\mathcal E\) admite una representación de Kraus:
+\begin{equation}
+    \mathcal E(\rho)=\sum_k M_k\rho M_k^\dagger,
+    \qquad
+    \sum_k M_k^\dagger M_k=\I.
+    \label{eq:canal-kraus}
+\end{equation}
+Si el canal actúa solo sobre Alice, se escribe
+\begin{equation*}
+    \rho_{AB}\longmapsto
+    (\mathcal E_A\otimes\operatorname{id}_B)(\rho_{AB})
+    =\sum_k (M_k\otimes\I_B)\rho_{AB}(M_k^\dagger\otimes\I_B).
+\end{equation*}
+Si además se registra el resultado clásico \(k\), la transformación no solo produce un estado final, sino un ensamble condicionado. Esta distinción será esencial para formular la monotonía promedio del entrelazamiento.
+
+\begin{observacion}[LOCC como teoría de recursos]
+La teoría de entrelazamiento puede entenderse como una teoría de recursos: los estados libres son los separables y las operaciones libres son LOCC. Bajo estas operaciones, el entrelazamiento no puede generarse gratuitamente. Una función \(E\) que pretende cuantificar este recurso debe anularse sobre estados separables y no aumentar, en promedio, bajo LOCC.
+\end{observacion}
+
+\begin{figure}[H]
+\centering
+\shorthandoff{<>}
+\begin{tikzpicture}[font=\small, every node/.style={align=center}]
+    \draw[rounded corners, thick, UdeCAzul, fill=UdeCAzul!4]   (-4.5,-2.45) rectangle (4.5,2.45);
+    \node[UdeCAzul, anchor=north] at (0,2.32) {canales globales sobre \(AB\)};
+
+    \draw[rounded corners, thick, UdeCAzul, fill=UdeCAzul!9]   (-3.45,-1.85) rectangle (3.45,1.85);
+    \node[anchor=north] at (0,1.72) {operaciones separables};
+
+    \draw[rounded corners, thick, UdeCAzul, fill=UdeCAzul!18]  (-2.35,-1.25) rectangle (2.35,1.25);
+    \node[anchor=north] at (0,1.12) {LOCC};
+
+    \draw[rounded corners, thick, UdeCAzul, fill=UdeCAzulClaro] (-1.35,-0.62) rectangle (1.35,0.62);
+    \node[anchor=center] at (0,0) {unitarias\\locales};
+\end{tikzpicture}
+\shorthandon{<>}
+\caption{Jerarquía conceptual de operaciones. LOCC es más general que las unitarias locales, pero mucho más restringido que un canal global arbitrario sobre \(AB\).}
+\label{fig:jerarquia-operaciones-locc}
+\end{figure}
+
+\section{Operaciones locales y comunicación clásica}
+
+Sean dos sistemas cuánticos compuestos, asociados a los espacios de Hilbert
+\begin{equation*}
+    \Hil_A,\qquad \Hil_B,
+\end{equation*}
+y sea
+\begin{equation*}
+    \rho_{AB}\in\mathcal D(\Hil_A\otimes\Hil_B)
+\end{equation*}
+un estado bipartito, donde \(\mathcal D(\Hil)\) denota el conjunto convexo de matrices densidad sobre \(\Hil\).
+
+\begin{definicion}[Transformación unitaria local]
+Una transformación unitaria local es una operación de la forma
+\begin{equation*}
+    \rho_{AB}\longmapsto
+    (U_A\otimes U_B)\rho_{AB}(U_A^\dagger\otimes U_B^\dagger),
+\end{equation*}
+donde \(U_A\) actúa solo sobre \(\Hil_A\) y \(U_B\) actúa solo sobre \(\Hil_B\).
+\end{definicion}
+
+Las unitarias locales pueden cambiar la base local con la que Alice y Bob describen sus sistemas, pero no modifican las correlaciones cuánticas no locales. Por ello, toda medida razonable de entrelazamiento \(E\) debe satisfacer
+\begin{equation}
+    E(\rho_{AB})=
+    E\!\bigl((U_A\otimes U_B)\rho_{AB}(U_A^\dagger\otimes U_B^\dagger)\bigr).
+    \label{eq:invarianza-unitarias-locales}
+\end{equation}
+
+\begin{definicion}[LOCC]
+Las operaciones LOCC, del inglés \emph{Local Operations and Classical Communication}, son protocolos construidos a partir de operaciones cuánticas locales sobre \(A\) y \(B\), junto con comunicación clásica entre las partes.
+\end{definicion}
+
+Ejemplos básicos de pasos LOCC son:
+\begin{itemize}
+    \item aplicar unitarias locales \(U_A\otimes\I_B\) o \(\I_A\otimes U_B\);
+    \item realizar mediciones locales, por ejemplo una medición de von Neumann o una POVM local;
+    \item adjuntar una ancilla local no correlacionada, por ejemplo
+    \begin{equation*}
+        \rho_{AB}\longmapsto \rho_{AB}\otimes\eta_{A'};
+    \end{equation*}
+    \item descartar una ancilla local mediante traza parcial;
+    \item comunicar clásicamente el resultado de una medición para decidir operaciones posteriores.
+\end{itemize}
+
+\begin{figure}[H]
+\centering
+\shorthandoff{<>}
+\begin{tikzpicture}[
+    >=Latex, font=\small,
+    box/.style={draw=UdeCAzul, rounded corners, semithick, fill=UdeCAzulClaro, align=center, minimum width=3.0cm, minimum height=1.3cm},
+    qline/.style={->, thick, UdeCAzul},
+    cline/.style={->, semithick, dashed, UdeCGris}
+]
+    \node[box] (alice) {Alice\\op.\ local \(\mathcal E_A^{(k)}\)};
+    \node[box, right=4.0cm of alice] (bob) {Bob\\op.\ local \(\mathcal F_B^{(k)}\)};
+
+    \node[left=0.9cm of alice] (rhoA) {\(A\)};
+    \node[right=0.9cm of bob] (rhoB) {\(B\)};
+
+    \draw[qline] (rhoA) -- (alice);
+    \draw[qline] (bob) -- (rhoB);
+
+    \draw[cline] (alice.north east) to[out=35,in=145]
+        node[midway, above, black, font=\footnotesize] {envía resultado \(k\)} (bob.north west);
+    \draw[cline] (bob.south west) to[out=-145,in=-35]
+        node[midway, below, black, font=\footnotesize] {condiciona la operación} (alice.south east);
+\end{tikzpicture}
+\shorthandon{<>}
+\caption{Esquema de un protocolo LOCC de una ronda. Cada parte solo actúa sobre su subsistema, pero puede condicionar operaciones posteriores usando información clásica recibida de la otra parte.}
+\label{fig:locc-una-ronda}
+\end{figure}
+
+La comunicación clásica no transporta estados cuánticos ni crea entrelazamiento por sí misma. Su función es coordinar operaciones locales condicionadas al resultado de mediciones.
+
+\section{Mezclas clásicas y ensambles}
+
+Un mismo estado mixto puede admitirse como promedio estadístico de muchos ensambles distintos. Un ensamble se escribe como
+\begin{equation*}
+    \{p_k,\rho_{AB}^{(k)}\}_{k},
+    \qquad
+    p_k\geq0,
+    \qquad
+    \sum_k p_k=1,
+\end{equation*}
+y representa la situación en que el estado \(\rho_{AB}^{(k)}\) se prepara con probabilidad \(p_k\). Si el índice clásico \(k\) no es conocido por quien describe el sistema, el estado efectivo es
+\begin{equation}
+    \rho_{AB}=\sum_k p_k\rho_{AB}^{(k)}.
+    \label{eq:mezcla-clasica}
+\end{equation}
+
+A esto se le llama una mezcla clásica: la incertidumbre no proviene necesariamente de una superposición cuántica, sino de ignorancia sobre una variable clásica de preparación o de medición.
+
+\begin{figure}[H]
+\centering
+\shorthandoff{<>}
+\begin{tikzpicture}[
+    >=Latex, font=\small,
+    box/.style={draw=UdeCAzul, rounded corners, semithick, fill=UdeCAzulClaro, align=center, minimum height=1.05cm},
+    smallbox/.style={draw=UdeCGris, rounded corners, semithick, align=center, minimum height=0.95cm, minimum width=2.4cm},
+    arrow/.style={->, thick, UdeCAzul}
+]
+    \node[box] (ens) {ensamble\\\(\{p_k,\rho_{AB}^{(k)}\}\)};
+    \node[smallbox, right=2.1cm of ens, yshift=0.95cm] (known) {con etiqueta\\clásica \(k\)};
+    \node[smallbox, right=2.1cm of ens, yshift=-0.95cm] (unknown) {sin etiqueta\\clásica};
+    \node[box, right=1.8cm of unknown] (mix) {estado efectivo\\\(\rho_{AB}=\sum_k p_k\,\rho_{AB}^{(k)}\)};
+
+    \draw[arrow] (ens.east) to[out=25,in=180] (known.west);
+    \draw[arrow] (ens.east) to[out=-25,in=180] (unknown.west);
+    \draw[arrow] (unknown) -- node[above, font=\footnotesize] {promedio} (mix);
+\end{tikzpicture}
+\shorthandon{<>}
+\caption{Un ensamble contiene información clásica adicional. Al olvidar el resultado o la etiqueta de preparación, se obtiene una matriz densidad promedio.}
+\label{fig:ensamble-mezcla}
+\end{figure}
+
+Por ejemplo, si Alice conoce que el par \(AB\) está en \(\rho_{AB}^{(1)}\) con probabilidad \(q\) y en \(\rho_{AB}^{(2)}\) con probabilidad \(1-q\), pero Bob no conoce la etiqueta clásica, entonces Bob debe describir el estado bipartito como
+\begin{equation*}
+    \rho_{AB}=q\rho_{AB}^{(1)}+(1-q)\rho_{AB}^{(2)}.
+\end{equation*}
+Su estado reducido local es
+\begin{equation*}
+    \rho_B
+    =\Tr_A(\rho_{AB})
+    =q\Tr_A\!\left(\rho_{AB}^{(1)}\right)
+    +(1-q)\Tr_A\!\left(\rho_{AB}^{(2)}\right).
+\end{equation*}
+
+\section{Monotonía del entrelazamiento bajo LOCC}
+
+Una medida de entrelazamiento es una función
+\begin{equation*}
+    E:\mathcal D(\Hil_A\otimes\Hil_B)\longrightarrow \R_{\geq0}
+\end{equation*}
+que asigna a cada estado bipartito un número real no negativo. Para que \(E\) sea físicamente aceptable, debe ser compatible con la interpretación del entrelazamiento como recurso no local.
+
+\begin{definicion}[Monótona de entrelazamiento]
+Una función \(E\) es una monótona de entrelazamiento si no aumenta, en promedio, bajo operaciones LOCC. Es decir, si un protocolo LOCC transforma
+\begin{equation*}
+    \rho_{AB}\longmapsto \{p_k,\rho_{AB}^{(k)}\}_k,
+\end{equation*}
+entonces
+\begin{equation}
+    E(\rho_{AB})\geq \sum_k p_k E\!\left(\rho_{AB}^{(k)}\right).
+    \label{eq:monotonia-promedio}
+\end{equation}
+\end{definicion}
+
+La frase ``en promedio'' es esencial. En una rama particular del protocolo el entrelazamiento puede aumentar, pero ese aumento debe compensarse con otras ramas de menor probabilidad o menor entrelazamiento. La cantidad promedio no puede aumentar mediante LOCC.
+
+\subsection{Mediciones locales selectivas}
+
+Supongamos que Alice realiza una operación cuántica local con operadores de Kraus \(\{A_k\}_k\), tales que
+\begin{equation*}
+    \sum_k A_k^\dagger A_k=\I_A.
+\end{equation*}
+La probabilidad de obtener el resultado \(k\) es
+\begin{equation}
+    p_k=\operatorname{Tr}\!\left[(A_k\otimes\I_B)\rho_{AB}(A_k^\dagger\otimes\I_B)\right],
+    \label{eq:probabilidad-kraus-local}
+\end{equation}
+y el estado normalizado condicionado a dicho resultado es
+\begin{equation}
+    \rho_{AB}^{(k)}=\frac{(A_k\otimes\I_B)\rho_{AB}(A_k^\dagger\otimes\I_B)}{p_k}.
+    \label{eq:estado-condicionado-kraus-local}
+\end{equation}
+La monotonía bajo mediciones locales selectivas exige entonces
+\begin{equation}
+    E(\rho_{AB})\geq \sum_k p_k E\!\left(\rho_{AB}^{(k)}\right).
+    \label{eq:monotonia-medicion-local}
+\end{equation}
+
+\subsection{Convexidad y pérdida de la etiqueta clásica}
+
+Además de la monotonía promedio, se suele exigir convexidad:
+\begin{equation}
+    E\!\left(\sum_k p_k\rho_{AB}^{(k)}\right)
+    \leq
+    \sum_k p_k E\!\left(\rho_{AB}^{(k)}\right).
+    \label{eq:convexidad-entrelazamiento}
+\end{equation}
+Esta condición expresa que olvidar información clásica sobre qué estado fue preparado no puede aumentar el entrelazamiento disponible. En este sentido, mezclar clásicamente estados no genera más recurso no local que el promedio de los recursos de cada rama.
+
+\subsection{Ancillas locales}
+
+Si se agrega una ancilla local no correlacionada con el sistema, el entrelazamiento entre las dos partes no debe cambiar. Por ejemplo, si Alice adjunta una ancilla \(A'\) en el estado \(\eta_{A'}\), entonces
+\begin{equation}
+    E_{A:B}(\rho_{AB})
+    =
+    E_{AA':B}(\rho_{AB}\otimes\eta_{A'}).
+    \label{eq:ancilla-local-no-cambia}
+\end{equation}
+En cambio, si se descarta una parte local mediante traza parcial, el entrelazamiento no puede aumentar:
+\begin{equation}
+    E_{A:B}\!\left(\Tr_{A'}\rho_{AA'B}\right)
+    \leq
+    E_{AA':B}(\rho_{AA'B}).
+    \label{eq:traza-parcial-no-aumenta}
+\end{equation}
+
+Estas propiedades formalizan la idea de que ampliar o reducir localmente la descripción de Alice no debe crear correlaciones cuánticas no locales con Bob.
+
+\section{No señalización y comunicación supraluminal}
+
+La medición de Alice puede cambiar el estado condicionado de Bob si se conoce el resultado \(k\). Sin embargo, antes de recibir la información clásica sobre el resultado, Bob describe su sistema mediante el estado promedio. Para una operación local completa sobre Alice se tiene
+\begin{align*}
+    \rho_B'
+    &=\Tr_A\!\left[\sum_k (A_k\otimes\I_B)\rho_{AB}(A_k^\dagger\otimes\I_B)\right] \\
+    &=\Tr_A\!\left[\left(\sum_k A_k^\dagger A_k\otimes\I_B\right)\rho_{AB}\right] \\
+    &=\Tr_A(\rho_{AB})
+    =\rho_B.
+\end{align*}
+Por tanto, si Bob no conoce el resultado clásico de Alice, su matriz densidad reducida no cambia. Esto impide usar el colapso condicionado para enviar señales superlumínicas.
+
+\begin{observacion}[Relación con desigualdades de Bell]
+La violación de una desigualdad de Bell certifica correlaciones no clásicas incompatibles con un modelo local de variables ocultas. Sin embargo, entrelazamiento y no localidad de Bell no son nociones equivalentes: todo estado que viola una desigualdad de Bell es entrelazado, pero existen estados entrelazados mixtos que no violan ciertas desigualdades de Bell. Las operaciones LOCC no pueden crear entrelazamiento a partir de estados separables y, por tanto, tampoco pueden generar no localidad de Bell desde recursos completamente separables.
+\end{observacion}
+
+\section{Construcción de medidas mediante techo convexo}
+
+Sea
+\begin{equation*}
+    F:\mathcal D(\Hil_A)\longrightarrow \R
+\end{equation*}
+un funcional definido sobre matrices densidad locales. Supongamos que satisface dos propiedades:
+\begin{enumerate}
+    \item \textbf{Invariancia unitaria local:}
+    \begin{equation}
+        F(\sigma)=F(U\sigma U^\dagger),
+        \qquad
+        U^\dagger U=UU^\dagger=\I.
+        \label{eq:F-invariante-unitaria}
+    \end{equation}
+    \item \textbf{Concavidad:}
+    \begin{equation}
+        F(\lambda\sigma_1+(1-\lambda)\sigma_2)
+        \geq
+        \lambda F(\sigma_1)+(1-\lambda)F(\sigma_2),
+        \label{eq:F-concava}
+    \end{equation}
+    para todo \(\sigma_1,\sigma_2\in\mathcal D(\Hil_A)\) y todo \(\lambda\in[0,1]\).
+\end{enumerate}
+
+A partir de \(F\) se define primero una medida de entrelazamiento para estados puros bipartitos:
+\begin{equation}
+    E_F(\proj{\psi}_{AB})
+    =F\!\left(\Tr_B\proj{\psi}_{AB}\right)
+    =F\!\left(\Tr_A\proj{\psi}_{AB}\right),
+    \label{eq:entrelazamiento-puro-F}
+\end{equation}
+donde la igualdad entre ambas expresiones se justifica porque las reducciones de un estado puro bipartito tienen el mismo espectro no nulo. Esta propiedad se obtiene, por ejemplo, a partir de la descomposición de Schmidt.
+
+Para estados mixtos, la extensión natural se construye minimizando el entrelazamiento promedio sobre todas las descomposiciones puras de \(\rho_{AB}\):
+\begin{equation}
+    E_F(\rho_{AB})
+    =
+    \inf_{\{p_k,\ket{\psi_k}\}}
+    \left\{
+        \sum_k p_k E_F(\proj{\psi_k}_{AB})
+        \;\middle|\;
+        \rho_{AB}=\sum_k p_k\proj{\psi_k}_{AB}
+    \right\}.
+    \label{eq:techo-convexo}
+\end{equation}
+Esta construcción se conoce como \emph{techo convexo}. En dimensión finita el ínfimo puede reemplazarse por un mínimo bajo condiciones estándar de compacidad; en dimensión infinita es más seguro formular la definición mediante \(\inf\).
+
+\begin{figure}[H]
+\centering
+\shorthandoff{<>}
+\begin{tikzpicture}[
+    >=Latex, font=\small,
+    pure/.style={circle, fill=UdeCAzul, inner sep=2pt},
+    rho/.style={circle, fill=QIRojo, inner sep=2.6pt},
+    arrow/.style={->, semithick, UdeCAzul}
+]
+    \draw[thick, UdeCAzul, fill=UdeCAzul!5]
+        plot[smooth cycle, tension=0.8] coordinates
+        {(0,0.5) (1.6,1.85) (4.2,1.8) (5.8,0.2) (4.5,-1.65) (1.5,-1.75) (-0.4,-0.6)};
+
+    \node[align=center, font=\footnotesize] at (2.7,2.5)
+        {descomposición en ensamble\\\(\rho=\sum_k p_k\proj{\psi_k}\)};
+
+    \node[pure] (p1) at (1.35,0.75) {};
+    \node[pure] (p2) at (4.25,0.6) {};
+    \node[pure] (p3) at (2.8,-1.15) {};
+    \node[rho]  (r)  at (2.8,0.05) {};
+
+    \node[font=\footnotesize, anchor=south east] at (1.20,0.88) {\(\proj{\psi_1}\)};
+    \node[font=\footnotesize, anchor=south west] at (4.40,0.73) {\(\proj{\psi_2}\)};
+    \node[font=\footnotesize, anchor=north] at (2.80,-1.29) {\(\proj{\psi_3}\)};
+    \node[font=\footnotesize, anchor=north west] at (2.93,0.00) {\(\rho\)};
+
+    \draw[UdeCGris, thick] (p1) -- (p2) -- (p3) -- cycle;
+    \draw[arrow] (p1) -- (r);
+    \draw[arrow] (p2) -- (r);
+    \draw[arrow] (p3) -- (r);
+
+    \node[font=\footnotesize] at (2.7,-2.3) {\(\mathcal D(\Hil_A\otimes\Hil_B)\)};
+\end{tikzpicture}
+\shorthandon{<>}
+\caption{La construcción por techo convexo busca, entre todas las descomposiciones puras de \(\rho\), aquella que minimiza el entrelazamiento promedio.}
+\label{fig:techo-convexo}
+\end{figure}
+
+\section{Prueba de monotonía para estados puros}
+
+Supongamos que el estado inicial es puro,
+\begin{equation*}
+    \rho_{AB}=\proj{\psi}_{AB},
+\end{equation*}
+y que Alice aplica una medición local descrita por operadores \(\{A_k\}_k\). El estado condicionado correspondiente a la rama \(k\) es
+\begin{equation*}
+    \ket{\psi_k}_{AB}
+    =
+    \frac{(A_k\otimes\I_B)\ket{\psi}_{AB}}{\sqrt{p_k}},
+\end{equation*}
+con
+\begin{equation*}
+    p_k=\bra{\psi}(A_k^\dagger A_k\otimes\I_B)\ket{\psi}.
+\end{equation*}
+La matriz densidad reducida de Bob antes de conocer el resultado es
+\begin{equation*}
+    \rho_B=\Tr_A\proj{\psi}_{AB}.
+\end{equation*}
+Después de la medición, el estado reducido condicionado es
+\begin{equation*}
+    \rho_B^{(k)}=\Tr_A\proj{\psi_k}_{AB}.
+\end{equation*}
+Como la operación de Alice no puede alterar el estado reducido promedio de Bob, se cumple
+\begin{equation}
+    \rho_B=\sum_k p_k\rho_B^{(k)}.
+    \label{eq:reducida-bob-promedio}
+\end{equation}
+Usando la concavidad de \(F\), se obtiene
+\begin{align*}
+    E_F(\proj{\psi}_{AB})
+    &=F(\rho_B) \\
+    &=F\!\left(\sum_k p_k\rho_B^{(k)}\right) \\
+    &\geq \sum_k p_k F(\rho_B^{(k)}) \\
+    &=\sum_k p_k E_F(\proj{\psi_k}_{AB}).
+\end{align*}
+Así se demuestra que \(E_F\) no aumenta, en promedio, bajo mediciones locales cuando el estado inicial es puro.
+
+\section{Extensión a estados mixtos}
+
+Para un estado mixto \(\rho_{AB}\), se elige una descomposición pura arbitraria
+\begin{equation*}
+    \rho_{AB}=\sum_j r_j\proj{\phi_j}_{AB}.
+\end{equation*}
+Al aplicar una operación local con resultado \(k\), cada rama puede descomponerse nuevamente como un ensamble puro. Si
+\begin{equation*}
+    \rho_{AB}^{(k)}=\sum_\ell \tau_{k\ell}\proj{\psi_{k\ell}}_{AB}
+\end{equation*}
+es una descomposición óptima o aproximadamente óptima para \(E_F(\rho_{AB}^{(k)})\), entonces
+\begin{equation*}
+    E_F(\rho_{AB}^{(k)})
+    =
+    \sum_\ell \tau_{k\ell}E_F(\proj{\psi_{k\ell}}_{AB})
+\end{equation*}
+en el caso óptimo, o se aproxima arbitrariamente bien en el caso definido por ínfimo.
+
+La idea de la demostración general es combinar dos hechos:
+\begin{enumerate}
+    \item la monotonía promedio ya demostrada para cada componente pura del ensamble inicial;
+    \item la minimización sobre todas las descomposiciones puras en la definición de techo convexo.
+\end{enumerate}
+Entonces se obtiene
+\begin{equation}
+    E_F(\rho_{AB})
+    \geq
+    \sum_k p_k E_F(\rho_{AB}^{(k)}),
+    \label{eq:monotonia-mixtos-techo-convexo}
+\end{equation}
+es decir, la extensión por techo convexo hereda la monotonía LOCC promedio.
+
+\begin{observacion}[Suficiencia de las operaciones elementales]
+En dimensión finita, un protocolo LOCC de número finito de rondas se construye encadenando operaciones locales, mediciones locales, comunicación clásica, adición de ancillas y descarte local. Por tanto, si una función \(E\) es invariante bajo unitarias locales, no aumenta en promedio bajo mediciones locales, no cambia al adjuntar ancillas locales no correlacionadas y no aumenta bajo traza parcial local, entonces no aumenta bajo protocolos LOCC finitos. Esta es la razón por la cual dichas condiciones son suficientes para controlar el comportamiento de \(E\) bajo LOCC.
+\end{observacion}
+
+\section{Resumen conceptual}
+
+La estructura lógica del capítulo puede sintetizarse así:
+\begin{itemize}
+    \item las unitarias locales son cambios de descripción local y no alteran el entrelazamiento;
+    \item LOCC incluye unitarias locales, mediciones locales, ancillas locales, descarte local y comunicación clásica;
+    \item una monótona de entrelazamiento no puede aumentar en promedio bajo LOCC;
+    \item olvidar información clásica corresponde a tomar una mezcla y se expresa mediante convexidad;
+    \item el techo convexo extiende medidas de entrelazamiento de estados puros a estados mixtos;
+    \item la concavidad del funcional local \(F\) permite demostrar la monotonía promedio para estados puros.
+\end{itemize}
+
+\end{document}

@@ -1,0 +1,392 @@
+% Este capítulo puede editarse y compilarse de forma individual.
+% Para compilar el libro completo, usa main.tex.
+\documentclass[../main.tex]{subfiles}
+\begin{document}
+\chapter{Postulados de la mecánica cuántica}
+
+
+\section{Postulado I: noción de estado}
+
+En la formulación estándar de la mecánica cuántica, a todo sistema físico se le asocia un espacio de Hilbert complejo $\Hil$. El principio de superposición se traduce entonces en el hecho de que los estados admisibles se representan mediante vectores de dicho espacio.
+
+Trabajaremos, salvo indicación en contrario, con espacios de Hilbert de dimensión finita. En ese contexto, un \textbf{estado puro} se representa por un \textbf{vector normalizado} $\ket{\psi}\in\Hil$, esto es,
+\begin{equation*}
+    \braket{\psi|\psi}=1.
+\end{equation*}
+
+Si $\{\ket{i}\}_{i=1}^{d}$ es una base ortonormal de $\Hil$, entonces todo estado puede expandirse como
+\begin{equation*}
+    \ket{\psi}=\sum_{i=1}^{d}c_i\ket{i},
+    \qquad c_i\in\C,
+\end{equation*}
+y, por conjugación hermítica,
+\begin{equation*}
+    \bra{\psi}=\sum_{i=1}^{d}c_i^*\bra{i}.
+\end{equation*}
+De aquí se obtiene inmediatamente
+\begin{align*}
+    \braket{\psi|\psi}
+    &=
+    \left(\sum_i c_i^*\bra{i}\right)\left(\sum_j c_j\ket{j}\right)\\
+    &=
+    \sum_{i,j}c_i^*c_j\braket{i|j}\\
+    &=
+    \sum_i |c_i|^2\\
+    &=
+    1.
+\end{align*}
+Por tanto, la condición de normalización equivale a
+\begin{equation*}
+    \sum_{i=1}^{d}|c_i|^2=1.
+\end{equation*}
+
+Físicamente, los estados no se identifican con vectores individuales, sino con \textbf{rayos} del espacio de Hilbert. En consecuencia, si dos vectores difieren sólo en una fase global, representan el mismo estado físico:
+\begin{equation*}
+    \ket{\psi}\sim \ee^{\ii\alpha}\ket{\psi},
+    \qquad \alpha\in[0,2\pi].
+\end{equation*}
+
+\begin{proof}
+Sea $A$ un observable y sea $\ket{\psi}$ un estado normalizado. Entonces
+\begin{align*}
+    \bra{\psi}\ee^{-\ii\alpha}A\ee^{\ii\alpha}\ket{\psi}
+    &=
+    \ee^{-\ii\alpha}\ee^{\ii\alpha}\bra{\psi}A\ket{\psi}\\
+    &=
+    \bra{\psi}A\ket{\psi}.
+\end{align*}
+De manera análoga, si $\{\ket{a_n}\}$ es una base ortonormal de autoestados de un observable, la probabilidad de obtener el resultado asociado a $\ket{a_n}$ satisface
+\begin{equation*}
+    \left|\braket{a_n|\ee^{\ii\alpha}\psi}\right|^2
+    =
+    \left|\ee^{\ii\alpha}\braket{a_n|\psi}\right|^2
+    =
+    \left|\braket{a_n|\psi}\right|^2.
+\end{equation*}
+Luego, todas las predicciones físicas son invariantes bajo una fase global.
+\end{proof}
+
+Por otra parte, si $\ket{\psi}$ y $\ket{\phi}$ son estados normalizados, su suma no es en general un estado normalizado, pues
+\begin{equation*}
+    \braket{\psi+\phi|\psi+\phi}
+    =
+    2+\braket{\psi|\phi}+\braket{\phi|\psi}
+    =
+    2+2\,\mathrm{Re}\,\braket{\psi|\phi}.
+\end{equation*}
+Sin embargo, siempre que $\ket{\psi}+\ket{\phi}\neq 0$, puede normalizarse y define un nuevo estado. Ésta es la base matemática del \textbf{principio de superposición}.
+
+\begin{observacion}
+La formulación anterior describe \emph{estados puros}. En teoría cuántica de la información también se introducen estados mixtos mediante operadores densidad, pero esa extensión puede incorporarse más adelante sin alterar los postulados básicos presentados aquí.
+\end{observacion}
+
+
+\section{Postulado II: evolución temporal}
+
+La evolución temporal de un sistema cuántico cerrado está descrita por una familia de operadores unitarios $U(t,t_0)$ tal que
+\begin{equation*}
+    \ket{\psi(t)} = U(t,t_0)\ket{\psi(t_0)},
+\end{equation*}
+con
+\begin{equation*}
+    U(t,t_0)^\dagger U(t,t_0)=U(t,t_0)U(t,t_0)^\dagger=\I.
+\end{equation*}
+La unitariedad garantiza que la evolución preserve el producto interno y, en particular, la normalización del estado.
+
+Si el Hamiltoniano $H$ no depende explícitamente del tiempo, la evolución adopta la forma exponencial
+\begin{equation*}
+    U(t,t_0)=\ee^{-\frac{\ii}{\hbar}H(t-t_0)},
+\end{equation*}
+donde $H=H^\dagger$ es el operador hamiltoniano del sistema. La hermiticidad de $H$ asegura que sus valores propios sean reales, de modo que puedan interpretarse físicamente como energías posibles del sistema.
+
+Cuando el espectro es discreto, el Hamiltoniano admite descomposición espectral:
+\begin{equation*}
+    H=\sum_{\lambda}\lambda P_\lambda,
+\end{equation*}
+donde $P_\lambda$ es el proyector ortogonal sobre el subespacio propio asociado a $\lambda$. En el caso no degenerado,
+\begin{equation*}
+    P_\lambda=\proj{\lambda},
+    \qquad
+    H=\sum_{\lambda}\lambda\proj{\lambda}.
+\end{equation*}
+Si el estado inicial se expande en la base de autoestados de $H$ como
+\begin{equation*}
+    \ket{\psi(t_0)}=\sum_{\lambda}c_\lambda\ket{\lambda},
+    \qquad
+    \sum_{\lambda}|c_\lambda|^2=1,
+\end{equation*}
+entonces
+\begin{align*}
+    \ket{\psi(t)}
+    &=
+    U(t,t_0)\ket{\psi(t_0)}\\
+    &=
+    \sum_{\lambda}c_\lambda U(t,t_0)\ket{\lambda}\\
+    &=
+    \sum_{\lambda}c_\lambda \ee^{-\frac{\ii}{\hbar}\lambda(t-t_0)}\ket{\lambda}.
+\end{align*}
+Por tanto, en la base energética la evolución consiste en que cada componente propia adquiere una fase dinámica determinada por la energía correspondiente.
+
+\paragraph{Comentario matemático.}
+Si $A$ es un operador normal, entonces admite descomposición espectral
+\begin{equation*}
+    A=\sum_{\lambda}\lambda P_\lambda,
+\end{equation*}
+con proyectores ortogonales tales que
+\begin{equation*}
+    P_\lambda P_{\lambda'}=\delta_{\lambda\lambda'}P_\lambda,
+    \qquad
+    \sum_{\lambda}P_\lambda=\I.
+\end{equation*}
+Como todo operador unitario es normal, también posee una descomposición espectral. En dimensión finita, si $H$ se representa por una matriz densa de tamaño $d\times d$, los algoritmos estándar de diagonalización tienen costo computacional del orden de $\mathcal{O}(d^3)$. Esto explica por qué el tratamiento exacto de sistemas cuánticos grandes se vuelve rápidamente difícil y por qué suelen emplearse métodos aproximados o numéricos.
+
+\begin{observacion}
+En muchos sistemas de interés físico, el Hamiltoniano efectivo no se obtiene mediante una diagonalización exacta, sino a través de teoría de perturbaciones, métodos variacionales, técnicas numéricas o aproximaciones de muchos cuerpos. El formalismo, sin embargo, sigue siendo el mismo: la evolución de un sistema cerrado continúa siendo unitaria.
+\end{observacion}
+
+\begin{observacion}
+Conviene distinguir aquí dos ideas distintas. Por una parte, para una partícula de espín $s$, el subespacio asociado al grado de libertad de espín tiene dimensión $2s+1$. Por otra parte, la clasificación de partículas en bosones y fermiones depende de si $s$ es entero o semientero. Así, bosones y fermiones no difieren en la forma abstracta del postulado de evolución, sino en la naturaleza de sus grados de libertad y en las reglas de simetría que deben satisfacer al construir sistemas de muchas partículas.
+\end{observacion}
+
+\begin{observacion}
+Existen además grados de libertad internos, como el espín, que no deben entenderse simplemente como la cuantización canónica de una coordenada clásica ordinaria. En teorías de partículas más avanzadas aparecen también otros números cuánticos internos ---por ejemplo, cargas asociadas a simetrías gauge--- cuya interpretación pertenece a un nivel de estructura física más profundo que el que será desarrollado en estas notas.
+\end{observacion}
+
+\section{Postulado III: mediciones}
+
+
+En la formulación estándar, a cada magnitud física medible se le asocia un operador hermítico $O$:
+\begin{equation*}
+    O=O^\dagger.
+\end{equation*}
+La hermiticidad garantiza que los posibles resultados de una medición sean números reales. Además, si el espectro es discreto,
+\begin{equation*}
+    O=\sum_{\lambda}\lambda P_\lambda,
+    \qquad \lambda\in\R,
+\end{equation*}
+donde $P_\lambda$ es el proyector ortogonal sobre el subespacio propio asociado al valor propio $\lambda$. El conjunto de valores propios $\sigma(O)$ recibe el nombre de \textbf{espectro} del observable.
+
+Sea ahora $\ket{\psi}\in\Hil$ un estado normalizado. La \textbf{regla de Born} afirma que la probabilidad de obtener el resultado $\lambda$ al medir $O$ es
+\begin{equation}\label{eq:born-main}
+    P(\lambda|\psi)=\bra{\psi}P_\lambda\ket{\psi}.
+\end{equation}
+En el caso no degenerado, donde $P_\lambda=\proj{\lambda}$, esta expresión se reduce a
+\begin{equation*}
+    P(\lambda|\psi)=|\braket{\lambda|\psi}|^2.
+\end{equation*}
+La normalización de las probabilidades se sigue inmediatamente de la identidad de resolución:
+\begin{equation*}
+    \sum_{\lambda}P(\lambda|\psi)
+    =
+    \bra{\psi}\left(\sum_{\lambda}P_\lambda\right)\ket{\psi}
+    =
+    \braket{\psi|\psi}
+    =
+    1.
+\end{equation*}
+
+En una medición proyectiva ideal, si el resultado observado es $\lambda$, el estado posterior queda dado por
+\begin{equation*}
+    \ket{\psi}\longmapsto \frac{P_\lambda\ket{\psi}}{\sqrt{\bra{\psi}P_\lambda\ket{\psi}}},
+\end{equation*}
+siempre que $P(\lambda|\psi)\neq 0$. En el caso no degenerado, el estado posterior coincide, salvo una fase global irrelevante, con el autoestado $\ket{\lambda}$.
+
+Si elegimos una base ortonormal cualquiera $\{\ket{i}\}_{i=1}^{d}$ y escribimos
+\begin{equation*}
+    \ket{\psi}=\sum_{i=1}^{d}c_i\ket{i},
+    \qquad
+    c_i=\braket{i|\psi},
+\end{equation*}
+entonces
+\begin{equation*}
+    \sum_{i=1}^{d}|c_i|^2=1,
+\end{equation*}
+y los módulos cuadrados $|c_i|^2$ pueden interpretarse como probabilidades cuando la medición se realiza en dicha base. La reconstrucción experimental de un estado desconocido a partir de estadísticas de medición en distintas bases recibe el nombre de \textbf{tomografía cuántica}.
+
+\begin{observacion}
+La descripción anterior corresponde a mediciones proyectivas ideales. En situaciones experimentales reales pueden intervenir decoherencia, ruido, pérdidas y esquemas de medición más generales. Un ejemplo concreto de conexión entre espectro de un observable y señal medida se presenta en el Apéndice C.
+\end{observacion}
+
+
+\section{Postulado IV: sistemas compuestos}
+
+Supongamos un espacio de Hilbert $\Hil$ de dimensión finita $d$, con base ortonormal
+\begin{equation*}
+    \left\{\ket{i}\right\}_{i=1}^{d}.
+\end{equation*}
+En este caso,
+\begin{equation*}
+    \dim(\Hil)=d.
+\end{equation*}
+
+Consideremos ahora el conjunto de endomorfismos de $\Hil$, es decir, el conjunto de operadores lineales que actúan sobre $\Hil$. Este conjunto se denota por $\operatorname{End}(\Hil)$:
+\begin{equation*}
+    \operatorname{End}(\Hil)=\left\{A:\Hil\to\Hil \mid A \text{ lineal}\right\}.
+\end{equation*}
+El conjunto $\operatorname{End}(\Hil)$ constituye, a su vez, un espacio vectorial complejo. Si $\left\{\ket{i}\right\}_{i=1}^{d}$ es una base ortonormal de $\Hil$, entonces una base natural de $\operatorname{End}(\Hil)$ está dada por
+\begin{equation*}
+    \left\{\ket{i}\bra{j}\right\}_{i,j=1}^{d}.
+\end{equation*}
+Por lo tanto,
+\begin{equation*}
+    \dim\bigl(\operatorname{End}(\Hil)\bigr)=d^2.
+\end{equation*}
+
+En consecuencia, todo operador $A\in \operatorname{End}(\Hil)$ puede escribirse como combinación lineal de estos operadores básicos:
+\begin{equation*}
+    A=\sum_{i,j=1}^{d} a_{ij}\ket{i}\bra{j},
+    \qquad a_{ij}\in\C.
+\end{equation*}
+Además, los coeficientes $a_{ij}$ corresponden precisamente a los elementos de matriz del operador en la base elegida:
+\begin{equation*}
+    a_{ij}=\bra{i}A\ket{j}.
+\end{equation*}
+
+En otras palabras, $\operatorname{End}(\Hil)$ es el espacio de todos los operadores lineales que actúan directamente sobre $\Hil$, y por ello sus elementos se representan mediante matrices cuadradas $d\times d$.
+
+Un ejemplo simple en dimensión $2$ es el siguiente:
+\begin{equation*}
+    \begin{pmatrix}
+        a & b\\
+        c & d
+    \end{pmatrix}
+    =
+    a
+    \begin{pmatrix}
+        1 & 0\\
+        0 & 0
+    \end{pmatrix}
+    +
+    b
+    \begin{pmatrix}
+        0 & 1\\
+        0 & 0
+    \end{pmatrix}
+    +
+    c
+    \begin{pmatrix}
+        0 & 0\\
+        1 & 0
+    \end{pmatrix}
+    +
+    d
+    \begin{pmatrix}
+        0 & 0\\
+        0 & 1
+    \end{pmatrix}.
+\end{equation*}
+
+De manera equivalente, puede pensarse que los operadores de $\operatorname{End}(\Hil)$ poseen estructura tensorial. En efecto, existe un isomorfismo natural
+\begin{equation*}
+    \operatorname{End}(\Hil)\cong \Hil\otimes \Hil^{*},
+\end{equation*}
+bajo el cual
+\begin{equation*}
+    \ket{i}\bra{j}\longleftrightarrow \ket{i}\otimes \bra{j}.
+\end{equation*}
+Esta identificación muestra que un operador lineal puede interpretarse como un objeto tensorial construido a partir de un ket y un bra.
+
+Si ahora $\ket{\psi}\in\Hil$ es un estado arbitrario, que en la base $\left\{\ket{k}\right\}_{k=1}^{d}$ se escribe como
+\begin{equation*}
+    \ket{\psi}=\sum_{k=1}^{d} c_k \ket{k},
+    \qquad c_k\in\C,
+\end{equation*}
+entonces la acción del operador $A$ sobre $\ket{\psi}$ queda dada por
+\begin{align*}
+    A\ket{\psi}
+    &=
+    \left(
+        \sum_{i,j=1}^{d} a_{ij}\ket{i}\bra{j}
+    \right)
+    \left(
+        \sum_{k=1}^{d} c_k\ket{k}
+    \right)\\
+    &=
+    \sum_{i,j,k=1}^{d} a_{ij}c_k \ket{i}\braket{j|k}\\
+    &=
+    \sum_{i,j=1}^{d} a_{ij}c_j \ket{i}\\
+    &=
+    \sum_{i=1}^{d}
+    \left(
+        \sum_{j=1}^{d} a_{ij}c_j
+    \right)\ket{i}.
+\end{align*}
+Así, el operador $A$ transforma al estado $\ket{\psi}$ en otro vector del mismo espacio de Hilbert $\Hil$, cuya expansión en la base viene dada por la acción matricial usual sobre el vector de coeficientes.
+
+Además,
+\begin{equation*}
+    \bra{j}A\ket{k}
+    =
+    \sum_{i,\ell=1}^{d}
+    a_{i\ell}\braket{j|i}\braket{\ell|k}
+    =
+    a_{jk},
+\end{equation*}
+de modo que los coeficientes $a_{jk}$ son exactamente las componentes matriciales del operador $A$ en la base ortonormal escogida.
+
+Pasemos ahora al caso de sistemas compuestos. Si un sistema está formado por dos partes, cuyos espacios de Hilbert son $\Hil_1$ y $\Hil_2$, entonces el espacio de Hilbert total $\Hil_T$ se construye mediante el producto tensorial
+\begin{equation*}
+    \Hil_T=\Hil_1\otimes\Hil_2.
+\end{equation*}
+Si las dimensiones de $\Hil_1$ y $\Hil_2$ son finitas, entonces
+\begin{equation*}
+    \dim(\Hil_T)=\dim(\Hil_1)\dim(\Hil_2).
+\end{equation*}
+
+Si $\left\{\ket{i}_1\right\}$ es una base de $\Hil_1$ y $\left\{\ket{j}_2\right\}$ es una base de $\Hil_2$, entonces una base natural de $\Hil_T$ está dada por
+\begin{equation*}
+    \left\{\ket{i}_1\otimes\ket{j}_2\right\}.
+\end{equation*}
+
+Para vectores columna, el producto tensorial se ve de manera explícita como
+\begin{equation*}
+    \begin{pmatrix}
+        a\\
+        b
+    \end{pmatrix}_1
+    \otimes
+    \begin{pmatrix}
+        c\\
+        d
+    \end{pmatrix}_2
+    =
+    \begin{pmatrix}
+        ac\\
+        ad\\
+        bc\\
+        bd
+    \end{pmatrix}_T.
+\end{equation*}
+Es decir, si $\ket{i}_1\in\Hil_1$ y $\ket{j}_2\in\Hil_2$, entonces
+\begin{equation*}
+    \ket{i}_1\otimes\ket{j}_2\in\Hil_T.
+\end{equation*}
+
+Consideremos ahora el caso de dos electrones, cada uno con espín $1/2$. Para cada electrón, el espacio de Hilbert asociado al grado de libertad de espín es bidimensional. Una base ortonormal natural está dada por los autoestados de $S_z$:
+\begin{align*}
+    \Hil_1 &\Rightarrow \left\{\ket{\uparrow}_1,\ket{\downarrow}_1\right\},\\
+    \Hil_2 &\Rightarrow \left\{\ket{\uparrow}_2,\ket{\downarrow}_2\right\}.
+\end{align*}
+Entonces,
+\begin{equation*}
+    \Hil_T=\Hil_1\otimes\Hil_2,
+\end{equation*}
+y una base natural del espacio total es
+\begin{equation*}
+    \left\{
+        \ket{\uparrow}_1\otimes\ket{\uparrow}_2,\,
+        \ket{\uparrow}_1\otimes\ket{\downarrow}_2,\,
+        \ket{\downarrow}_1\otimes\ket{\uparrow}_2,\,
+        \ket{\downarrow}_1\otimes\ket{\downarrow}_2
+    \right\}.
+\end{equation*}
+
+Por lo tanto, el espacio de Hilbert total del sistema compuesto tiene dimensión
+\begin{equation*}
+    \dim(\Hil_T)=2\cdot 2=4.
+\end{equation*}
+Este procedimiento se generaliza a cualquier sistema compuesto: el espacio total se construye tensorialmente a partir de los espacios de Hilbert de cada subsistema, y los estados del sistema completo se describen en términos de combinaciones lineales de productos tensoriales de estados de cada parte.
+\newpage
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\end{document}

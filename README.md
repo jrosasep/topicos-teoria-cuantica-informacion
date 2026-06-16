@@ -1,123 +1,71 @@
-# Quantum Information
+# Tópicos de Teoría Cuántica de la Información
 
-Apunte en desarrollo del curso **Tópicos de Teoría Cuántica de la Información**  
-**Universidad de Concepción — semestre 1 de 2026**
+Apunte personal en desarrollo del curso **Tópicos de Teoría Cuántica de la Información**, Universidad de Concepción, semestre 1 de 2026.
 
-**Autor:** José Ignacio Rosas
+**Autor:** José Ignacio Rosas  
+**Profesor del curso:** Aldo Patricio Delgado
 
----
+Este repositorio contiene el código fuente en LaTeX y una versión compilada en PDF del apunte. El documento no corresponde a un material oficial del curso; es una reorganización personal de notas de clase, bibliografía y desarrollos complementarios.
 
-## Descripción
+## Estado actual
 
-Este repositorio contiene un apunte personal en desarrollo, elaborado a partir de las clases del curso **Tópicos de Teoría Cuántica de la Información** dictado durante el **semestre 1 de 2026** en la **Universidad de Concepción**.
+La versión actual incluye contenidos sobre:
 
-La idea de este proyecto es reunir, reorganizar y redactar de manera progresiva los contenidos del curso en un formato más sistemático, claro y útil para estudio. El apunte está todavía **incompleto**, por lo que irá cambiando con el tiempo a medida que se agreguen nuevas secciones, correcciones, figuras y comentarios.
-
----
-
-## Origen y proceso de elaboración
-
-El documento se construyó a partir de apuntes tomados en clases y transcritos a **LaTeX**, complementados con la bibliografía citada. En su edición se utilizó **ChatGPT Plus, modelo GPT-5.5 Thinking**, como apoyo para ordenar la redacción, revisar explicaciones y ajustar figuras en TikZ. La revisión y responsabilidad final del contenido corresponden al autor.
-
----
-
-## Estado del proyecto
-
-**Versión en revisión.** La versión actual incorpora material hasta la última clase del curso (26-05-2026) incluida en el documento y contiene, además de la base introductoria, secciones avanzadas sobre mediciones generalizadas, canales cuánticos, separabilidad y operaciones locales.
-
-Antes de considerar el apunte como una versión cerrada, quedan pendientes revisiones de:
-
-- redacción y consistencia de notación;
-- demostraciones y cálculos incorporados desde las notas de clase;
-- fidelidad de las explicaciones respecto de los artículos originales;
-- figuras TikZ, pies de figura y referencias internas;
-- bibliografía y atribución de material complementario.
-
----
-
-## Contenidos actuales
-
-### Fundamentos de mecánica cuántica
-
+- preliminares y notación de mecánica cuántica;
 - postulados de la mecánica cuántica;
-- estados, evolución temporal y mediciones;
-- sistemas compuestos;
-- ensambles, operador densidad y formulación moderna de los postulados.
+- mediciones, ensambles y operador densidad;
+- teorema de no-cloning;
+- estados de Bell;
+- teleportación cuántica e intercambio de entrelazamiento;
+- mediciones generalizadas, POVM y canales cuánticos;
+- separabilidad, criterio PPT, negatividad, LOCC y construcción por techo convexo.
 
-### Información cuántica y no-clonación
+El apunte sigue en revisión, especialmente en redacción, consistencia de notación, figuras TikZ, referencias internas y bibliografía.
 
-- qubits, fase relativa y esfera de Bloch;
-- estados de Bell y transformaciones locales mediante operadores de Pauli;
-- teorema de no-clonación;
-- propuesta FLASH y comunicación superlumínica;
-- clonado cuántico aproximado y restricción de no señalización.
-
-### Protocolos ópticos
-
-- teleportación cuántica;
-- realización experimental con fotones;
-- conversión paramétrica descendente tipo II;
-- medición parcial en la base de Bell;
-- coincidencias experimentales;
-- intercambio de entrelazamiento.
-
-### Mediciones y dinámica abierta
-
-- mediciones generalizadas y POVM;
-- operadores de Kraus y estados posteriores a la medición;
-- canales cuánticos al ignorar el resultado de una medición.
-
-### Entrelazamiento y operaciones locales
-
-- estados separables y estados entrelazados;
-- transposición parcial y criterio PPT de Peres--Horodecki;
-- negatividad y norma traza;
-- convexidad y mezcla clásica de estados;
-- operaciones locales y comunicación clásica (LOCC);
-- operaciones elementales en la realización de un canal local.
-
----
-
-## Artículos discutidos
-
-Entre las fuentes empleadas para desarrollar el apunte se encuentran:
-
-- N. Herbert, *FLASH—A Superluminal Communicator Based Upon a New Kind of Quantum Measurement*, **Foundations of Physics** 12, 1171–1179 (1982).
-- W. K. Wootters y W. H. Zurek, *A single quantum cannot be cloned*, **Nature** 299, 802–803 (1982).
-- V. Bužek y M. Hillery, *Quantum copying: Beyond the no-cloning theorem*, **Physical Review A** 54, 1844–1852 (1996).
-- N. Gisin, *Quantum cloning without signaling*, **Physics Letters A** 242, 1–3 (1998).
-- D. Bouwmeester, J.-W. Pan, K. Mattle, M. Eibl, H. Weinfurter y A. Zeilinger, *Experimental quantum teleportation*, **Nature** 390, 575–579 (1997).
-
----
-
-## Archivos principales
+## Estructura del repositorio
 
 ```text
-topicos-de-la-teoria-cuantica-de-la-informacion.tex
-topicos-de-la-teoria-cuantica-de-la-informacion.pdf
-logo_udec_vertical.png
-README.md
+.
+├── main.tex
+├── preamble.tex
+├── frontmatter.tex
+├── bibliografia.tex
+├── logo_udec_vertical.png
+├── topicos-teoria-cuantica-informacion.pdf
+├── README.md
+└── chapters/
+    ├── 00_introduccion.tex
+    ├── 01_postulados_de_la_mecanica_cuantica.tex
+    ├── 02_medicion_ensambles_y_operador_densidad.tex
+    ├── 03_teorema_de_no_cloning.tex
+    ├── 04_estados_de_bell.tex
+    ├── 05_teleportacion_cuantica_experimental_e_intercambio_de_entrelazamiento.tex
+    ├── 06_mediciones_generalizadas_povm_y_canales_cuanticos.tex
+    ├── 07_separabilidad_transposicion_parcial_y_criterio_ppt.tex
+    └── 08_entrelazamiento_locc_y_techo_convexo.tex
 ```
 
-La portada fue reformulada en un estilo institucional para la presentación del apunte como material de apoyo al curso. Los antiguos recursos gráficos asociados a apéndices eliminados no son necesarios para compilar la versión actual, salvo que se reincorporen esas secciones en el futuro.
-
----
+El archivo principal es `main.tex`. Los capítulos se encuentran separados en `chapters/`, de modo que pueden editarse de manera independiente.
 
 ## Compilación
 
-El documento puede compilarse localmente con `latexmk`:
+Para compilar el documento completo:
 
 ```bash
-latexmk -pdf topicos-de-la-teoria-cuantica-de-la-informacion.tex
+latexmk -pdf main.tex
 ```
 
-Alternativamente, puede compilarse con `pdflatex`; se recomienda ejecutarlo más de una vez para actualizar correctamente el índice y las referencias internas:
+También puede compilarse con `pdflatex`, ejecutándolo más de una vez para actualizar índice y referencias:
 
 ```bash
-pdflatex topicos-de-la-teoria-cuantica-de-la-informacion.tex
-pdflatex topicos-de-la-teoria-cuantica-de-la-informacion.tex
+pdflatex main.tex
+pdflatex main.tex
 ```
 
-También puede importarse el proyecto directamente en **Overleaf**, manteniendo el archivo `.tex` y los recursos gráficos requeridos en la misma carpeta del proyecto.
+El proyecto puede importarse directamente en Overleaf manteniendo la misma estructura de carpetas.
 
----
+## Uso de herramientas de IA
+
+Durante la elaboración del apunte se usaron **ChatGPT Plus** y **Claude Pro** como herramientas de apoyo para redacción, organización en LaTeX, revisión local de consistencia matemática y edición de figuras en TikZ. En particular, Claude Pro fue utilizado para modificar figuras TikZ y revisar el capítulo de preliminares.
+
+El contenido final fue revisado y editado por el autor. La responsabilidad por el texto, las omisiones y posibles errores remanentes corresponde al autor.
